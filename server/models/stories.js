@@ -15,7 +15,7 @@ const storySchema = new Schema({
     words: {type: Number},
     updatedDate: {type: Date},
     publishedDate: {type: Date},
-    storedDate: {type: Date},
+    collectedDate: {type: Date},
     dateRead: {type: Date},
     genres: [{type: String}],
     categories: [{type: String}],
