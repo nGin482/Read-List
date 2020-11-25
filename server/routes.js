@@ -20,18 +20,29 @@ apiRouter.get('/api/stories', (request, response) => {
 
 apiRouter.get('/api/stories/:FANDOM', (request, response) => {
     const fandom = request.params.FANDOM
-    let result = []
-
-    console.log(fandom)
-    result = data[fandom + ' AO3']
-    result.concat(data[fandom + ' FFN'])
     
-    if (fandom === 'Transformers') {
-        result.concat(data[fandom + ' All Media Types'])
-        result.concat(data[fandom + ' Prime'])
+    let status = false
+    Object.keys(data).map(key => {
+        if (key === fandom) {
+            status = true
+        }
+    })
+    if (!status) {
+        response.status(404).json({error: 'No stories can be found with the given fandom'})
     }
-
-    response.status(200).json(result)
+    else {
+        let result = []
+        console.log(fandom)
+        result = data[fandom + ' AO3']
+        result.concat(data[fandom + ' FFN'])
+        
+        if (fandom === 'Transformers') {
+            result.concat(data[fandom + ' All Media Types'])
+            result.concat(data[fandom + ' Prime'])
+        }
+    
+        response.status(200).json(result)
+    }
 })
 
 apiRouter.get('/api/story/:ID', (request, response) => {
@@ -47,10 +58,16 @@ apiRouter.get('/api/story/:ID', (request, response) => {
         result = result.concat(data[fandom + ' AO3'])
     })
     
-    const story = result.filter(r => r.storyID === Number(storyID))[0]
-    console.log(story)
+    const stories = result.filter(r => r.storyID === Number(storyID))
+    if (stories.length === 0) {
+        response.status(404).json({error: 'No story could be found with that ID'})
+    }
+    else {
+        const story = stories[0]
+        console.log(story)
+        response.status(200).json(story)
+    }
 
-    response.status(200).json(story)
 })
 
 apiRouter.post('/api/stories', (request, response) => {
