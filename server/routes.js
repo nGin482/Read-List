@@ -1,15 +1,14 @@
 const express = require('express')
 const fs = require('fs')
 
-const {validateFFNRecord, validateAO3Record} = require('./utils/utils')
+const {validateFFNRecord, validateAO3Record, getAllFiles, getCurrentDate} = require('./utils/utils')
 const Story = require('./models/stories')
 
 const apiRouter = express.Router()
 
-const data = JSON.parse(fs.readFileSync('./data/data.json'))
-// const tf_ao3 = data['Transformers AO3'].slice(0, 3)
-// const tf_ffn = data['Doctor Who FFN'].slice(0, 3)
-
+const data = JSON.parse(fs.readFileSync('./sampledata/data.json'))
+const data2 = getAllFiles()
+    
 // dateRead (not needed on initial add)
 
 // Story.deleteMany({})
@@ -72,14 +71,9 @@ apiRouter.get('/api/story/:ID', (request, response) => {
 
 apiRouter.post('/api/stories', (request, response) => {
     const body = request.body
-    console.log(request.body)
     
     if (body !== undefined) {
-        const date = new Date()
-        const day = date.getDate()
-        const month = date.getMonth()+1
-        const year = date.getFullYear()
-        const formatFile = String(day) + '-' + String(month) + '-' + String(year) + '.json'
+        const formatFile = getCurrentDate() + '.json'
     
         const stories = JSON.stringify(body, null, '\t')
         fs.writeFileSync('./stories/' + formatFile, stories)
@@ -87,8 +81,7 @@ apiRouter.post('/api/stories', (request, response) => {
         response.status(200).json({status: 'Success', stories: body})
     }
     else {
-        console.log('The request did not include a body')
-        response.status(500).json({status: 'Failure', cause: "The request did not include a body"})
+        response.status(400).json({status: 'Failure', cause: "The request did not include a body"})
     }
 })
 

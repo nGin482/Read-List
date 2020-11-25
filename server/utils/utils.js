@@ -1,3 +1,5 @@
+const fs = require('fs')
+
 const validateAO3Record = record => {
     record.chapters = record.chapters.substring(0, record.chapters.indexOf('/'))
     record.words = Number(record.words.replace(',', ''))
@@ -27,7 +29,30 @@ const validateFFNRecord = (record, fandom) => {
     return record
 }
 
+const getAllFiles = () => {
+    const files = fs.readdirSync('./stories')
+    const stories = []
+    
+    files.map(file => {
+        stories.push({'date': getCurrentDate(), 'stories': JSON.parse(fs.readFileSync('./stories/' + file))})
+    })
+    
+    return stories
+}
+
+const getCurrentDate = () => {
+    const date = new Date()
+    const day = date.getDate()
+    const month = date.getMonth()+1
+    const year = date.getFullYear()
+    const today = String(day) + '-' + String(month) + '-' + String(year)
+
+    return today
+}
+
 module.exports = {
     validateAO3Record,
-    validateFFNRecord
+    validateFFNRecord,
+    getAllFiles,
+    getCurrentDate
 }
