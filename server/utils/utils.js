@@ -34,9 +34,9 @@ const getAllFiles = () => {
     const stories = []
     
     files.map(file => {
-        stories.push({'date': getCurrentDate(), 'stories': JSON.parse(fs.readFileSync('./stories/' + file))})
+        stories.push({'date': file.substring(0, file.indexOf('.')), 'stories': JSON.parse(fs.readFileSync('./stories/' + file))})
     })
-    
+
     return stories
 }
 

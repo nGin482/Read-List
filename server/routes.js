@@ -69,6 +69,18 @@ apiRouter.get('/api/story/:ID', (request, response) => {
 
 })
 
+apiRouter.get('/api/stories/date/:Date', (request, response) => {
+    const date = request.params.Date
+
+    const storiesForDate = data2.find(day => day.date === date)
+    if (storiesForDate === undefined) {
+        response.status(404).json({error: 'There is no file with this date'})
+    }
+    else {
+        response.status(200).json(storiesForDate.stories)
+    }
+})
+
 apiRouter.post('/api/stories', (request, response) => {
     const body = request.body
     
