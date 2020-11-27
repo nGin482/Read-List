@@ -50,9 +50,39 @@ const getCurrentDate = () => {
     return today
 }
 
+const searchAllStoriesByKey = (key, expected) => {
+    const stories = getAllFiles()
+    let result = []
+
+    if (key === 'storyID') {
+        stories.map(day => {
+            day.stories.map(story => {
+                if (story[key] === expected) {
+                    result.push(story)
+                }
+            })
+        })
+    }
+    else {
+        stories.map(day => {
+            day.stories.map(story => {
+                if (story[key].includes(expected)) {
+                    result.push(story)
+                }
+            })
+        })
+    }
+    // const result2 = stories.map(day => {
+    //     day.stories.filter(story => story[key].includes(expected))
+    // }) // returns undefined
+
+    return result
+}
+
 module.exports = {
     validateAO3Record,
     validateFFNRecord,
     getAllFiles,
-    getCurrentDate
+    getCurrentDate,
+    searchAllStoriesByKey
 }

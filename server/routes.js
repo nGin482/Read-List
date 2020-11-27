@@ -1,70 +1,40 @@
 const express = require('express')
 const fs = require('fs')
 
-const {validateFFNRecord, validateAO3Record, getAllFiles, getCurrentDate} = require('./utils/utils')
+const {validateFFNRecord, validateAO3Record, getAllFiles, getCurrentDate, searchAllStoriesByKey} = require('./utils/utils')
 const Story = require('./models/stories')
 
 const apiRouter = express.Router()
 
-const data = JSON.parse(fs.readFileSync('./sampledata/data.json'))
-const data2 = getAllFiles()
-    
-// dateRead (not needed on initial add)
+const allStories = getAllFiles()
 
 // Story.deleteMany({})
 
 apiRouter.get('/api/stories', (request, response) => {
-    response.status(200).json(data)
+    response.status(200).json(allStories)
 })
 
 apiRouter.get('/api/stories/:FANDOM', (request, response) => {
     const fandom = request.params.FANDOM
     
-    let status = false
-    Object.keys(data).map(key => {
-        if (key === fandom) {
-            status = true
-        }
-    })
-    if (!status) {
+    const storiesByFandom = searchAllStoriesByKey('fandoms', fandom)
+    if (storiesByFandom.length === 0) {
         response.status(404).json({error: 'No stories can be found with the given fandom'})
     }
     else {
-        let result = []
-        console.log(fandom)
-        result = data[fandom + ' AO3']
-        result.concat(data[fandom + ' FFN'])
-        
-        if (fandom === 'Transformers') {
-            result.concat(data[fandom + ' All Media Types'])
-            result.concat(data[fandom + ' Prime'])
-        }
-    
-        response.status(200).json(result)
+        response.status(200).json(storiesByFandom)
     }
 })
 
 apiRouter.get('/api/story/:ID', (request, response) => {
-    const storyID = request.params.ID
+    const storyID = Number(request.params.ID)
 
-    let result = data['Transformers All Media Types']
-    const fandoms = ['Code Geass', 'Doctor Who', 'Endeavour', 'Lewis', 'NCIS', 'NCIS: LA', 'Person of Interest', 'Transformers']
-
-    result = result.concat(data['Transformers Prime'])
-
-    fandoms.map(fandom => {
-        result = result.concat(data[fandom + ' FFN'])
-        result = result.concat(data[fandom + ' AO3'])
-    })
-    
-    const stories = result.filter(r => r.storyID === Number(storyID))
+    const stories = searchAllStoriesByKey('storyID', storyID)
     if (stories.length === 0) {
         response.status(404).json({error: 'No story could be found with that ID'})
     }
     else {
-        const story = stories[0]
-        console.log(story)
-        response.status(200).json(story)
+        response.status(200).json(stories)
     }
 
 })
@@ -72,7 +42,7 @@ apiRouter.get('/api/story/:ID', (request, response) => {
 apiRouter.get('/api/stories/date/:Date', (request, response) => {
     const date = request.params.Date
 
-    const storiesForDate = data2.find(day => day.date === date)
+    const storiesForDate = allStories.find(day => day.date === date)
     if (storiesForDate === undefined) {
         response.status(404).json({error: 'There is no file with this date'})
     }
@@ -96,7 +66,6 @@ apiRouter.post('/api/stories', (request, response) => {
         response.status(400).json({status: 'Failure', cause: "The request did not include a body"})
     }
 })
-
 
 // -----------------    BELOW NEEDED FOR STORIES GOING TO DATABASE    -------------------------------------
 
