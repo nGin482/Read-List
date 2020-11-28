@@ -3,10 +3,10 @@ const fs = require('fs')
 
 const {validateFFNRecord, validateAO3Record, getAllFiles, getCurrentDate, searchAllStoriesByKey} = require('./utils/utils')
 const Story = require('./models/stories')
+const allStories = getAllFiles()
 
 const apiRouter = express.Router()
 
-const allStories = getAllFiles()
 
 // Story.deleteMany({})
 
@@ -64,6 +64,42 @@ apiRouter.post('/api/stories', (request, response) => {
     }
     else {
         response.status(400).json({status: 'Failure', cause: "The request did not include a body"})
+    }
+})
+
+apiRouter.put('/api/story/:Date/:ID', (request, response) => {
+    const storyID = Number(request.params.ID)
+    const date = request.params.Date
+    const body = request.body
+
+    console.log(storyID, date)
+    console.log(body.field, )
+    const storiesForDate = allStories.find(day => day.date === date)
+    if (storiesForDate === undefined) {
+        response.status(404).json({error: 'There are no stories from this date'})
+    }
+    else {
+        const story = storiesForDate.stories.find(s => s.storyID === storyID)
+        if (story === undefined) {
+            response.status(404).json({error: 'The requested story could not be found'})
+        }
+        else {
+            // update story
+            // interested/mark story as read/update other field
+            if (body.field === 'Interested') {
+                // add to DB - check archive field
+                // check if already in DB - if so --> don't add, inform user
+                // dateCollected = date param
+                console.log('interested')
+            }
+            // marking story as read
+            // only applicable those in DB
+            if (body.field === 'Complete') {
+                // DB.story.dateRead = getCurrentDate()
+                console.log('complete')
+            }
+            response.status(200).json(story)
+        }
     }
 })
 
