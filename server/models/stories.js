@@ -7,7 +7,7 @@ const storySchema = new Schema({
     storyID: {required: true, type: Number},
     title: {required: true, type: String},
     author: {type: String},
-    fandoms: {type: String, ref: 'Fandom'},
+    fandoms: [{type: String}],
     summary: {type: String},
     characters: [{type: String}],
     relationships: [{type: String}],
