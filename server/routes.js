@@ -118,11 +118,14 @@ apiRouter.put('/api/story/:Date/:ID', (request, response) => {
                     }
                 })
             }
-            // marking story as read
-            // only applicable those in DB
+
             if (body.field === 'Complete') {
-                // DB.story.dateRead = getCurrentDate()
-                console.log('complete')
+                Story.findOneAndUpdate({storyID: storyID}).then(result => {
+                    result.dateRead = getCurrentDate()
+                    response.status(200).json({message: 'This story has been updated'})
+                }).catch(() => {
+                    response.status(409).json({message: 'This story has not been added to the read list yet'})
+                })
             }
         }
     }
