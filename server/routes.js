@@ -95,10 +95,28 @@ apiRouter.put('/api/story/:Date/:ID', (request, response) => {
             // update story
             // interested/mark story as read/update other field
             if (body.field === 'Interested') {
-                // add to DB - check archive field
-                // check if already in DB - if so --> don't add, inform user
-                // dateCollected = date param
-                console.log('interested')
+                Story.findOne({storyID: storyID}).then(result => {
+                    if (result == null) {
+                        if (story.archive === 'Fanfiction.Net') {
+                            const addStoryDB = new Story(validateFFNRecord(story))
+                            addStoryDB.collectedDate = date
+                            addStoryDB.save().catch(err => {
+                                response.status(500).json({error: 'There was an error adding the story to the read list', res: err})
+                            })
+                        }
+                        else {
+                            const addStoryDB = new Story(validateAO3Record(story))
+                            addStoryDB.collectedDate = date
+                            addStoryDB.save().catch(err => {
+                                response.status(500).json({error: 'There was an error adding the story to the read list', res: err})
+                            })
+                        }
+                        response.status(200).json({message: 'The story has been added to the read list', story: story})
+                    }
+                    else {
+                        response.status(409).json({message: 'This story has already been added to the read list'})
+                    }
+                })
             }
             // marking story as read
             // only applicable those in DB
@@ -106,38 +124,8 @@ apiRouter.put('/api/story/:Date/:ID', (request, response) => {
                 // DB.story.dateRead = getCurrentDate()
                 console.log('complete')
             }
-            response.status(200).json(story)
         }
     }
 })
-
-// -----------------    BELOW NEEDED FOR STORIES GOING TO DATABASE    -------------------------------------
-
-// tf_ao3.map(record => {
-//     const newRecord = new Story(validateAO3Record(record))
-//     newRecord.fandoms = record.fandoms
-//     newRecord.id = newRecord._id.toString()
-//     delete newRecord._id
-//     delete newRecord._v
-    
-//     console.log(newRecord.updatedDate)
-//     // newRecord.save().then(result => {
-//     //     console.log('story added')
-//     //     // console.log(result)
-//     // })
-// })
-// console.log(tf_ao3.length)
-
-// console.log('=================================================================')
-
-// tf_ffn.map(record => {
-//     const newRecord = new Story(validateFFNRecord(record, 'Doctor Who'))
-    
-//     // newRecord.save().then(() => {
-//     //     console.log('story added')
-//     // })
-//     console.log(newRecord.author)
-//     // console.log(newRecord.updatedDate)
-// })
 
 module.exports = apiRouter
