@@ -127,6 +127,20 @@ apiRouter.put('/api/story/:Date/:ID', (request, response) => {
                     response.status(409).json({message: 'This story has not been added to the read list yet'})
                 })
             }
+            
+            else {
+                Story.findOneAndUpdate({storyID: storyID}).then(result => {
+                    result[body.field] = body.value
+                    result.save()
+                    response.status(200).json({message: 'This story has been updated'})
+                }).catch(() => {
+                    console.log('here')
+                    let updateStory = story
+                    updateStory[body.field] = body.value
+                    fs.writeFileSync('./stories/' + date + '.json', JSON.stringify(storiesForDate.stories, null, '\t'))
+                    response.status(200).json({message: 'This story has been updated'})
+                })
+            }
         }
     }
 })

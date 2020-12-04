@@ -11,6 +11,7 @@ const connectDB = async () => {
         console.log('error connecting to MongoDB - ', error.message)
         process.exit(1)
     })
+    mongoose.set('useFindAndModify', false)
 }
 
 module.exports = connectDB;

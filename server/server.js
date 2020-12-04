@@ -11,7 +11,7 @@ app.use(express.json({limit: '5mb'}))
 app.use(express.static('build'))
 app.use(apiRouter)
 
-// connectDB()
+connectDB()
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
