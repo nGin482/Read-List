@@ -55,7 +55,15 @@ apiRouter.post('/api/stories', (request, response) => {
     const body = request.body
     
     if (body !== undefined) {
-        const formatFile = getCurrentDate() + '.json'
+        const time = new Date().getHours()
+        let formatFile = ''
+        if (time < 6) {
+            const currentDate = getCurrentDate()
+            formatFile = new Date().getDate()-1 + currentDate.substring(currentDate.indexOf('-')) + '.json'
+        }
+        else {
+            formatFile = getCurrentDate() + '.json'
+        }
     
         const stories = JSON.stringify(body, null, '\t')
         fs.writeFileSync('./stories/' + formatFile, stories)
