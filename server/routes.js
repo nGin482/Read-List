@@ -80,8 +80,6 @@ apiRouter.put('/api/story/:Date/:ID', (request, response) => {
     const date = request.params.Date
     const body = request.body
 
-    console.log(storyID, date)
-    console.log(body.field, )
     const storiesForDate = allStories.find(day => day.date === date)
     if (storiesForDate === undefined) {
         response.status(404).json({error: 'There are no stories from this date'})
@@ -92,8 +90,6 @@ apiRouter.put('/api/story/:Date/:ID', (request, response) => {
             response.status(404).json({error: 'The requested story could not be found'})
         }
         else {
-            // update story
-            // interested/mark story as read/update other field
             if (body.field === 'Interested') {
                 Story.findOne({storyID: storyID}).then(result => {
                     if (result == null) {
@@ -134,7 +130,6 @@ apiRouter.put('/api/story/:Date/:ID', (request, response) => {
                     result.save()
                     response.status(200).json({message: 'This story has been updated'})
                 }).catch(() => {
-                    console.log('here')
                     let updateStory = story
                     updateStory[body.field] = body.value
                     fs.writeFileSync('./stories/' + date + '.json', JSON.stringify(storiesForDate.stories, null, '\t'))
