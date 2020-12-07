@@ -1,7 +1,7 @@
 const fs = require('fs')
 
 const validateAO3Record = record => {
-    record.chapters = record.chapters.substring(0, record.chapters.indexOf('/'))
+    record.chapters = Number(record.chapters.substring(0, record.chapters.indexOf('/')))
     record.words = Number(record.words.replace(',', ''))
     record.storyID = record.url.substring((record.url.lastIndexOf('/')+1))
     updatedDate = record.date.split('/')
@@ -11,8 +11,6 @@ const validateAO3Record = record => {
 }
 
 const validateFFNRecord = record => {
-    record.words = Number(record.words.replace(',', ''))
-    record.title = record.title
     updatedDate = record.updatedDate.split('/')
     record.updatedDate = new Date(new Date().getFullYear(), Number(updatedDate[1])-1, Number(updatedDate[0])+1)
     publishedDate = record.publishedDate.split('/')

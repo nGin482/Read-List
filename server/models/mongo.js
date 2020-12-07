@@ -4,7 +4,7 @@ const url = process.env.MONGODB_URL
 
 
 const connectDB = async () => {
-    console.log('connecting to', url)
+    console.log('connecting to MongoDB')
     mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true}).then(() => {
         console.log('connected')
     }).catch(error => {
