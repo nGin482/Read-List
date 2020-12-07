@@ -8,8 +8,6 @@ const allStories = getAllFiles()
 const apiRouter = express.Router()
 
 
-// Story.deleteMany({})
-
 apiRouter.get('/api/stories', (request, response) => {
     response.status(200).json(allStories)
 })
@@ -87,27 +85,30 @@ apiRouter.put('/api/story/:Date/:ID', (request, response) => {
     else {
         const story = storiesForDate.stories.find(s => s.storyID === storyID)
         if (story === undefined) {
-            response.status(404).json({error: 'The requested story could not be found'})
+            response.status(404).json({error: "The story you're looking for could not be found"})
         }
         else {
             if (body.field === 'Interested') {
                 Story.findOne({storyID: storyID}).then(result => {
-                    if (result == null) {
+                    if (result === null) {
                         if (story.archive === 'Fanfiction.Net') {
                             const addStoryDB = new Story(validateFFNRecord(story))
                             addStoryDB.collectedDate = date
-                            addStoryDB.save().catch(err => {
+                            addStoryDB.save().then(() => {
+                                response.status(200).json({message: 'The story has been added to the read list', story: story})
+                            }).catch(err => {
                                 response.status(500).json({error: 'There was an error adding the story to the read list', res: err})
                             })
                         }
                         else {
                             const addStoryDB = new Story(validateAO3Record(story))
                             addStoryDB.collectedDate = date
-                            addStoryDB.save().catch(err => {
+                            addStoryDB.save().then(() => {
+                                response.status(200).json({message: 'The story has been added to the read list', story: story})
+                            }).catch(err => {
                                 response.status(500).json({error: 'There was an error adding the story to the read list', res: err})
                             })
                         }
-                        response.status(200).json({message: 'The story has been added to the read list', story: story})
                     }
                     else {
                         response.status(409).json({message: 'This story has already been added to the read list'})
@@ -115,7 +116,7 @@ apiRouter.put('/api/story/:Date/:ID', (request, response) => {
                 })
             }
 
-            if (body.field === 'Complete') {
+            else if (body.field === 'Complete') {
                 Story.findOneAndUpdate({storyID: storyID}).then(result => {
                     result.dateRead = getCurrentDate()
                     response.status(200).json({message: 'This story has been updated'})
