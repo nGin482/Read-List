@@ -40,6 +40,14 @@ const getCurrentDate = () => {
     return today
 }
 
+const stringToDate = givenDate => {
+    const day = Number(givenDate.substring(0, givenDate.indexOf('-')))
+    const month = Number(givenDate.substring(givenDate.indexOf('-')+1, givenDate.lastIndexOf('-')))
+    const year = Number(givenDate.substring(givenDate.lastIndexOf('-')+1, givenDate.length-1))
+
+    return new Date(year, month-1, day+1)
+}
+
 const searchAllStoriesByKey = (key, expected) => {
     const stories = getAllFiles()
     let result = []
@@ -71,5 +79,6 @@ module.exports = {
     validateFFNRecord,
     getAllFiles,
     getCurrentDate,
+    stringToDate,
     searchAllStoriesByKey
 }

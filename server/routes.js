@@ -1,7 +1,7 @@
 const express = require('express')
 const fs = require('fs')
 
-const {validateFFNRecord, validateAO3Record, getAllFiles, getCurrentDate, searchAllStoriesByKey} = require('./utils/utils')
+const {validateFFNRecord, validateAO3Record, getAllFiles, getCurrentDate, searchAllStoriesByKey, stringToDate} = require('./utils/utils')
 const Story = require('./models/stories')
 const allStories = getAllFiles()
 
@@ -93,7 +93,7 @@ apiRouter.put('/api/story/:Date/:ID', (request, response) => {
                     if (result === null) {
                         if (story.archive === 'Fanfiction.Net') {
                             const addStoryDB = new Story(validateFFNRecord(story))
-                            addStoryDB.collectedDate = date
+                            addStoryDB.collectedDate = stringToDate(date)
                             addStoryDB.save().then(() => {
                                 response.status(200).json({message: 'The story has been added to the read list', story: story})
                             }).catch(err => {
@@ -116,6 +116,8 @@ apiRouter.put('/api/story/:Date/:ID', (request, response) => {
                 })
             }
 
+            // below is for when it's in the DB
+            // if the date file is deleted after the story is in the DB, the route doesn't work
             else if (body.field === 'Complete') {
                 Story.findOneAndUpdate({storyID: storyID}).then(result => {
                     result.dateRead = getCurrentDate()
