@@ -43,7 +43,7 @@ const getCurrentDate = () => {
 const stringToDate = givenDate => {
     const day = Number(givenDate.substring(0, givenDate.indexOf('-')))
     const month = Number(givenDate.substring(givenDate.indexOf('-')+1, givenDate.lastIndexOf('-')))
-    const year = Number(givenDate.substring(givenDate.lastIndexOf('-')+1, givenDate.length-1))
+    const year = Number(givenDate.substring(givenDate.lastIndexOf('-')+1, givenDate.length))
 
     return new Date(year, month-1, day+1)
 }
