@@ -115,31 +115,36 @@ apiRouter.put('/api/story/:Date/:ID', (request, response) => {
                     }
                 })
             }
-
-            // below is for when it's in the DB
-            // if the date file is deleted after the story is in the DB, the route doesn't work
-            else if (body.field === 'Complete') {
-                Story.findOneAndUpdate({storyID: storyID}).then(result => {
-                    result.dateRead = getCurrentDate()
-                    response.status(200).json({message: 'This story has been updated'})
-                }).catch(() => {
-                    response.status(409).json({message: 'This story has not been added to the read list yet'})
-                })
-            }
             
             else {
-                Story.findOneAndUpdate({storyID: storyID}).then(result => {
-                    result[body.field] = body.value
-                    result.save()
-                    response.status(200).json({message: 'This story has been updated'})
-                }).catch(() => {
-                    let updateStory = story
-                    updateStory[body.field] = body.value
-                    fs.writeFileSync('./stories/' + date + '.json', JSON.stringify(storiesForDate.stories, null, '\t'))
-                    response.status(200).json({message: 'This story has been updated'})
-                })
+                let updateStory = story
+                updateStory[body.field] = body.value
+                fs.writeFileSync('./stories/' + date + '.json', JSON.stringify(storiesForDate.stories, null, '\t'))
+                response.status(200).json({message: 'This story has been updated'})
             }
         }
+    }
+})
+
+apiRouter.put('/api/story/:ID', (request, response) => {
+    const storyID = Number(request.params.ID)
+    const body = request.body
+
+    if (body.field === 'Complete') {
+        Story.findOneAndUpdate({storyID: storyID}).then(result => {
+            result.dateRead = stringToDate(getCurrentDate())
+            response.status(200).json({message: 'This story has been marked as read'})
+        }).catch(() => {
+            // may need to handle this by checking if result is null
+            response.status(409).json({message: 'This story has not been added to the read list yet'})
+        })
+    }
+    else {
+        Story.findOneAndUpdate({storyID: storyID}).then(result => {
+            result[body.field] = body.value
+            result.save()
+            response.status(200).json({message: 'This story has been updated'})
+        })
     }
 })
 
