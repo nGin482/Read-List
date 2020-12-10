@@ -132,11 +132,13 @@ apiRouter.put('/api/story/:ID', (request, response) => {
 
     if (body.field === 'Complete') {
         Story.findOneAndUpdate({storyID: storyID}).then(result => {
-            result.dateRead = stringToDate(getCurrentDate())
-            response.status(200).json({message: 'This story has been marked as read'})
-        }).catch(() => {
-            // may need to handle this by checking if result is null
-            response.status(409).json({message: 'This story has not been added to the read list yet'})
+            if (result === null) {
+                response.status(409).json({message: 'This story has not been added to the read list yet'})
+            }
+            else {
+                result.dateRead = stringToDate(getCurrentDate())
+                response.status(200).json({message: 'This story has been marked as read'})
+            }
         })
     }
     else {
