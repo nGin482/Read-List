@@ -150,4 +150,21 @@ apiRouter.put('/api/story/:ID', (request, response) => {
     }
 })
 
+apiRouter.delete('/api/date/:Date', (request, response) => {
+    const date = request.params.Date
+    try {
+        if (fs.existsSync('./stories/' + date + '.json')) {
+            fs.unlinkSync('./stories/' + date + '.json')
+            response.status(200).json({message: 'The stories for this date have been removed'})
+        }
+        else {
+            response.status(404).json({message: 'This date could not be found'})
+        }
+    }
+    catch(err) {
+        response.status(500).json({message: 'An error occurred', error: err})
+    }
+
+})
+
 module.exports = apiRouter
