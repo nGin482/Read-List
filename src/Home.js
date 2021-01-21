@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {BrowserRouter as Router, Switch, Route, Link, Redirect} from 'react-router-dom';
 import services from './services/services';
+import Story from './Story';
 
 import './App.css';
 
@@ -15,7 +16,7 @@ const App = () => {
         })
       }, []
     )
-    console.log(stories[0])
+    console.log(stories)
 
     const padding = {
         padding: 5
@@ -25,14 +26,14 @@ const App = () => {
         <Router>
             <nav>
                 <div id="menuItems">
+                    <Link style={padding} to='/'>Home</Link>
                     <Link style={padding} to='/interested'>Interested</Link>
                     <Link style={padding} to='/date'>Choose Date</Link>
                     <Link style={padding} to='/fandoms'>Fandoms</Link>
-                    <Link style={padding} to='/'>Home</Link>
                 </div>
             </nav>
             <Switch>
-                <Route path='/'></Route>
+                <Route path='/'><Story story={stories[0]}/></Route>
             </Switch>
         </Router>
     );
