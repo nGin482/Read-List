@@ -2,14 +2,13 @@ import React, {useState, useEffect} from 'react';
 import {BrowserRouter as Router, Switch, Route, Link, Redirect} from 'react-router-dom';
 import services from './services/services';
 import Story from './Story';
-
 import './App.css';
 
 const App = () => {
     const [stories, setStories] = useState([])
 
     useEffect(() => {
-      services.getDateStories('3-12-2020').then(data => {
+      services.getDateStories('4-1-2021').then(data => {
         setStories(data)
         }).catch(err => {
           console.log(err)
@@ -33,7 +32,7 @@ const App = () => {
                 </div>
             </nav>
             <Switch>
-                <Route path='/'><Story story={stories[0]}/></Route>
+                <Route path='/'>{stories.map(story => <Story story={story}/>)}</Route>
             </Switch>
         </Router>
     );
