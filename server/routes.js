@@ -3,6 +3,7 @@ const fs = require('fs')
 
 const {validateFFNRecord, validateAO3Record, getAllFiles, getCurrentDate, searchAllStoriesByKey, stringToDate} = require('./utils/utils')
 const Story = require('./models/stories')
+const { response } = require('express')
 const allStories = getAllFiles()
 
 const apiRouter = express.Router()
@@ -10,6 +11,12 @@ const apiRouter = express.Router()
 
 apiRouter.get('/api/stories', (request, response) => {
     response.status(200).json(allStories)
+})
+
+apiRouter.get('/api/stories/mostRecent', (request, response) => {
+    const mostRecentDate = String(Number(getCurrentDate().substring(0, 2))-1) + getCurrentDate().substring(2)
+
+    response.status(200).json(allStories.find(day => day.date === mostRecentDate))
 })
 
 apiRouter.get('/api/stories/:FANDOM', (request, response) => {
