@@ -4,6 +4,8 @@
     border-style: solid;
     margin: 5%;
     padding-left: 2%;
+    /* display: flexbox; */
+    position: relative;
 }
 
 #story-title {
@@ -13,21 +15,120 @@
 dl {
     width: 100%;
     overflow: hidden;
-    padding: 0;
-    margin: 0
 }
 
-dt {
-    float: left;
+/* https://www.the-art-of-web.com/css/format-dl/ */
+dt { 
     width: 10%;
+    background-color: darkgrey;
+}
+dd { 
+    /* width: 90%; */
     /* adjust the width; make sure the total of both is 100% */
     padding: 0;
-    margin: 0
+    margin: 0;
 }
-dd {
+
+.characters {
+    border: solid 1px black;
+    /* position: absolute; */
     float: left;
-    width: 90%;
-    /* adjust the width; make sure the total of both is 100% */
-    padding: 0;
-    margin: 0
 }
+.characters dt {
+    width: 100%;
+}
+.characters li {
+    margin-left: 2%;
+}
+
+.relationships {
+    border: solid 1px black;
+    /* position: absolute; */
+    float: left;
+}
+.relationships dt {
+    width: 100%;
+}
+.relationships li {
+    margin-left: 2%;
+}
+
+.fandoms {
+    border: solid 1px black;
+    float: left;
+}
+.fandoms dt {
+    width: 100%;
+}
+.fandoms li {
+    margin-left: 2%;
+}
+
+.story-details dt {
+    width: 100%;
+}
+.chapters {
+    float: left;
+    margin-right: 5%;
+}
+.words {
+    float: left;
+    margin-right: 5%;
+}
+.date {
+    float: left;
+    margin-right: 5%;
+}
+
+.AO3-tagging {
+    position: relative;
+    top: 60%;
+    /* overflow: hidden; */
+}
+.AO3-tagging dt {
+    width: 100%;
+}
+
+.warnings {
+    position: absolute;
+    border: solid 1px black;
+    float: left;
+    clear: right;
+    left: 50%;
+    top: 30%;
+}
+.warnings li {
+    margin-left: 2%;
+}
+
+.categories {
+    position: static;
+    border: solid 1px black;
+    /* float: left;
+    clear: right; */
+    left: 50%;
+    top: 30%;
+    /* width: 15%; */
+}
+.categories dt {
+    width: 100;
+}
+.categories li {
+    margin-left: 2%;
+}
+
+.tags {
+    position: static;
+    border: solid 1px black;
+    /* float: left;
+    clear: right; */
+    left: 50%;
+    top: 30%;
+}
+.tags li {
+    margin-left: 2%;
+}
+
+/* .summary-dd {
+    width: 50%;
+} */

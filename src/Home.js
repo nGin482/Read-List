@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {BrowserRouter as Router, Switch, Route, Link, Redirect} from 'react-router-dom';
+import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
 import services from './services/services';
 import Story from './Story';
 import './App.css';
@@ -15,7 +15,6 @@ const App = () => {
         })
       }, []
     )
-    console.log(stories)
 
     const padding = {
         padding: 5
