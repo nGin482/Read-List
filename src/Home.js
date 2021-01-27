@@ -3,6 +3,7 @@ import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
 import services from './services/services';
 import Story from './Story';
 import './App.css';
+import './nav.css';
 
 const App = () => {
     const [stories, setStories] = useState([])
@@ -23,11 +24,14 @@ const App = () => {
     return (
         <Router>
             <nav>
-                <div id="menuItems">
-                    <Link style={padding} to='/'>Home</Link>
-                    <Link style={padding} to='/interested'>Interested</Link>
-                    <Link style={padding} to='/date'>Choose Date</Link>
-                    <Link style={padding} to='/fandoms'>Fandoms</Link>
+                <div id="menu-items">
+                    <ul>
+                        <li><Link style={padding} to='/'>Home</Link></li>
+                        <li><Link style={padding} to='/date'>Choose Date</Link></li>
+                        <li><Link style={padding} to='/interested'>Interested</Link></li>
+                        <li><Link style={padding} to='/fandoms'>Fandoms</Link></li>
+                    </ul>
+                    
                 </div>
             </nav>
             <Switch>
