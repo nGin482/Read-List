@@ -32,7 +32,10 @@ dd {
 .characters {
     border: solid 1px black;
     /* position: absolute; */
-    float: left;
+    display: inline-block;
+    margin-right: 1%;
+    /* float: left; */
+    width: 20%;
 }
 .characters dt {
     width: 100%;
@@ -44,7 +47,11 @@ dd {
 .relationships {
     border: solid 1px black;
     /* position: absolute; */
-    float: left;
+    display: inline-block;
+    margin-right: 1%;
+    /* float: left; */
+    width: 20%;
+    /* width: max-content; */
 }
 .relationships dt {
     width: 100%;
@@ -55,7 +62,9 @@ dd {
 
 .fandoms {
     border: solid 1px black;
-    float: left;
+    display: inline-block;
+    /* float: left; */
+    width: 15%;
 }
 .fandoms dt {
     width: 100%;
@@ -79,6 +88,14 @@ dd {
     float: left;
     margin-right: 5%;
 }
+.rating {
+    float: left;
+    margin-right: 5%;
+}
+.status {
+    float: left;
+    margin-right: 5%;
+}
 
 .AO3-tagging {
     position: relative;
@@ -92,8 +109,8 @@ dd {
 .warnings {
     position: absolute;
     border: solid 1px black;
-    float: left;
-    clear: right;
+    /* float: left; */
+    /* clear: right; */
     left: 50%;
     top: 30%;
 }
@@ -102,13 +119,13 @@ dd {
 }
 
 .categories {
-    position: static;
+    /* position: static; */
     border: solid 1px black;
-    /* float: left;
-    clear: right; */
+    /* float: left; */
+    /* clear: both; */
     left: 50%;
     top: 30%;
-    /* width: 15%; */
+    width: 15%;
 }
 .categories dt {
     width: 100;
@@ -120,15 +137,12 @@ dd {
 .tags {
     position: static;
     border: solid 1px black;
-    /* float: left;
-    clear: right; */
+    /* float: left; */
+    /* clear: right; */
     left: 50%;
     top: 30%;
+    width: 30%;
 }
 .tags li {
     margin-left: 2%;
 }
-
-/* .summary-dd {
-    width: 50%;
-} */

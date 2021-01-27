@@ -48,6 +48,8 @@ const Story = (story) => {
                         {thisStory.publishedDate ? <div className="publishedDate"><dt>Published Date:</dt><dd>{thisStory.publishedDate}</dd></div> : ''}
                         {thisStory.updatedDate ? <div className="updatedDate"><dt>Updated Date:</dt><dd>{thisStory.updatedDate}</dd></div> : ''}
                         {thisStory.date ? <div className="date"><dt>Date:</dt><dd>{thisStory.date}</dd></div> : ''}
+                        <div className="rating"><dt>Rating:</dt><dd>{thisStory.rating}</dd></div>
+                        <div className="status"><dt>Status:</dt><dd>{thisStory.status}</dd></div>
                     </div>
 
                     {thisStory.genres ? 
@@ -58,35 +60,33 @@ const Story = (story) => {
                     }
                 </dl>
                 <div className='AO3-tagging'>
-                        <div className='warnings'>
-                            {thisStory.warnings != null && thisStory.warnings.length > 0 ? 
-                                <div>
-                                    <dt>Warnings:</dt><dd>{thisStory.warnings.map(warning => <li key={warning}>{warning}</li>)}</dd>
-                                </div> : 
-                                <dd>No warnings were tagged</dd>
-                            }
-                        </div>
-
-                        <div className='categories'>
-                            {thisStory.categories != null && thisStory.categories.length > 0 ? 
-                                <div>
-                                    <dt>Categories:</dt><dd>{thisStory.categories.map(cat => <li key={cat}>{cat}</li>)}</dd>
-                                </div> : 
-                                <dd>No categories were tagged</dd>
-                            }
-                        </div>
-                        
-                        <div className='tags'>
-                            {thisStory.tags != null && thisStory.tags.length > 0 ? 
-                                <div>
-                                    <dt>Tags:</dt><dd>{thisStory.tags.map(tag => <li key={tag}>{tag}</li>)}</dd>
-                                </div> : 
-                                <dd>No tags were added</dd>
-                            }
-                        </div>
+                    <div className='warnings'>
+                        {thisStory.warnings != null && thisStory.warnings.length > 0 ? 
+                            <div>
+                                <dt>Warnings:</dt><dd>{thisStory.warnings.map(warning => <li key={warning}>{warning}</li>)}</dd>
+                            </div> : 
+                            <dd>No warnings were tagged</dd>
+                        }
                     </div>
-                <dt>Rating:</dt><dd>{thisStory.rating}</dd>
-                <dt>Status:</dt><dd>{thisStory.status}</dd>
+
+                    <div className='categories'>
+                        {thisStory.categories != null && thisStory.categories.length > 0 ? 
+                            <div>
+                                <dt>Categories:</dt><dd>{thisStory.categories.map(cat => <li key={cat}>{cat}</li>)}</dd>
+                            </div> : 
+                            <dd>No categories were tagged</dd>
+                        }
+                    </div>
+                    
+                    <div className='tags'>
+                        {thisStory.tags != null && thisStory.tags.length > 0 ? 
+                            <div>
+                                <dt>Tags:</dt><dd>{thisStory.tags.map(tag => <li key={tag}>{tag}</li>)}</dd>
+                            </div> : 
+                            <dd>No tags were added</dd>
+                        }
+                    </div>
+                </div>
                 <dt>Archive:</dt><dd>{thisStory.archive}</dd>
                 <a href={thisStory.url}>Link to this story</a>
             </div>
