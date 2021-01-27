@@ -9,7 +9,12 @@ const getStoriesByFandom = (fandom) => {
     return axios.get(storiesURL + fandom).then(response => response.data)
 }
 
+const getMostRecentStories = () => {
+    return axios.get(storiesURL + 'mostRecent').then(response => response.data)
+}
+
 export default {
     getDateStories,
-    getStoriesByFandom
+    getStoriesByFandom,
+    getMostRecentStories
 }

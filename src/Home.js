@@ -9,7 +9,7 @@ const App = () => {
     const [stories, setStories] = useState([])
 
     useEffect(() => {
-      services.getDateStories('4-1-2021').then(data => {
+      services.getMostRecentStories().then(data => {
         setStories(data)
         }).catch(err => {
           console.log(err)
