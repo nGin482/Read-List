@@ -35,6 +35,10 @@ const StoryList = (stories) => {
         return stories.stories.filter(story => matchFandomValues(story.fandoms))
     }
 
+    const filterStories = () => {
+        return filterStoriesByArchive(filterStoriesByFandom())
+    }
+
     return (
         <div id="story-list">
             <div id="filter-archive">
@@ -46,7 +50,7 @@ const StoryList = (stories) => {
                 {allFandoms().map(fandom => <button onClick={() => setFandomFilter(fandom)}>{fandom}</button>)}
                 <button onClick={() => setFandomFilter('All')}>All</button>
             </div>
-            {filterStoriesByFandom().map(story => <Story story={story}/>)}
+            {filterStories().map(story => <Story story={story}/>)}
         </div>
     )
 }
