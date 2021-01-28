@@ -3,7 +3,7 @@ import Story from './Story';
 
 const StoryList = (stories) => {
     return (
-        <div>
+        <div id="story-list">
             {stories.stories.map(story => <Story story={story}/>)}
         </div>
     )
