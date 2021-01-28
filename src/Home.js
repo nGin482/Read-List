@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
 import services from './services/services';
-import Story from './Story';
+import StoryList from './StoryList';
 import './App.css';
 import './nav.css';
 
@@ -35,7 +35,7 @@ const App = () => {
                 </div>
             </nav>
             <Switch>
-                <Route path='/'>{stories.map(story => <Story story={story}/>)}</Route>
+                <Route path='/'><StoryList stories={stories}/></Route>
             </Switch>
         </Router>
     );
