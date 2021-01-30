@@ -88,6 +88,14 @@ dd {
     float: left;
     margin-right: 5%;
 }
+.updatedDate {
+    float: left;
+    margin-right: 5%;
+}
+.publishedDate {
+    float: left;
+    margin-right: 5%;
+}
 .rating {
     float: left;
     margin-right: 5%;
