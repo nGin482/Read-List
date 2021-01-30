@@ -15,7 +15,8 @@ const StoryList = (stories) => {
 
     const allFandoms = () => {
         // use route when implemented
-        return ['Code Geass', 'Doctor Who', 'Endeavour', 'Lewis', 'NCIS', 'NCIS: Los Angeles', 'Person of Interest', 'Transformers']
+        return ['Code Geass', 'Doctor Who', 'Endeavour', 'Lewis', 'NCIS', 'NCIS: Los Angeles', 
+        'Person of Interest', 'Transformers - All Media Types', 'Transformers (Bay Movies)', 'Transformers: Prime']
     }
     const filterStoriesByFandom = () => {
         if (fandomFilter === 'All') {
