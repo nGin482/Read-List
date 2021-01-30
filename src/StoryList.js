@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import Story from './Story';
+import './StoryList.css';
 
 const StoryList = (stories) => {
     const [archiveFilter, setArchiveFilter] = useState('All')
@@ -13,6 +14,7 @@ const StoryList = (stories) => {
     }
 
     const allFandoms = () => {
+        // use route when implemented
         return ['Code Geass', 'Doctor Who', 'Endeavour', 'Lewis', 'NCIS', 'NCIS: Los Angeles', 'Person of Interest', 'Transformers']
     }
     const filterStoriesByFandom = () => {

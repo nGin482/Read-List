@@ -1,0 +1,32 @@
+#filter-archive {
+    display: flex;
+    margin: 0 auto;
+    justify-content: center;
+}
+#filter-archive button {
+    font-size: medium;
+    -ms-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+    width: 10%;
+    border-radius: 5px;
+}
+#filter-fandom {
+    display: flex;
+    margin: 0 auto;
+    justify-content: center;
+}
+#filter-fandom button {
+    font-size: medium;
+    -ms-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+    width: 10%;
+    border-radius: 5px;
+}
+button:hover {
+    color: white;
+    background-color: black;
+}
