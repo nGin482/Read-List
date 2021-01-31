@@ -26,22 +26,21 @@ const StoryList = ({stories}) => {
     }
     const filterStoriesByFandom = () => {
         if (fandomFilter === 'All') {
-            return stories.stories
+            return givenStories
         }
-        const matchFandomValues = (fandoms) => {
-            var idx = -1
-            fandoms.map(fandom => {
-                idx = fandom.indexOf(fandomFilter)
-                return ''
-            })
-            if (idx === -1) {
-                return false
+        else {
+            const result = []
+            for (var i = 0; i < givenStories.length; i++) {
+                const story = givenStories[i]
+                const storyFandoms = story.fandoms
+                for (var idx = 0; idx < storyFandoms.length; idx++) {
+                    if (storyFandoms[idx] === fandomFilter) {
+                        result.push(story)
+                    }
+                }
             }
-            else {
-                return true
-            }
+            return result
         }
-        return stories.stories.filter(story => matchFandomValues(story.fandoms))
     }
 
     const filterStories = () => {
