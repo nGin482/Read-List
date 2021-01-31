@@ -16,7 +16,7 @@ apiRouter.get('/api/stories', (request, response) => {
 apiRouter.get('/api/stories/mostRecent', (request, response) => {
     const mostRecentDate = String(Number(getCurrentDate().substring(0, 2))-1) + getCurrentDate().substring(2)
 
-    response.status(200).json(allStories.find(day => day.date === mostRecentDate).stories)
+    response.status(200).json(allStories.find(day => day.date === mostRecentDate))
 })
 
 apiRouter.get('/api/stories/:FANDOM', (request, response) => {
