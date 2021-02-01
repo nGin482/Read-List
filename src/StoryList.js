@@ -64,9 +64,12 @@ const StoryList = ({stories}) => {
                     {allFandoms().map(fandom => <button onClick={() => setFandomFilter(fandom)}>{fandom}</button>)}
                     <button onClick={() => setFandomFilter('All')}>All</button>
                 </div>
-                <dt>Viewing:</dt><dd>{givenDate}</dd><dd>{fandomFilter} on {archiveFilter}</dd>
-                <dt>Number of stories:</dt><dd>{filterStories().length}</dd>
-                {filterStories().map(story => <Story story={story}/>)}
+                <br/>
+                <div id='filter-results'>
+                    <p><span>Viewing:</span><br/>Stories from {givenDate}<br/>{fandomFilter} on {archiveFilter}</p><br/>
+                    <p><span>Number of stories:</span><br/>{filterStories().length}</p>
+                </div>
+                {filterStories().length > 0 ? filterStories().map(story => <Story story={story}/>) : <div id='no-story-warning'>There are no stories to view from this date</div>}
             </div>
         )
     }

@@ -30,3 +30,17 @@ button:hover {
     color: white;
     background-color: black;
 }
+
+#filter-results {
+    display: flex;
+    margin: 0 auto;
+    justify-content: center;
+    text-align: center;
+}
+#filter-results span {
+    background-color: darkgrey;
+}
+
+#no-story-warning {
+    text-align: center;
+}
