@@ -14,7 +14,9 @@ apiRouter.get('/api/stories', (request, response) => {
 })
 
 apiRouter.get('/api/stories/mostRecent', (request, response) => {
-    const mostRecentDate = String(Number(getCurrentDate().substring(0, 2))-1) + getCurrentDate().substring(2)
+    const newDate = new Date()
+    newDate.setDate(newDate.getDate() - 1)
+    const mostRecentDate = String(newDate.getDate()) + '-' + String(newDate.getMonth()+1) + '-' + newDate.getFullYear()
 
     response.status(200).json(allStories.find(day => day.date === mostRecentDate))
 })
@@ -52,7 +54,7 @@ apiRouter.get('/api/stories/date/:Date', (request, response) => {
         response.status(404).json({error: 'There is no file with this date'})
     }
     else {
-        response.status(200).json(storiesForDate.stories)
+        response.status(200).json(storiesForDate)
     }
 })
 
