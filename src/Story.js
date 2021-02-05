@@ -60,28 +60,31 @@ const Story = (story) => {
                     }
                 </dl>
                 <div className='AO3-tagging'>
+                    <dt>Warnings:</dt>
                     <div className='warnings'>
                         {thisStory.warnings != null && thisStory.warnings.length > 0 ? 
                             <div>
-                                <dt>Warnings:</dt><dd>{thisStory.warnings.map(warning => <li key={warning}>{warning}</li>)}</dd>
+                                <dd>{thisStory.warnings.map(warning => <li key={warning}>{warning}</li>)}</dd>
                             </div> : 
                             <dd>No warnings were tagged</dd>
                         }
                     </div>
 
                     <div className='categories'>
+                        <dt>Categories:</dt>
                         {thisStory.categories != null && thisStory.categories.length > 0 ? 
                             <div>
-                                <dt>Categories:</dt><dd>{thisStory.categories.map(cat => <li key={cat}>{cat}</li>)}</dd>
+                                <dd>{thisStory.categories.map(cat => <li key={cat}>{cat}</li>)}</dd>
                             </div> : 
                             <dd>No categories were tagged</dd>
                         }
                     </div>
                     
                     <div className='tags'>
+                        <dt>Tags:</dt>
                         {thisStory.tags != null && thisStory.tags.length > 0 ? 
                             <div>
-                                <dt>Tags:</dt><dd>{thisStory.tags.map(tag => <li key={tag}>{tag}</li>)}</dd>
+                                <dd>{thisStory.tags.map(tag => <li key={tag}>{tag}</li>)}</dd>
                             </div> : 
                             <dd>No tags were added</dd>
                         }
