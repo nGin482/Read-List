@@ -27,7 +27,7 @@ const App = () => {
                 <div id="menu-items">
                     <ul>
                         <li><Link style={padding} to='/'>Home</Link></li>
-                        <li><Link style={padding} to='/date'>Choose Date</Link></li>
+                        <li>Choose Date</li>
                         <li><Link style={padding} to='/interested'>Interested</Link></li>
                         <li><Link style={padding} to='/fandoms'>Fandoms</Link></li>
                     </ul>

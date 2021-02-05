@@ -11,15 +11,14 @@
 #menu-items li {
     display: inline;
     margin-left: 5%;
-    color: black;
+}
+
+#menu-items li:hover {
+    font-size: xx-large;
+    background-color: aliceblue;
 }
 
 #menu-items li a {
     color: black;
     text-decoration: none;
-}
-
-#menu-items li a:hover {
-    font-size: xx-large;
-    background-color: aliceblue;
 }
