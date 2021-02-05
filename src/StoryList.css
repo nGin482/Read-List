@@ -32,6 +32,7 @@ button:hover {
 }
 
 #filter-results {
+    width: 40%;
     display: flex;
     margin: 0 auto;
     justify-content: center;
@@ -39,6 +40,9 @@ button:hover {
 }
 #filter-results span {
     background-color: darkgrey;
+}
+#number {
+    margin-left: 5%;
 }
 
 #no-story-warning {

@@ -22,7 +22,7 @@ const StoryList = ({stories}) => {
     const allFandoms = () => {
         // use route when implemented
         return ['Code Geass', 'Doctor Who', 'Endeavour', 'Lewis', 'NCIS', 'NCIS: Los Angeles', 
-        'Person of Interest', 'Transformers - All Media Types', 'Transformers (Bay Movies)', 'Transformers: Prime']
+        'Person of Interest (TV)', 'Transformers - All Media Types', 'Transformers (Bay Movies)', 'Transformers: Prime']
     }
     const filterStoriesByFandom = () => {
         if (fandomFilter === 'All') {
@@ -67,7 +67,7 @@ const StoryList = ({stories}) => {
                 <br/>
                 <div id='filter-results'>
                     <p><span>Viewing:</span><br/>Stories from {givenDate}<br/>{fandomFilter} on {archiveFilter}</p><br/>
-                    <p><span>Number of stories:</span><br/>{filterStories().length}</p>
+                    <p id="number"><span>Number of stories:</span><br/>{filterStories().length}</p>
                 </div>
                 {filterStories().length > 0 ? filterStories().map(story => <Story story={story}/>) : <div id='no-story-warning'>There are no stories to view from this date</div>}
             </div>
