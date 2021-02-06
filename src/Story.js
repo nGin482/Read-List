@@ -60,8 +60,8 @@ const Story = (story) => {
                     }
                 </dl>
                 <div className='AO3-tagging'>
-                    <dt>Warnings:</dt>
                     <div className='warnings'>
+                        <dt>Warnings:</dt>
                         {thisStory.warnings != null && thisStory.warnings.length > 0 ? 
                             <div>
                                 <dd>{thisStory.warnings.map(warning => <li key={warning}>{warning}</li>)}</dd>
