@@ -9,7 +9,6 @@ import './StoryList.css';
 const StoryList = ({stories}) => {
     const [archiveFilter, setArchiveFilter] = useState('All')
     const [fandomFilter, setFandomFilter] = useState('All')
-    const givenStories = stories.stories
     const givenDate = stories.date
     
     const filterStoriesByArchive = (stories) => {
@@ -22,32 +21,38 @@ const StoryList = ({stories}) => {
     const allFandoms = () => {
         // use route when implemented
         return ['Code Geass', 'Doctor Who', 'Endeavour', 'Lewis', 'NCIS', 'NCIS: Los Angeles', 
-        'Person of Interest (TV)', 'Transformers - All Media Types', 'Transformers (Bay Movies)', 'Transformers: Prime']
+        'Person of Interest', 'Transformers All Media Types', 'Transformers (Cinematic Universe)', 'Transformers Prime']
     }
+
     const filterStoriesByFandom = () => {
+        const givenCollection = stories.stories
+        const givenStories = []
         if (fandomFilter === 'All') {
-            return givenStories
+            for (var i = 0; i < givenCollection.length; i++) {
+                const archive = givenCollection[i]
+                for (var j = 0; j < archive.stories.length; j++) {
+                    givenStories.push(archive.stories[j])
+                }
+            }
         }
         else {
-            const result = []
-            for (var i = 0; i < givenStories.length; i++) {
-                const story = givenStories[i]
-                const storyFandoms = story.fandoms
-                for (var idx = 0; idx < storyFandoms.length; idx++) {
-                    if (storyFandoms[idx] === fandomFilter) {
-                        result.push(story)
+            for (var archiveIdx = 0; archiveIdx < givenCollection.length; archiveIdx++) {
+                const archive = givenCollection[archiveIdx]
+                if (archive.fandom.includes(fandomFilter)) {
+                    for (var storyIdx = 0; storyIdx < archive.stories.length; storyIdx++) {
+                        givenStories.push(archive.stories[storyIdx])
                     }
                 }
             }
-            return result
         }
+        return givenStories
     }
 
     const filterStories = () => {
         return filterStoriesByArchive(filterStoriesByFandom())
     }
 
-    if (!givenStories) {
+    if (!stories.stories) {
         return (
             <div><p>Waiting for stories to load ...</p></div>
         )
