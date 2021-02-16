@@ -54,11 +54,16 @@ const searchAllStoriesByKey = (key, expected) => {
 
     if (key === 'storyID') {
         stories.map(day => {
-            day.stories.map(story => {
-                if (story[key] === expected) {
-                    result.push(story)
-                }
-            })
+            if (day.date[0] === '1' && day.date[1] === '5') {
+                day.stories.map(archive => {
+                    archive.stories.map(story => {
+                        if (story[key] === expected) {
+                            console.log('anyone')
+                            result.push(story)
+                        }
+                    })
+                })
+            }
         })
     }
     else {
@@ -70,7 +75,6 @@ const searchAllStoriesByKey = (key, expected) => {
             })
         })
     }
-
     return result
 }
 
