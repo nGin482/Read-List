@@ -13,8 +13,14 @@ const getMostRecentStories = () => {
     return axios.get(storiesURL + 'mostRecent').then(response => response.data)
 }
 
+const markAsInterested = (story) => {
+    console.log(story.storyID)
+    return axios.put('/api/story/' + story.storyID + '/interested', story)
+}
+
 export default {
     getDateStories,
     getStoriesByFandom,
-    getMostRecentStories
+    getMostRecentStories,
+    markAsInterested
 }
