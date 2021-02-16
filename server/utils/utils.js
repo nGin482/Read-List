@@ -58,7 +58,6 @@ const searchAllStoriesByKey = (key, expected) => {
                 day.stories.map(archive => {
                     archive.stories.map(story => {
                         if (story[key] === expected) {
-                            console.log('anyone')
                             result.push(story)
                         }
                     })

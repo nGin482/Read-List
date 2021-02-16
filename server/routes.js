@@ -82,57 +82,41 @@ apiRouter.post('/api/stories', (request, response) => {
     }
 })
 
-apiRouter.put('/api/story/:Date/:ID', (request, response) => {
+apiRouter.put('/api/story/:ID/interested', (request, response) => {
     const storyID = Number(request.params.ID)
-    const date = request.params.Date
-    const body = request.body
-
-    const storiesForDate = allStories.find(day => day.date === date)
-    if (storiesForDate === undefined) {
-        response.status(404).json({error: 'There are no stories from this date'})
+    const story = searchAllStoriesByKey('storyID', storyID)[0]
+    
+    if (story) {
+        Story.findOne({storyID: storyID}).then(result => {
+            if (result === null) {
+                if (story.archive === 'Fanfiction.Net') {
+                    const addStoryDB = new Story(validateFFNRecord(story))
+                    addStoryDB.collectedDate = stringToDate(getCurrentDate())
+                    addStoryDB.save().then(() => {
+                        response.status(200).json({message: 'The story has been added to the read list', story: story})
+                    }).catch(err => {
+                        response.status(500).json({error: 'There was an error adding the story to the read list', res: err})
+                    })
+                }
+                else {
+                    const addStoryDB = new Story(validateAO3Record(story))
+                    addStoryDB.collectedDate = stringToDate(getCurrentDate())
+                    addStoryDB.save().then(() => {
+                        response.status(200).json({message: 'The story has been added to the read list', story: story})
+                    }).catch(err => {
+                        response.status(500).json({error: 'There was an error adding the story to the read list', res: err})
+                    })
+                }
+            }
+            else {
+                response.status(409).json({message: 'This story has already been added to the read list'})
+            }
+        })
     }
     else {
-        const story = storiesForDate.stories.find(s => s.storyID === storyID)
-        if (story === undefined) {
-            response.status(404).json({error: "The story you're looking for could not be found"})
-        }
-        else {
-            if (body.field === 'Interested') {
-                Story.findOne({storyID: storyID}).then(result => {
-                    if (result === null) {
-                        if (story.archive === 'Fanfiction.Net') {
-                            const addStoryDB = new Story(validateFFNRecord(story))
-                            addStoryDB.collectedDate = stringToDate(date)
-                            addStoryDB.save().then(() => {
-                                response.status(200).json({message: 'The story has been added to the read list', story: story})
-                            }).catch(err => {
-                                response.status(500).json({error: 'There was an error adding the story to the read list', res: err})
-                            })
-                        }
-                        else {
-                            const addStoryDB = new Story(validateAO3Record(story))
-                            addStoryDB.collectedDate = date
-                            addStoryDB.save().then(() => {
-                                response.status(200).json({message: 'The story has been added to the read list', story: story})
-                            }).catch(err => {
-                                response.status(500).json({error: 'There was an error adding the story to the read list', res: err})
-                            })
-                        }
-                    }
-                    else {
-                        response.status(409).json({message: 'This story has already been added to the read list'})
-                    }
-                })
-            }
-            
-            else {
-                let updateStory = story
-                updateStory[body.field] = body.value
-                fs.writeFileSync('./stories/' + date + '.json', JSON.stringify(storiesForDate.stories, null, '\t'))
-                response.status(200).json({message: 'This story has been updated'})
-            }
-        }
+        response.status(404).json({message: 'The story could not be found'})
     }
+    // new route for updating details
 })
 
 apiRouter.put('/api/story/:ID', (request, response) => {
