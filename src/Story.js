@@ -1,8 +1,13 @@
 import React from 'react';
+import services from './services/services';
 import './Story.css';
 
 const Story = (story) => {
     const thisStory = story.story
+    
+    const markStory = () => {
+        services.markAsInterested(thisStory).then(console.log('hello'))
+    }
     
     if (story) {
         if (story.story == null) {
@@ -50,6 +55,7 @@ const Story = (story) => {
                         {thisStory.date ? <div className="date"><dt>Date:</dt><dd>{thisStory.date}</dd></div> : ''}
                         <div className="rating"><dt>Rating:</dt><dd>{thisStory.rating}</dd></div>
                         <div className="status"><dt>Status:</dt><dd>{thisStory.status}</dd></div>
+                        <div className="archive"><dt>Archive:</dt><dd>{thisStory.archive}</dd></div>
                     </div>
 
                     {thisStory.genres ? 
@@ -90,8 +96,8 @@ const Story = (story) => {
                         }
                     </div>
                 </div>
-                <dt>Archive:</dt><dd>{thisStory.archive}</dd>
                 <a href={thisStory.url}>Link to this story</a>
+                <button onClick={() => markStory()}>Add to Read List</button>
             </div>
         )
     }
