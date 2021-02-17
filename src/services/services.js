@@ -15,7 +15,7 @@ const getMostRecentStories = () => {
 
 const markAsInterested = (story) => {
     console.log(story.storyID)
-    return axios.put('/api/story/' + story.storyID + '/interested', story)
+    return axios.put('/api/story/' + story.storyID + '/interested')
 }
 
 export default {
