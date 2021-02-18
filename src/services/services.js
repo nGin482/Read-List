@@ -15,12 +15,17 @@ const getMostRecentStories = () => {
 
 const markAsInterested = (story) => {
     console.log(story.storyID)
-    return axios.put('/api/story/' + story.storyID + '/interested')
+    return axios.put('/api/story/' + story.storyID + '/interested').then(response => response.data)
+}
+
+const removeStories = (date) => {
+    return axios.delete('/api/date/' + date).then(response => response.data)
 }
 
 export default {
     getDateStories,
     getStoriesByFandom,
     getMostRecentStories,
-    markAsInterested
+    markAsInterested,
+    removeStories
 }
