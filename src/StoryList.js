@@ -1,10 +1,7 @@
 import React, {useState} from 'react';
+import services from './services/services';
 import Story from './Story';
 import './StoryList.css';
-// import Modal from 'react-modal';
-// date and filter
-// https://www.npmjs.com/package/react-modal
-// http://reactcommunity.org/react-modal/
 
 const StoryList = ({stories}) => {
     const [archiveFilter, setArchiveFilter] = useState('All')
@@ -82,7 +79,10 @@ const StoryList = ({stories}) => {
                 </div>
                 <div id="filter-fandom">
                     {allFandoms().map(fandom => <button onClick={() => setFandomFilter(fandom)}>{fandom}</button>)}
-                    <button onClick={() => setFandomFilter('All')}>All</button>
+                    <button onClick={() => setFandomFilter('All Stories')}>All</button>
+                </div>
+                <div id="remove-stories">
+                    <button onClick={() => console.log('button clicked')}>Finished</button>
                 </div>
             </div>
         )

@@ -48,3 +48,19 @@ button:hover {
 #no-story-warning {
     text-align: center;
 }
+
+#remove-stories {
+    display: flex;
+    margin: 0 auto;
+    justify-content: center;
+}
+#remove-stories button {
+    font-size: medium;
+    -ms-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+    width: 10%;
+    border-radius: 5px;
+    margin-top: 3%;
+}
