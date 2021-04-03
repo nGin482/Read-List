@@ -1,9 +1,8 @@
 const express = require('express')
 const fs = require('fs')
 
-const {validateFFNRecord, validateAO3Record, getAllFiles, getCurrentDate, searchAllStoriesByKey, stringToDate} = require('./utils/utils')
+const {validateFFNRecord, validateAO3Record, getAllFiles, getCurrentDate, searchAllStoriesByKey, stringToDate, findToUpdate} = require('./utils/utils')
 const Story = require('./models/stories')
-const { response } = require('express')
 const allStories = getAllFiles()
 
 const apiRouter = express.Router()
@@ -140,6 +139,35 @@ apiRouter.put('/api/story/:ID', (request, response) => {
             result.save()
             response.status(200).json({message: 'This story has been updated'})
         })
+    }
+})
+
+apiRouter.put('/api/update/:ID', (request, response) => {
+    const storyID = Number(request.params.ID)
+    const body = request.body
+
+    if (body.stored === 'DB') {
+        Story.findOneAndUpdate({storyID: storyID}).then(result => {
+            result[body.field] = body.value
+            result.save()
+            response.status(200).json({message: 'This story has been updated'})
+        })
+    }
+    else {
+        const collection = findToUpdate(storyID)[0]
+        let story = ''
+        collection.map(archive => {
+            archive.map(s => {
+                if (s.storyID === storyID) {
+                    story = s
+                }
+            })
+        })
+        if (story !== '') {
+            story.story[field] = body.value
+            fs.writeFileSync('./stories/' + story.date, JSON.stringify(collection, null, '\t'))
+        }
+
     }
 })
 

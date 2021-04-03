@@ -77,11 +77,30 @@ const searchAllStoriesByKey = (key, expected) => {
     return result
 }
 
+const findToUpdate = ID => {
+    const stories = getAllFiles()
+    let result = []
+
+    stories.map(day => {
+        if (day.date[0] >= '6' && (day.date[2] >= '2' || day.date[3] >= '2')) {
+            day.stories.map(archive => {
+                archive.stories.map(story => {
+                    if (story.storyID === ID) {
+                        result.push({date: day.date, collection: day.stories})
+                    }
+                })
+            })
+        }
+    })
+    return result
+}
+
 module.exports = {
     validateAO3Record,
     validateFFNRecord,
     getAllFiles,
     getCurrentDate,
     stringToDate,
-    searchAllStoriesByKey
+    searchAllStoriesByKey,
+    findToUpdate
 }
