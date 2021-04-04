@@ -2,6 +2,11 @@ import React, {useState, useEffect} from 'react';
 import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
 import services from './services/services';
 import StoryList from './StoryList';
+import StoryPage from './StoryPage.js';
+// import Modal from 'react-modal';
+// https://www.npmjs.com/package/react-modal
+// http://reactcommunity.org/react-modal/
+// https://www.npmjs.com/package/react-calendar
 import './App.css';
 import './nav.css';
 
@@ -35,6 +40,7 @@ const App = () => {
                 </div>
             </nav>
             <Switch>
+                <Route path='/story/:storyID'><StoryPage/></Route>
                 <Route path='/'><StoryList stories={stories}/></Route>
             </Switch>
         </Router>
