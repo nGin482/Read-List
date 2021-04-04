@@ -12,13 +12,22 @@
     text-align: center;
 }
 
-/* data-select {
-
-} */
+#data-change {
+    -ms-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+    border-radius: 5%;
+}
 
 #update-submit {
     display: flex;
     margin: 0 auto;
     justify-content: center;
+    -ms-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+    border-radius: 5%;
     margin-bottom: 3%;
 }
