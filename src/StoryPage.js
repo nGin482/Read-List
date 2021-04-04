@@ -26,7 +26,7 @@ const StoryPage = () => {
         )
     }
     else if (warning !== '') {
-        return <div id="story-not-found">The story could not be found</div>
+        return <div id="story-page-warning">{warning}</div>
     }
     else {
         return 'Waiting for the story to load ...'
