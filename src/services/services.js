@@ -1,5 +1,6 @@
 import axios from 'axios'
 const storiesURL = '/api/stories/'
+const storyURL = '/api/story/'
 
 const getDateStories = (date) => {
     return axios.get(storiesURL + 'date/' + date).then(response => response.data)
@@ -10,7 +11,7 @@ const getStoriesByFandom = (fandom) => {
 }
 
 const getStoriesByID = ID => {
-    return axios.get('/api/story/'+ID).then(response => response.data)
+    return axios.get(storyURL + ID).then(response => response.data)
 }
 
 const getMostRecentStories = () => {
@@ -19,7 +20,11 @@ const getMostRecentStories = () => {
 
 const markAsInterested = (story) => {
     console.log(story.storyID)
-    return axios.put('/api/story/' + story.storyID + '/interested').then(response => response.data)
+    return axios.put(storyURL + story.storyID + '/interested').then(response => response.data)
+}
+
+const updateStoryDetails = (story) => {
+    return axios.put('/api/update/' + story.storyID, story).then(response => response.data)
 }
 
 const removeStories = (date) => {
@@ -32,6 +37,7 @@ const calls = {
     getStoriesByID,
     getMostRecentStories,
     markAsInterested,
+    updateStoryDetails,
     removeStories
 }
 
