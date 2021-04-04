@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
 import services from './services/services.js';
 import Story from './Story.js';
+import UpdateStory from './UpdateStory.js';
 
 const StoryPage = () => {
     const [story, setStory] = useState(null)
@@ -22,7 +23,10 @@ const StoryPage = () => {
 
     if (story) {
         return (
-            <Story story={story}/>
+            <div id='page-contents'>
+                <UpdateStory story={story}/>
+                <Story story={story}/>
+            </div>
         )
     }
     else if (warning !== '') {
