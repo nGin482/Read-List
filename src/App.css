@@ -1,3 +1,15 @@
 body {
   background-color: #61dafb;
 }
+
+#story-page-warning {
+  display: flex;
+  margin: 0 auto;
+  justify-content: center;
+  margin-top: 5%;
+  width: 20%;
+  text-align: center;
+  background-color: white;
+  border: solid black;
+  border-radius: 5px;
+}
