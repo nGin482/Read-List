@@ -5,6 +5,7 @@ import './UpdateStory.css'
 const UpdateStory = ({story}) => {
     const [field, setField] = useState('')
     const [data, setData] = useState('')
+    const [stored, setStored] = useState('')
     
     const handleFieldChange = event => {
         event.preventDefault()
@@ -23,6 +24,9 @@ const UpdateStory = ({story}) => {
                 {Object.keys(story).map(key => <option key={key} value={key}>{key}</option>)}
             </select><br/>
             <input id="data-change" type="text" placeholder="Your change" value={data} onChange={event => handleDataChange(event)}/><br/>
+            Location stored:
+            <input type="radio" id="file" value="File" onClick={event => setStored(event.target.value)}/>File
+            <input type="radio" id="db" value="Database" onClick={event => setStored(event.target.value)}/>Database
             <input id="update-submit" type="submit" value="Confirm change?"/>
         </div>
     )
