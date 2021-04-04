@@ -54,15 +54,13 @@ const searchAllStoriesByKey = (key, expected) => {
 
     if (key === 'storyID') {
         stories.map(day => {
-            if (day.date[0] === '1' && day.date[1] === '5') {
-                day.stories.map(archive => {
-                    archive.stories.map(story => {
-                        if (story[key] === expected) {
-                            result.push(story)
-                        }
-                    })
+            day.stories.map(archive => {
+                archive.stories.map(story => {
+                    if (story[key] === expected) {
+                        result.push(story)
+                    }
                 })
-            }
+            })
         })
     }
     else {
@@ -82,15 +80,13 @@ const findToUpdate = ID => {
     let result = []
 
     stories.map(day => {
-        if (day.date[0] >= '6' && (day.date[2] >= '2' || day.date[3] >= '2')) {
-            day.stories.map(archive => {
-                archive.stories.map(story => {
-                    if (story.storyID === ID) {
-                        result.push({date: day.date, collection: day.stories})
-                    }
-                })
+        day.stories.map(archive => {
+            archive.stories.map(story => {
+                if (story.storyID === ID) {
+                    result.push({date: day.date, collection: day.stories})
+                }
             })
-        }
+        })
     })
     return result
 }
