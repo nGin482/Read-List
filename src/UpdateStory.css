@@ -1,0 +1,24 @@
+#update-wrapper {
+    display: flexbox;
+    margin: 0 auto;
+    justify-content: center;
+    width: 50%;
+    border: solid 5px black;
+    border-radius: 5px;
+    background-color: yellow;
+}
+
+#update-wrapper-title {
+    text-align: center;
+}
+
+/* data-select {
+
+} */
+
+#update-submit {
+    display: flex;
+    margin: 0 auto;
+    justify-content: center;
+    margin-bottom: 3%;
+}
