@@ -35,12 +35,12 @@ apiRouter.get('/api/stories/:FANDOM', (request, response) => {
 apiRouter.get('/api/story/:ID', (request, response) => {
     const storyID = Number(request.params.ID)
 
-    const stories = searchAllStoriesByKey('storyID', storyID)
+    const stories = searchAllStoriesByKey('storyID', Number(storyID))
     if (stories.length === 0) {
         response.status(404).json({error: 'No story could be found with that ID'})
     }
     else {
-        response.status(200).json(stories)
+        response.status(200).json(stories[0])
     }
 
 })
