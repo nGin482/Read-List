@@ -76,14 +76,14 @@ const searchAllStoriesByKey = (key, expected) => {
 }
 
 const findToUpdate = ID => {
-    const stories = getAllFiles()
+    const allCollections = getAllFiles()
     let result = []
 
-    stories.map(day => {
+    allCollections.map(day => {
         day.stories.map(archive => {
             archive.stories.map(story => {
                 if (story.storyID === ID) {
-                    result.push({date: day.date, collection: day.stories})
+                    result.push({date: day.date, dayCollection: day.stories})
                 }
             })
         })
