@@ -91,6 +91,52 @@ const findToUpdate = ID => {
     return result
 }
 
+const getAllDates = () => {
+    const datesByMonth = breakIntoMonths()
+    datesByMonth.map(month => {
+        if (month.length > 10) {
+            month.sort((a, b) => a[0] - b[0])
+            
+        }
+    })
+    console.log(datesByMonth)
+    return datesByMonth
+}
+
+const breakIntoMonths = () => {
+    const files = fs.readdirSync('./stories')
+    const dates_strings = []
+    const months_orderd = []
+
+    files.map(file => dates_strings.push(file.substring(0, file.indexOf('.')).split('-')))
+    const months = [dates_strings[0][1]]
+    let found = -1
+    for (var idx = 1; idx < dates_strings.length-1; idx++) {
+        for (var idxMonths = 0; idxMonths < months.length; idxMonths++) {
+            if (dates_strings[idx][1] === months[idxMonths]) {
+                found = 1
+            }
+        }
+        if (found === -1) {
+            months.push(dates_strings[idx][1])
+        }
+    }
+    for (var i = 0; i < months.length; i++) {
+        months_orderd.push([])
+    }
+    for (idxDates = 0; idxDates < dates_strings.length; idxDates++) {
+        for (idxMonths = 0; idxMonths < months.length; idxMonths++) {
+            if (dates_strings[idxDates][1] === months[idxMonths]) {
+                months_orderd[idxMonths].push(dates_strings[idxDates])
+            }
+        }
+    }
+    console.log(months_orderd[1])
+    console.log('---------------------------------------------------------------')
+    
+    return months_orderd
+}
+
 module.exports = {
     validateAO3Record,
     validateFFNRecord,
@@ -98,5 +144,6 @@ module.exports = {
     getCurrentDate,
     stringToDate,
     searchAllStoriesByKey,
-    findToUpdate
+    findToUpdate,
+    getAllDates
 }
