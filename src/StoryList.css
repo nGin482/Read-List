@@ -78,13 +78,11 @@ button:hover {
     border-radius: 5px;
 }
 
-.edit-story a{
+.edit-story a {
     text-decoration: none;
     color: black;
 }
 
-.edit-story a:hover {
-    text-decoration: none;
-    color: black;
+.edit-story:hover a {
     color: white;
 }
