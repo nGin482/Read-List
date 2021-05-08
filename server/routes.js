@@ -26,6 +26,9 @@ apiRouter.get('/api/stories/mostRecent', (request, response) => {
             if (mostRecent) {
                 status = true
             }
+            setTimeout(() => {
+                response.status(404).json({error: 'No collections are currently available'})
+            }, 5000)
         }
     }
 
