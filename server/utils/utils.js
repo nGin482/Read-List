@@ -98,8 +98,14 @@ const getAllDates = () => {
             month.sort((a, b) => a[0] - b[0])
             
         }
+        for (var i = 0; i < month.length; i++) {
+            day = month[i]
+            month[i] = day[0] + '-' + day[1] + '-' + day[2]
+        }
+        month.map(day => {
+            day = day[0] + '-' + day[1] + '-' + day[2]
+        })
     })
-    console.log(datesByMonth)
     return datesByMonth
 }
 
