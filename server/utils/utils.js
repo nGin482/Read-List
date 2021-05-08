@@ -137,9 +137,6 @@ const breakIntoMonths = () => {
             }
         }
     }
-    console.log(months_orderd[1])
-    console.log('---------------------------------------------------------------')
-    
     return months_orderd
 }
 

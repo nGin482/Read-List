@@ -19,6 +19,9 @@ const App = () => {
         }).catch(err => {
           console.log(err)
         })
+        services.getDates().then(datesData => {
+            console.log(datesData)
+        })
       }, []
     )
 
