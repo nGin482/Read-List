@@ -31,6 +31,10 @@ const removeStories = (date) => {
     return axios.delete('/api/date/' + date).then(response => response.data)
 }
 
+const getDates = () => {
+    return axios.get('/api/dates').then(response => response.data)
+}
+
 const requests = {
     getDateStories,
     getStoriesByFandom,
@@ -38,7 +42,8 @@ const requests = {
     getMostRecentStories,
     markAsInterested,
     updateStoryDetails,
-    removeStories
+    removeStories,
+    getDates
 }
 
 export default requests

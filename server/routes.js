@@ -1,7 +1,7 @@
 const express = require('express')
 const fs = require('fs')
 
-const {validateFFNRecord, validateAO3Record, getAllFiles, getCurrentDate, searchAllStoriesByKey, stringToDate, findToUpdate} = require('./utils/utils')
+const {validateFFNRecord, validateAO3Record, getAllFiles, getCurrentDate, searchAllStoriesByKey, stringToDate, findToUpdate, getAllDates} = require('./utils/utils')
 const Story = require('./models/stories')
 const allStories = getAllFiles()
 
@@ -186,6 +186,10 @@ apiRouter.delete('/api/date/:Date', (request, response) => {
         response.status(500).json({message: 'An error occurred', error: err})
     }
 
+})
+
+apiRouter.get('/api/dates', (request, response) => {
+    response.status(200).json(getAllDates())
 })
 
 module.exports = apiRouter
