@@ -17,7 +17,19 @@ apiRouter.get('/api/stories/mostRecent', (request, response) => {
     newDate.setDate(newDate.getDate() - 1)
     const mostRecentDate = String(newDate.getDate()) + '-' + String(newDate.getMonth()+1) + '-' + newDate.getFullYear()
 
-    response.status(200).json(allStories.find(day => day.date === mostRecentDate))
+    let mostRecent = allStories.find(day => day.date === mostRecentDate)
+    if (!mostRecent) {
+        let status = false
+        while (status === false) {
+            newDate.setDate(newDate.getDate() - 1)
+            mostRecent = allStories.find(day => day.date === String(newDate.getDate()) + '-' + String(newDate.getMonth()+1) + '-' + newDate.getFullYear())
+            if (mostRecent) {
+                status = true
+            }
+        }
+    }
+
+    response.status(200).json(mostRecent)
 })
 
 apiRouter.get('/api/stories/:FANDOM', (request, response) => {
