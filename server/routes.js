@@ -143,31 +143,34 @@ apiRouter.put('/api/story/:ID', (request, response) => {
 })
 
 apiRouter.put('/api/update/:ID', (request, response) => {
+    // update story details while browsing stories
+    // needs work before implementing
     const storyID = Number(request.params.ID)
     const body = request.body
 
-    if (body.stored === 'DB') {
-        Story.findOneAndUpdate({storyID: storyID}).then(result => {
-            result[body.field] = body.value
-            result.save()
-            response.status(200).json({message: 'This story has been updated'})
-        })
-    }
-    else {
-        const collection = findToUpdate(storyID)[0]
-        let story = ''
-        collection.map(archive => {
-            archive.map(s => {
-                if (s.storyID === storyID) {
-                    story = s
+    const collection = findToUpdate(storyID)
+    let storyToUpdate = ''
+    let status = false
+
+    collection.map(day => {
+        day.dayCollection.map(archive => {
+            archive.stories.map(story => {
+                if (story.storyID === storyID) {
+                    storyToUpdate = story
+                    storyToUpdate[body.field] = body.value
+                    fs.writeFileSync('./stories/' + day.date + '.json', JSON.stringify(day.dayCollection, null, '\t'))
+                    console.log('updated', day.date)
+                    status = true
                 }
             })
         })
-        if (story !== '') {
-            story.story[field] = body.value
-            fs.writeFileSync('./stories/' + story.date, JSON.stringify(collection, null, '\t'))
-        }
-
+    })
+    
+    if (status) {
+        response.status(200).json({message: 'This story has been updated'})
+    }
+    else {
+        response.status(404).json({message: "The story you've selected cannot be found"})
     }
 })
 
