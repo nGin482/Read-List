@@ -204,7 +204,12 @@ apiRouter.delete('/api/date/:Date', (request, response) => {
 })
 
 apiRouter.get('/api/dates', (request, response) => {
-    response.status(200).json(getAllDates())
+    if (getAllDates() === []) {
+        response.status(404).json({error: 'No dates are available'})
+    }
+    else {
+        response.status(200).json(getAllDates())
+    }
 })
 
 module.exports = apiRouter
