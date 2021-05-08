@@ -27,12 +27,16 @@ apiRouter.get('/api/stories/mostRecent', (request, response) => {
                 status = true
             }
             setTimeout(() => {
-                response.status(404).json({error: 'No collections are currently available'})
+                mostRecent = []
             }, 5000)
         }
     }
-
-    response.status(200).json(mostRecent)
+    if (mostRecent === []) {
+        response.status(404).json({error: 'No collections are currently available'})
+    }
+    else {
+        response.status(200).json(mostRecent)
+    }
 })
 
 apiRouter.get('/api/stories/:FANDOM', (request, response) => {
