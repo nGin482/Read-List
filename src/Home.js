@@ -12,15 +12,18 @@ import './nav.css';
 
 const App = () => {
     const [stories, setStories] = useState([])
+    const [dates, setDates] = useState([])
 
     useEffect(() => {
       services.getMostRecentStories().then(data => {
         setStories(data)
         }).catch(err => {
-          console.log(err)
+          console.log(err) // use modal to show error
         })
-        services.getDates().then(datesData => {
-            console.log(datesData)
+        services.getDates().then(data => {
+            setDates(data)
+        }).catch(err => {
+            console.log(err)
         })
       }, []
     )
@@ -35,7 +38,7 @@ const App = () => {
                 <div id="menu-items">
                     <ul>
                         <li><Link style={padding} to='/'>Home</Link></li>
-                        <li>Choose Date</li>
+                        <li onClick={() => console.log(dates)}>Choose Date</li>
                         <li><Link style={padding} to='/interested'>Interested</Link></li>
                         <li><Link style={padding} to='/fandoms'>Fandoms</Link></li>
                     </ul>
