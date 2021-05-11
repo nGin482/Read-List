@@ -94,10 +94,11 @@ const findToUpdate = ID => {
 const getAllDates = () => {
     const datesByMonth = breakIntoMonths()
     datesByMonth.map(month => {
-        if (month.length > 10) {
-            month.sort((a, b) => a[0] - b[0])
-            
-        }
+        month.map(day => {
+            if (day[0] >= '10') {
+                month.sort((a, b) => a[0] - b[0])
+            }
+        })
         for (var i = 0; i < month.length; i++) {
             day = month[i]
             month[i] = day[0] + '-' + day[1] + '-' + day[2]
