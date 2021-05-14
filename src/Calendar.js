@@ -50,6 +50,11 @@ const Calendar = (dates) => {
         const padding = {
             padding: 5
         }
+        
+        const selectDate = (givenDate) => {
+            setDate(givenDate)
+            setOpen(false)
+        }
     
         return (
             <div id='calendar-view'>
@@ -58,10 +63,7 @@ const Calendar = (dates) => {
                     <button onClick={() => setOpen(false)}>Close</button>
                     <span onClick={() => handleMonthChange('Prev')} style={padding}>Prev</span> 
                     <span style={padding}>{month}</span> <span onClick={() => handleMonthChange('Next')} style={padding}>Next</span>
-                    <ul>{month !== '' ? datesList.find(item => item.monthName === month).datesFromMonth.map(givenDate => <li onClick={() => {
-                        setDate(givenDate)
-                        setOpen(false)
-                        }}>{givenDate}</li>): ''}
+                    <ul>{month !== '' ? datesList.find(item => item.monthName === month).datesFromMonth.map(givenDate => <li onClick={() => selectDate(givenDate)}>{givenDate}</li>): ''}
                     </ul>
                 </Modal>
             </div>
