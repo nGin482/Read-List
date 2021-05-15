@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import Story from './Story';
 import './StoryList.css';
+import Modal from 'react-modal';
 
 const StoryList = ({stories}) => {
     const [archiveFilter, setArchiveFilter] = useState('All')
@@ -50,7 +51,7 @@ const StoryList = ({stories}) => {
 
     if (!stories.stories) {
         return (
-            <div><p>Waiting for stories to load ...</p></div>
+            <Modal isOpen={true}>Waiting for stories to load ...</Modal>
         )
     }
     else {
