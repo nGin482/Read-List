@@ -20,7 +20,7 @@ const Calendar = (dates) => {
         }
     
         const datesList = []
-        dates.map(month => {
+        dates.forEach(month => {
             const monthObj = {monthName: getMonth(month[0]), datesFromMonth: month}
             datesList.push(monthObj)
         })
@@ -65,8 +65,8 @@ const Calendar = (dates) => {
                     <button onClick={() => setOpen(false)}>Close</button> <br/>
                     <div id="headers">
                         <div id="month-change-prev"><span onClick={() => handleMonthChange('Prev')}>Prev</span></div>
-                        <div id="month-shown"><span>{month}</span></div>
                         <div id="month-change-next"><span onClick={() => handleMonthChange('Next')}>Next</span></div>
+                        <div id="month-shown"><span>{month}</span></div>
                     </div>
                     <ul>{month !== '' ? datesList.find(item => item.monthName === month).datesFromMonth.map(givenDate => <li onClick={() => selectDate(givenDate)}>{givenDate}</li>): ''}
                     </ul>

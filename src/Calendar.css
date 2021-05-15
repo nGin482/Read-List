@@ -2,9 +2,7 @@
     display: inline-flexbox;
 }
 #month-change-prev {
-    display: flex;
-    margin-left: 3%;
-    justify-content: left;
+    float: left;
 }
 
 #month-change-next {
@@ -13,13 +11,10 @@
 }
 
 #month-shown {
-    display: flex;
     margin: 0 auto;
-    justify-content: center;
     text-align: center;
     font-size: x-large;
     width: 10%;
-    left: 50%;
 }
 
 @media screen and (max-width: 640px) {
