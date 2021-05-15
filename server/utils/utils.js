@@ -65,10 +65,12 @@ const searchAllStoriesByKey = (key, expected) => {
     }
     else {
         stories.map(day => {
-            day.stories.map(story => {
-                if (story[key].includes(expected)) {
-                    result.push(story)
-                }
+            day.stories.map(archive => {
+                archive.stories.map(story => {
+                    if (story[key].includes(expected)) {
+                        result.push(story)
+                    }
+                })
             })
         })
     }
