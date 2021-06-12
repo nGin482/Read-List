@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { useParams } from 'react-router';
+import {Link} from 'react-router-dom';
 import services from './services/services.js';
 import StoryList from './StoryList.js';
 
@@ -16,7 +17,10 @@ const StoriesForDate = () => {
     )
 
     return (
-        <StoryList stories={stories}/>
+        <div>
+            <Link to={'/'}>Home</Link>
+            <StoryList stories={stories}/>
+        </div>
     )
 }
 
