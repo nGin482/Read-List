@@ -9,9 +9,10 @@ A repository for a web application featuring a back end server that collects a n
 ## To Do
 1. Fandoms component
 2. Add story to read list
-3. Update styles
-4. Update Documentation
-5. Deploy
+3. Mobile Design
+4. Update styles
+5. Update Documentation
+6. Deploy
 
 
 
