@@ -1,3 +1,9 @@
+# This Project
+A repository for a web application featuring a back end server that collects a number of fanfics from different archives across AO3 and FFN; as well as a front end that allows the user to view the stories.
+
+## Known Issues
+1. The user will need to reload after choosing a new date while in the /stories/:date url
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
