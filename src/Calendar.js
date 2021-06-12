@@ -1,13 +1,16 @@
 import React, {useState} from 'react';
+import { useHistory } from 'react-router-dom';
 import Modal from 'react-modal';
 import './Calendar.css';
 
 const Calendar = (dates) => {
     dates = dates.dates
     const [month, setMonth] = useState('')
-    const [date, setDate] = useState('')
     const [open, setOpen] = useState(false)
+    
     // on choosing date, make request and redirect
+    
+    let history = useHistory()
     if (dates.length !== 0) {
 
         let monthIdx = 0
@@ -43,15 +46,16 @@ const Calendar = (dates) => {
             setMonth(datesList[monthIdx].monthName)
         }
         
-        if (date !== '') {
-            console.log(date)
-        }
-        
         const selectDate = (givenDate) => {
-            setDate(givenDate)
             setOpen(false)
+            // request being done here to check the request works onclick before 
+            // returning redirect to component that doesn't render
+            // once redirect is called, request will be made by component 
+            if (givenDate !== '') {
+                history.push('/stories/' + givenDate)
+            }
         }
-        Modal.setAppElement('#root')
+        Modal.setAppElement('#menu-items')
         const customStyles = {
             content: {
                 backgroundColor: 'rgb(251, 130, 97)'
