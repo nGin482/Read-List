@@ -61,7 +61,7 @@ const Calendar = (dates) => {
     
         return (
             <div id="modal">
-            <button onClick={() => setOpen(true)}>Change Date</button>
+            <span id="change-date" onClick={() => setOpen(true)}>Change Date</span>
                 <Modal isOpen={open} id="calendar-view" style={customStyles}>
                     <button onClick={() => setOpen(false)}>Close</button> <br/>
                     <div id="headers">
