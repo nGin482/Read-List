@@ -6,6 +6,7 @@ import StoryList from './StoryList';
 import StoryPage from './StoryPage.js';
 import Calendar from './Calendar';
 import StoriesForDate from './StoriesForDate';
+import Fandoms from './Fandoms';
 import './App.css';
 import './nav.css';
 
@@ -52,6 +53,7 @@ const App = () => {
             <Switch>
                 <Route path='/story/:storyID'><StoryPage/></Route>
                 <Route path='/stories/:date'><StoriesForDate/></Route>
+                <Route path='/fandoms'><Fandoms/></Route>
                 <Route path='/'><StoryList stories={stories}/></Route>
             </Switch>
         </Router>
