@@ -48,9 +48,6 @@ const Calendar = (dates) => {
         
         const selectDate = (givenDate) => {
             setOpen(false)
-            // request being done here to check the request works onclick before 
-            // returning redirect to component that doesn't render
-            // once redirect is called, request will be made by component 
             if (givenDate !== '') {
                 history.push('/stories/' + givenDate)
             }
