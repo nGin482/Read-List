@@ -4,11 +4,13 @@ import services from './services/services';
 import StoryList from './StoryList';
 import StoryPage from './StoryPage.js';
 import Calendar from './Calendar';
-// https://www.npmjs.com/package/react-modal
-// http://reactcommunity.org/react-modal/
-// https://www.npmjs.com/package/react-calendar
+import StoriesForDate from './StoriesForDate';
 import './App.css';
 import './nav.css';
+
+// menu icon
+// react-responsive for media queries
+// https://www.npmjs.com/package/react-responsive
 
 const App = () => {
     const [stories, setStories] = useState([])
@@ -46,6 +48,7 @@ const App = () => {
             </nav>
             <Switch>
                 <Route path='/story/:storyID'><StoryPage/></Route>
+                <Route path='/stories/:date'><StoriesForDate/></Route>
                 <Route path='/'><StoryList stories={stories}/></Route>
             </Switch>
         </Router>
