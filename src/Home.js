@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
+import Modal from 'react-modal';
 import services from './services/services';
 import StoryList from './StoryList';
 import StoryPage from './StoryPage.js';
@@ -15,17 +16,19 @@ import './nav.css';
 const App = () => {
     const [stories, setStories] = useState([])
     const [dates, setDates] = useState([])
+    const [openModal, setOpenModal] = useState(false)
 
     useEffect(() => {
       services.getMostRecentStories().then(data => {
         setStories(data)
         }).catch(err => {
-          console.log(err) // use modal to show error
+            <Modal isOpen={true}>{err}</Modal>
         })
         services.getDates().then(data => {
             setDates(data)
         }).catch(err => {
-            console.log(err)
+            setOpenModal(true);
+            <Modal isOpen={openModal}>{err}<button onClick={() => setOpenModal(false)}>Close</button></Modal>
         })
       }, []
     )
