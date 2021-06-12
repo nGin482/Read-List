@@ -4,15 +4,17 @@ A repository for a web application featuring a back end server that collects a n
 ## Known Issues
 1. The user will need to reload after choosing a new date while in the /stories/:date url
 2. Delete handler from the main page not performing as expected
-3. Updating story data across all files not performing as expected on backend - review if necessary
+3. Updating story data across all files not performing as expected on backend - review if this is necessary
+    - will be updating story in read list DB 
 
 ## To Do
 1. Fandoms component
-2. Add story to read list
-3. Mobile Design
-4. Update styles
-5. Update Documentation
-6. Deploy
+2. Update DB models
+3. Add story to read list
+4. Mobile Design
+5. Update styles
+6. Update Documentation
+7. Deploy
 
 
 
