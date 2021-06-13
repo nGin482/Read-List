@@ -14,6 +14,11 @@ const Fandoms = () => {
         })
     }, []
     )
+
+    const openModal = () => {
+        setOpen(true)
+        setMessage('')
+    }
     
     const [fandom, setFandom] = useState('')
     const [ffn_url, setFFN_url] = useState('')
@@ -55,7 +60,7 @@ const Fandoms = () => {
                 <ul id="fandoms-list">
                     {fandoms.map(fandom => <li key={fandom.fandom}>{fandom.fandom}</li>)}
                 </ul>
-                <span onClick={() => setOpen(true)}>Add a new fandom</span>
+                <span onClick={() => openModal()}>Add a new fandom</span>
                 <Modal isOpen={open} id="add-fandom">
                     <button id="close-fandom-modal" onClick={() => setOpen(false)}>Close</button>
                     <form id="add-fandom-form" onSubmit={addFandom}>
