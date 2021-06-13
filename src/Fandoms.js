@@ -1,8 +1,18 @@
 import React, {useState, useEffect} from 'react';
 import Modal from 'react-modal';
+import services from './services/services.js';
 
 const Fandoms = () => {
+    const [fandoms, setFandoms] = useState([])
     const [open, setOpen] = useState(false)
+    
+    useEffect(() => {
+        services.getFandoms().then(data => {
+            setFandoms(data)
+        })
+    }, []
+    )
+    console.log(fandoms)
 
     return (
         <div id="fandoms-page">
