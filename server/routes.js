@@ -232,7 +232,7 @@ apiRouter.post('/api/fandoms/add', (request, response) => {
         }
         fandoms.push(fandom_object)
         fs.writeFileSync('./archives/archives.json', JSON.stringify(fandoms, null, "\t"))
-        response.status(200).send({message: 'The new fandom has been added', fandom: fandom_object})
+        response.status(200).send({message: 'The new fandom has been added.', fandom: fandom_object})
     }
 })
 

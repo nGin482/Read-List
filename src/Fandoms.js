@@ -31,7 +31,7 @@ const Fandoms = () => {
                 setFandom('')
                 setFFN_url('')
                 setAO3_url('')
-                setMessage('Your submission has been added.')
+                setMessage(data.message)
             })
         }
         else {
