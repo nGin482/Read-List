@@ -36,7 +36,7 @@ const getFandoms = () => {
 }
 
 const addFandom = (fandom_data) => {
-    return axios.post('/api/fandoms/update', fandom_data).then(response => response.data)
+    return axios.post('/api/fandoms/add', fandom_data).then(response => response.data)
 }
 
 const getDates = () => {
@@ -52,6 +52,7 @@ const requests = {
     updateStoryDetails,
     removeStories,
     getFandoms,
+    addFandom,
     getDates
 }
 
