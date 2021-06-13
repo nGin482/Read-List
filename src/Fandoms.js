@@ -32,6 +32,8 @@ const Fandoms = () => {
                 setFFN_url('')
                 setAO3_url('')
                 setMessage(data.message)
+            }).catch(err => {
+                setMessage(err.response.data.message)
             })
         }
         else {

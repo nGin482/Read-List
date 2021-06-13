@@ -237,11 +237,11 @@ apiRouter.post('/api/fandoms/add', (request, response) => {
                 response.status(200).json({message: 'The new fandom has been added.', fandom: fandom_object})
             }
             else {
-                response.status(500).json({message: 'There was an error trying to add the fandom to the list'})
+                response.status(500).json({message: 'There was an error trying to add the fandom to the list.'})
             }
         }
         else {
-            response.status(409).json({message: 'The fandom given has already been recorded'})
+            response.status(409).json({message: 'The fandom given has already been recorded.'})
         }
 
     }
