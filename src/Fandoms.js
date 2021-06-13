@@ -14,25 +14,25 @@ const Fandoms = () => {
     )
     console.log(fandoms)
 
-    return (
-        <div id="fandoms-page">
-            <ul id="fandoms-list">
-                <li>Code Geass</li>
-                <li>Doctor Who</li>
-                <li>Endeavour</li>
-                <li>Lewis</li>
-                <li>NCIS</li>
-                <li>NCIS: LA</li>
-                <li>Person of Interest</li>
-                <li>Transformers</li>
-            </ul>
-            <span onClick={() => setOpen(true)}>Add a new fandom</span>
-            <Modal isOpen={open} id="add-fandom">
-
-                <button id="close-fandom-modal" onClick={() => setOpen(false)}>Close</button>
-            </Modal>
-        </div>
-    )
+    if (fandoms.length !== 0) {
+        return (
+            <div id="fandoms-page">
+                <ul id="fandoms-list">
+                    {fandoms.map(fandom => <li key={fandom.fandom}>{fandom.fandom}</li>)}
+                </ul>
+                <span onClick={() => setOpen(true)}>Add a new fandom</span>
+                <Modal isOpen={open} id="add-fandom">
+    
+                    <button id="close-fandom-modal" onClick={() => setOpen(false)}>Close</button>
+                </Modal>
+            </div>
+        )
+    }
+    else {
+        return (
+            <Modal isOpen={true}>Waiting for the fandoms to be retrieved</Modal>
+        )
+    }
 }
 
 export default Fandoms;
