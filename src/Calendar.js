@@ -69,7 +69,7 @@ const Calendar = (dates) => {
                         <div id="month-change-next"><span onClick={() => handleMonthChange('Next')}>Next</span></div>
                         <div id="month-shown"><span>{month}</span></div>
                     </div>
-                    <ul>{month !== '' ? datesList.find(item => item.monthName === month).datesFromMonth.map(givenDate => <li onClick={() => selectDate(givenDate)}>{givenDate}</li>): ''}
+                    <ul>{month !== '' ? datesList.find(item => item.monthName === month).datesFromMonth.map(givenDate => <li key={givenDate} onClick={() => selectDate(givenDate)}>{givenDate}</li>): ''}
                     </ul>
                 </Modal>
             </div>
