@@ -216,6 +216,26 @@ apiRouter.get('/api/fandoms', (request, response) => {
     response.status(200).json(fandoms)
 })
 
+apiRouter.post('/api/fandoms/add', (request, response) => {
+    const fandoms = JSON.parse(fs.readFileSync('./archives/archives.json'))
+    const body = request.body
+
+    if (body) {
+        const fandom = body.fandom
+        const ao3_url = body.ao3_url
+        const ffn_url = body.ffn_url
+
+        const fandom_object = {
+            fandom: fandom,
+            FFN: ffn_url,
+            AO3: ao3_url
+        }
+        fandoms.push(fandom_object)
+        fs.writeFileSync('./archives/archives.json', JSON.stringify(fandoms, null, "\t"))
+        response.status(200).send({message: 'The new fandom has been added', fandom: fandom_object})
+    }
+})
+
 apiRouter.get('/api/dates', (request, response) => {
     if (getAllDates() === []) {
         response.status(404).json({error: 'No dates are available'})
