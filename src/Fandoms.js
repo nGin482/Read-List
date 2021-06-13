@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import Modal from 'react-modal';
 import services from './services/services.js';
+import './Fandoms.css';
 
 const Fandoms = () => {
     const [fandoms, setFandoms] = useState([])
@@ -57,10 +58,16 @@ const Fandoms = () => {
     if (fandoms.length !== 0) {
         return (
             <div id="fandoms-page">
+                <h2 id="fandoms-page-header">Fandoms</h2>
+                <span id="open-add-modal" onClick={() => openModal()}>Add a new fandom</span>
                 <ul id="fandoms-list">
-                    {fandoms.map(fandom => <li key={fandom.fandom}>{fandom.fandom}</li>)}
+                    {fandoms.map(fandom => <div key={fandom.fandom} className="fandom-card">
+                        <h4 className="fandom-name">{fandom.fandom}</h4>
+                        {fandom.FFN !== '' ? <span>Stories from Fanfiction.Net are being collected</span> : ''}<br/>
+                        {fandom.AO3 !== '' ? <span>Stories from Archive of our Own are being collected</span> : ''}
+                        </div>
+                    )}
                 </ul>
-                <span onClick={() => openModal()}>Add a new fandom</span>
                 <Modal isOpen={open} id="add-fandom">
                     <button id="close-fandom-modal" onClick={() => setOpen(false)}>Close</button>
                     <form id="add-fandom-form" onSubmit={addFandom}>

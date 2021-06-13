@@ -1,0 +1,27 @@
+#fandoms-page-header {
+    text-align: center;
+}
+
+#open-add-modal {
+    border: solid black 1px;
+    padding: 1%;
+    margin-left: 5%;
+    background-color: lightgray;
+
+}
+
+#open-add-modal:hover {
+    background-color: black;
+    color: white;
+}
+
+.fandom-card {
+    background-color: white;
+    border: solid black 5px;
+    float: left;
+    margin: 1%;
+}
+
+.fandom-name {
+    text-align: center;
+}
