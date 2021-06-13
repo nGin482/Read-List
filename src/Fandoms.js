@@ -6,6 +6,8 @@ const Fandoms = () => {
     const [fandoms, setFandoms] = useState([])
     const [open, setOpen] = useState(false)
     
+    const [message, setMessage] = useState('')
+
     useEffect(() => {
         services.getFandoms().then(data => {
             setFandoms(data)
@@ -29,7 +31,19 @@ const Fandoms = () => {
                 setFandom('')
                 setFFN_url('')
                 setAO3_url('')
+                setMessage('Your submission has been added.')
             })
+        }
+        else {
+            if (fandom === '') {
+                setMessage('Please specify the name of the fandom before submitting.')
+            }
+            else if (fandom === '' && ffn_url === '' && ao3_url === '') {
+                setMessage('The fandom and URL fields must not be blank. Please specify the name of the fandom and provide one or both site URLs.')
+            }
+            else if (ffn_url === '' && ao3_url === '') {
+                setMessage('Please provide one or both site URLs.')
+            }
         }
     }
 
@@ -48,6 +62,7 @@ const Fandoms = () => {
                         Archive of our Own URL <input type="text" placeholder="AO3 URL" onChange={event => setAO3_url(event.target.value)}/><br/>
                         <input type="submit" id="submit" value="Add fandom"/>
                     </form>
+                    <p id="add-fandom-warning">{message}</p>
                 </Modal>
             </div>
         )
