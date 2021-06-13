@@ -1,7 +1,7 @@
 const express = require('express')
 const fs = require('fs')
 
-const {validateFFNRecord, validateAO3Record, getAllFiles, getCurrentDate, searchAllStoriesByKey, stringToDate, findToUpdate, getAllDates} = require('./utils/utils')
+const {validateFFNRecord, validateAO3Record, getAllFiles, getCurrentDate, searchAllStoriesByKey, stringToDate, findToUpdate, getAllDates, checkFandomAddition} = require('./utils/utils')
 const Story = require('./models/stories')
 const allStories = getAllFiles()
 
@@ -224,15 +224,26 @@ apiRouter.post('/api/fandoms/add', (request, response) => {
         const fandom = body.fandom
         const ao3_url = body.ao3_url
         const ffn_url = body.ffn_url
-
-        const fandom_object = {
-            fandom: fandom,
-            FFN: ffn_url,
-            AO3: ao3_url
+        
+        if (!checkFandomAddition(fandom)) {
+            const fandom_object = {
+                fandom: fandom,
+                FFN: ffn_url,
+                AO3: ao3_url
+            }
+            fandoms.push(fandom_object)
+            fs.writeFileSync('./archives/archives.json', JSON.stringify(fandoms, null, "\t"))
+            if (checkFandomAddition(fandom)) {
+                response.status(200).json({message: 'The new fandom has been added.', fandom: fandom_object})
+            }
+            else {
+                response.status(500).json({message: 'There was an error trying to add the fandom to the list'})
+            }
         }
-        fandoms.push(fandom_object)
-        fs.writeFileSync('./archives/archives.json', JSON.stringify(fandoms, null, "\t"))
-        response.status(200).send({message: 'The new fandom has been added.', fandom: fandom_object})
+        else {
+            response.status(409).json({message: 'The fandom given has already been recorded'})
+        }
+
     }
 })
 

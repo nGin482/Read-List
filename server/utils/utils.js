@@ -143,6 +143,19 @@ const breakIntoMonths = () => {
     return months_orderd
 }
 
+const checkFandomAddition = (fandom_given) => {
+    const fandoms = JSON.parse(fs.readFileSync('./archives/archives.json'))
+
+    let flag = false
+    
+    fandoms.forEach(fandom => {
+        if (fandom.fandom === fandom_given) {
+            flag = true
+        }
+    })
+    return flag
+}
+
 module.exports = {
     validateAO3Record,
     validateFFNRecord,
@@ -151,5 +164,6 @@ module.exports = {
     stringToDate,
     searchAllStoriesByKey,
     findToUpdate,
-    getAllDates
+    getAllDates,
+    checkFandomAddition
 }
