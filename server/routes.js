@@ -210,6 +210,12 @@ apiRouter.delete('/api/date/:Date', (request, response) => {
 
 })
 
+apiRouter.get('/api/fandoms', (request, response) => {
+    const fandoms = JSON.parse(fs.readFileSync('./archives/archives.json'))
+
+    response.status(200).json(fandoms)
+})
+
 apiRouter.get('/api/dates', (request, response) => {
     if (getAllDates() === []) {
         response.status(404).json({error: 'No dates are available'})
