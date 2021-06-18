@@ -71,13 +71,23 @@ const Fandoms = () => {
                         </div>
                     )}
                 </ul>
-                <Modal isOpen={open} id="add-fandom">
+                <Modal isOpen={open} id="add-fandom" shouldCloseOnEsc={true}>
                     <button id="close-fandom-modal" onClick={() => setOpen(false)}>Close</button>
                     <form id="add-fandom-form" onSubmit={addFandom}>
-                        Fandom <input type="text" placeholder="Fandom to be added" onChange={event => setFandom(event.target.value)}/><br/>
-                        Fanfiction.Net URL <input type="text" placeholder="FFN URL" onChange={event => setFFN_url(event.target.value)}/><br/>
-                        Archive of our Own URL <input type="text" placeholder="AO3 URL" onChange={event => setAO3_url(event.target.value)}/><br/>
-                        <input type="submit" id="submit" value="Add fandom"/>
+                        <div className="input">
+                            <label className="input-label">Fandom</label>
+                            <input type="text" placeholder="Fandom to be added" onChange={event => setFandom(event.target.value)}/><br/>
+                        </div>
+                        <div className="input">
+                            <label className="input-label">Fanfiction.Net URL</label>
+                            <input type="text" placeholder="FFN URL" onChange={event => setFFN_url(event.target.value)}/><br/>
+                        </div>
+                        <div className="input">
+                            <label className="input-label">Archive of our Own URL</label> <input type="text" placeholder="AO3 URL" onChange={event => setAO3_url(event.target.value)}/><br/>
+                        </div>
+                        <div id="submit">
+                            <input type="submit" id="submit-input" value="Add fandom"/>
+                        </div>
                     </form>
                     <p id="add-fandom-warning">{message}</p>
                 </Modal>
