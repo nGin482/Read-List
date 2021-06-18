@@ -46,11 +46,11 @@ const Fandoms = () => {
             })
         }
         else {
-            if (fandom === '') {
-                setMessage('Please specify the name of the fandom before submitting.')
-            }
-            else if (fandom === '' && ffn_url === '' && ao3_url === '') {
+            if (fandom === '' && ffn_url === '' && ao3_url === '') {
                 setMessage('The fandom and URL fields must not be blank. Please specify the name of the fandom and provide one or both site URLs.')
+            }
+            else if (fandom === '' && (ffn_url !== '' || ao3_url !== '')) {
+                setMessage('Please specify the name of the fandom before submitting.')
             }
             else if (ffn_url === '' && ao3_url === '') {
                 setMessage('Please provide one or both site URLs.')
