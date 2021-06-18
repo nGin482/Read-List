@@ -3,6 +3,9 @@ import Modal from 'react-modal';
 import services from './services/services.js';
 import './Fandoms.css';
 
+import ffn_logo from './images/FF.Net_Logo.png'
+import ao3_logo from './images/Archive_of_Our_Own_logo.png'
+
 const Fandoms = () => {
     const [fandoms, setFandoms] = useState([])
     const [open, setOpen] = useState(false)
@@ -63,8 +66,8 @@ const Fandoms = () => {
                 <ul id="fandoms-list">
                     {fandoms.map(fandom => <div key={fandom.fandom} className="fandom-card">
                         <h4 className="fandom-name">{fandom.fandom}</h4>
-                        {fandom.FFN !== '' ? <span>Stories from Fanfiction.Net are being collected</span> : ''}<br/>
-                        {fandom.AO3 !== '' ? <span>Stories from Archive of our Own are being collected</span> : ''}
+                        {fandom.FFN !== '' ? <img src={ffn_logo} className="ffn-logo" alt="Stories from Fanfiction.Net are being recorded"/> : ''}
+                        {fandom.AO3 !== '' ? <img src={ao3_logo} className="ao3-logo" alt="Stories from Archive of our Own are being recorded"/> : ''}
                         </div>
                     )}
                 </ul>
