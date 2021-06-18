@@ -1,0 +1,38 @@
+
+#add-fandom-form input {
+    border-radius: 0;
+}
+
+.input {
+	display: flex;
+	flex-direction: column-reverse;
+	position: relative;
+	padding-top: 1.5rem;
+    width: 20%;
+}
+
+.input-label {
+    color: #8597a3;
+	position: absolute;
+	top: 1.5rem;
+	transition: .25s ease;
+}
+
+#submit {
+    padding-top: 1.5rem;
+}
+
+#submit-input {
+    padding: 1em;
+    font-weight: 500;
+	background-color: #6658d3;
+	color: #FFF;
+	border: 0;
+    width: 20%;
+    justify-content: center;
+    align-items: center;
+}
+
+#submit-input:hover {
+    background-color: rgba(102, 88, 211, .7);
+}
