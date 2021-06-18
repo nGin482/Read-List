@@ -1,7 +1,7 @@
 const express = require('express')
 const fs = require('fs')
 
-const {validateFFNRecord, validateAO3Record, getAllFiles, getCurrentDate, searchAllStoriesByKey, stringToDate, findToUpdate, getAllDates, checkFandomAddition} = require('./utils/utils')
+const {validateFFNRecord, validateAO3Record, getAllFiles, getCurrentDate, searchAllStoriesByKey, stringToDate, findToUpdate, getAllDates, checkFandomAddition, getFandomData, checkFandomUpdate} = require('./utils/utils')
 const Story = require('./models/stories')
 const allStories = getAllFiles()
 
@@ -217,7 +217,7 @@ apiRouter.get('/api/fandoms', (request, response) => {
 })
 
 apiRouter.post('/api/fandoms/add', (request, response) => {
-    const fandoms = JSON.parse(fs.readFileSync('./archives/archives.json'))
+    const fandoms = getFandomData()
     const body = request.body
 
     if (body) {
@@ -252,7 +252,7 @@ apiRouter.put('/api/fandoms/:fandom/update', (request, response) => {
     
     if (body) {
         const fandom = request.params.fandom
-        const fandoms = JSON.parse(fs.readFileSync('./archives/archives.json'))
+        const fandoms = getFandomData()
         const recorded_fandom = fandoms.find(f => f.fandom === fandom)
 
         if (recorded_fandom) {

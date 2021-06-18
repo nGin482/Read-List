@@ -143,8 +143,12 @@ const breakIntoMonths = () => {
     return months_orderd
 }
 
+const getFandomData = () => {
+    return JSON.parse(fs.readFileSync('./archives/archives.json'))
+}
+
 const checkFandomAddition = (fandom_given) => {
-    const fandoms = JSON.parse(fs.readFileSync('./archives/archives.json'))
+    const fandoms = getFandomData()
 
     let flag = false
     
@@ -165,5 +169,6 @@ module.exports = {
     searchAllStoriesByKey,
     findToUpdate,
     getAllDates,
-    checkFandomAddition
+    checkFandomAddition,
+    getFandomData,
 }
