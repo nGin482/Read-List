@@ -259,9 +259,18 @@ apiRouter.put('/api/fandoms/:fandom/update', (request, response) => {
             const field = body.field
             const newData = body.newData
 
+            const checkOriginalData = checkFandomUpdate(fandom, body)
+            
             recorded_fandom[field] = newData
             fs.writeFileSync('./archives/archives.json', JSON.stringify(fandoms, null, "\t"))
-            response.status(200).json({message: 'The fandom has been updated with the given details'})
+            
+            const checkUpdate = checkFandomUpdate(newData, body)
+            if (!checkOriginalData && checkUpdate) {
+                response.status(200).json({message: 'The fandom has been updated with the given details'})
+            }
+            else {
+                response.status(500).json({message: 'The fandom has not been updated with the given details'})
+            }
         }
         else {
             response.status(404).json({message: 'The fandom given can not be found. Please make sure the fandom name is correct'})

@@ -160,6 +160,32 @@ const checkFandomAddition = (fandom_given) => {
     return flag
 }
 
+const checkFandomUpdate = (fandomName, updateDetails) => {
+    const fandoms = getFandomData()
+
+    if (updateDetails.field === 'fandom') {
+        const newFandom = fandoms.find(f => f.fandom === updateDetails.newData)
+        console.log(newFandom)
+        if (newFandom) {
+            return true
+        }
+        else {
+            return false
+        }
+    }
+    else {
+        const recorded_fandom = fandoms.find(f => f.fandom === fandomName)
+        if (recorded_fandom) {
+            if (recorded_fandom[updateDetails.field] === updateDetails.newData) {
+                return true
+            }
+            else {
+                return false
+            }
+        }
+    }
+}
+
 module.exports = {
     validateAO3Record,
     validateFFNRecord,
@@ -171,4 +197,5 @@ module.exports = {
     getAllDates,
     checkFandomAddition,
     getFandomData,
+    checkFandomUpdate
 }
