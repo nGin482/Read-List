@@ -247,6 +247,29 @@ apiRouter.post('/api/fandoms/add', (request, response) => {
     }
 })
 
+apiRouter.put('/api/fandoms/:fandom/update', (request, response) => {
+    const body = request.body
+    
+    if (body) {
+        const fandom = request.params.fandom
+        const fandoms = JSON.parse(fs.readFileSync('./archives/archives.json'))
+        const recorded_fandom = fandoms.find(f => f.fandom === fandom)
+
+        if (recorded_fandom) {
+            const field = body.field
+            const newData = body.newData
+
+            recorded_fandom[field] = newData
+            fs.writeFileSync('./archives/archives.json', JSON.stringify(fandoms, null, "\t"))
+            response.status(200).json({message: 'The fandom has been updated with the given details'})
+        }
+        else {
+            response.status(404).json({message: 'The fandom given can not be found. Please make sure the fandom name is correct'})
+        }
+        
+    }
+})
+
 apiRouter.get('/api/dates', (request, response) => {
     if (getAllDates() === []) {
         response.status(404).json({error: 'No dates are available'})
