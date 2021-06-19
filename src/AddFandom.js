@@ -11,21 +11,82 @@ const AddFandom = ({openAdd, setOpenAdd, message, setMessage}) => {
 
     const addFandom = (event) => {
         event.preventDefault()
+        let approved = true
+
+        const checkValidURL = (url) => {
+            if (!url.includes('https://')) {
+                setMessage('This is not a valid URL. Please make sure the given details is valid before submitting')
+                approved = false
+            }
+        }
+        const checkValidFFNURL = () => {
+            if (!ffn_url.includes('fanfiction.net')) {
+                setMessage('This is not a valid Fanfiction.Net URL. Please make sure the URL given is from Fanfiction.Net before submitting')
+                approved = false
+            }
+        }
+        const checkValidAO3URL = () => {
+            if (!ao3_url.includes('archiveofourown.org')) {
+                setMessage('This is not a valid AO3 URL. Please make sure the URL given is from Archive of our Own before submitting')
+                approved = false
+            }
+        }
+        const checkBothValidURLs = () => {
+            if (!ffn_url.includes('https://') && ao3_url.includes('https://')) {
+                setMessage('The URL given for Fanfiction.Net is not valid. Please make sure the given details is valid before submitting')
+                approved = false
+            }
+            else if (ffn_url.includes('https://') && !ao3_url.includes('https://')) {
+                setMessage('The URL given for Archive of our Own is not valid. Please make sure the given details is valid before submitting')
+                approved = false
+            }
+            else if (!ffn_url.includes('https://') && !ao3_url.includes('https://')) {
+                setMessage('The URLs given for both sites are not valid. Please make sure the given details is valid before submitting')
+                approved = false
+            }
+            else {
+                if (!ffn_url.includes('fanfiction.net') && ao3_url.includes('archiveofourown.org')) {
+                    setMessage('This is not a valid Fanfiction.Net URL. Please make sure the URL given is from Fanfiction.Net before submitting')
+                    approved = false
+                }
+                else if (ffn_url.includes('fanfiction.net') && !ao3_url.includes('archiveofourown.org')) {
+                    setMessage('This is not a valid AO3 URL. Please make sure the URL given is from Archive of our Own before submitting')
+                    approved = false
+                }
+                else if (!ffn_url.includes('fanfiction.net') && !ao3_url.includes('archiveofourown.org')) {
+                    setMessage('The Fanfiction.Net and the Archive of our Own URLs given do not come from their respective sites. Please make sure they are correct URLs before submitting')
+                    approved = false
+                }
+            }
+        }
         
         if (fandom !== '' && (ffn_url !== '' || ao3_url !== '')) {
-            const fandom_object = {
-                fandom: fandom,
-                ffn_url: ffn_url,
-                ao3_url: ao3_url
+            if (ffn_url !== '') {
+                checkValidURL(ffn_url)
+                checkValidFFNURL()
             }
-            services.addFandom(fandom_object).then(data => {
-                setFandom('')
-                setFFN_url('')
-                setAO3_url('')
-                setMessage(data.message)
-            }).catch(err => {
-                setMessage(err.response.data.message)
-            })
+            if (ao3_url !== '') {
+                checkValidURL(ao3_url)
+                checkValidAO3URL()
+            }
+            if (ffn_url !== '' && ao3_url !== '') {
+                checkBothValidURLs()
+            }
+            if (approved) {
+                const fandom_object = {
+                    fandom: fandom,
+                    ffn_url: ffn_url,
+                    ao3_url: ao3_url
+                }
+                services.addFandom(fandom_object).then(data => {
+                    setFandom('')
+                    setFFN_url('')
+                    setAO3_url('')
+                    setMessage(data.message)
+                }).catch(err => {
+                    setMessage(err.response.data.message)
+                })
+            }
         }
         else {
             if (fandom === '' && ffn_url === '' && ao3_url === '') {
