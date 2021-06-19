@@ -53,7 +53,7 @@ const Fandoms = () => {
                             openUpdateModal()
                             setFandomName(fandom.fandom)
                         }}>Update this fandom</span>
-                        <span id="open-delete`-modal" onClick={() => {
+                        <span id="open-delete-modal" onClick={() => {
                             openDeleteModal()
                             setFandomName(fandom.fandom)
                         }}>Delete this fandom</span>
