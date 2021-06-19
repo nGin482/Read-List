@@ -12,6 +12,7 @@ const Fandoms = () => {
     const [fandoms, setFandoms] = useState([])
     const [openAdd, setOpenAdd] = useState(false)
     const [openUpdate, setOpenUpdate] = useState(false)
+    const [fandomName, setFandomName] = useState('')
     
     const [message, setMessage] = useState('')
 
@@ -43,12 +44,15 @@ const Fandoms = () => {
                         {fandom.FFN !== '' ? <img src={ffn_logo} className="ffn-logo" alt="Stories from Fanfiction.Net are being recorded"/> : ''}
                         {fandom.AO3 !== '' ? <img src={ao3_logo} className="ao3-logo" alt="Stories from Archive of our Own are being recorded"/> : ''}
                         <br/>
-                        <span id="open-update-modal" onClick={() => openUpdateModal()}>Update this fandom</span>
+                        <span id="open-update-modal" onClick={() => {
+                            openUpdateModal()
+                            setFandomName(fandom.fandom)
+                        }}>Update this fandom</span>
                         </div>
                     )}
                 </ul>
                 <AddFandom openAdd={openAdd} setOpenAdd={setOpenAdd} message={message} setMessage={setMessage}/>
-                <UpdateFandom openUpdate={openUpdate} setOpenUpdate={setOpenUpdate} message={message} setMessage={setMessage}/>
+                <UpdateFandom openUpdate={openUpdate} setOpenUpdate={setOpenUpdate} message={message} setMessage={setMessage} fandomName={fandomName}/>
             </div>
         )
     }
