@@ -9,12 +9,13 @@ A repository for a web application featuring a back end server that collects a n
 
 ## To Do
 1. Fandoms component
-2. Update DB models
-3. Add story to read list
-4. Mobile Design
-5. Update styles
-6. Update Documentation
-7. Deploy
+2. Option to allow fandoms to search multiple pages when adding/updating
+3. Update DB models
+4. Add story to read list
+5. Mobile Design
+6. Update styles
+7. Update Documentation
+8. Deploy
 
 
 
