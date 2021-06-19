@@ -3,7 +3,7 @@ import Modal from 'react-modal';
 import services from './services/services.js';
 import './UpdateFandom.css';
 
-const UpdateFandom = ({openUpdate, setOpenUpdate, message, setMessage}) => {
+const UpdateFandom = ({openUpdate, setOpenUpdate, message, setMessage, fandomName}) => {
 
     const [field, setField] = useState('')
     const [newData, setNewData] = useState('')
@@ -11,8 +11,18 @@ const UpdateFandom = ({openUpdate, setOpenUpdate, message, setMessage}) => {
     const updateFandom = (event) => {
         event.preventDefault()
 
-        if (field !== '' && newData !== '') {
-
+        if (field !== '' && newData !== '' && fandomName !== '') {
+            const updateDetails = {
+                field: field,
+                newData: newData
+            }
+            services.updateFandom(fandomName, updateDetails).then(data => {
+                setField('')
+                setNewData('')
+                setMessage(data.message)
+            }).catch(err => {
+                setMessage(err.response.data.message)
+            })
         }
         else if (field === '' && newData !== '') {
             setMessage('Please select a data item to change before submitting')
