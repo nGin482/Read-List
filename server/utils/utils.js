@@ -186,6 +186,21 @@ const checkFandomUpdate = (fandomName, updateDetails) => {
     }
 }
 
+const checkFandomDeletion = (fandomName) => {
+    // return true if the fandom cannot be found
+    // return false if it is found
+    
+    const fandoms = getFandomData()
+
+    const fandom = fandoms.find(f => f.fandom === fandomName)
+    if (fandom) {
+        return false
+    }
+    else {
+        return true
+    }
+}
+
 module.exports = {
     validateAO3Record,
     validateFFNRecord,
@@ -195,7 +210,8 @@ module.exports = {
     searchAllStoriesByKey,
     findToUpdate,
     getAllDates,
-    checkFandomAddition,
     getFandomData,
-    checkFandomUpdate
+    checkFandomAddition,
+    checkFandomUpdate,
+    checkFandomDeletion
 }
