@@ -1,3 +1,7 @@
 #choose-field {
     margin-top: 1.5rem;
+    border: none;
+    background-color: #f1f1f1;
+    padding-top: 2%;
+    padding-bottom: 2%;
 }

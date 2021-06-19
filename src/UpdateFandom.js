@@ -39,7 +39,8 @@ const UpdateFandom = ({openUpdate, setOpenUpdate, message, setMessage, fandomNam
     return (
         <Modal isOpen={openUpdate}>
             <button id="close-fandom-modal" onClick={() => setOpenUpdate(false)}>Close</button>
-            <form id="update-fandom-form" onSubmit={updateFandom}>
+            <h3 className="header" id="update-header">Update {fandomName}</h3>
+            <form className="fandom-form" id="update-fandom-form" onSubmit={updateFandom}>
                 <div className="input">
                     <label className="label">Select which data item to change</label>
                     <select id="choose-field" onChange={event => setField(event.target.value)}>

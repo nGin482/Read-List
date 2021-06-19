@@ -104,7 +104,8 @@ const AddFandom = ({openAdd, setOpenAdd, message, setMessage}) => {
     return (
         <Modal isOpen={openAdd} id="add-fandom" shouldCloseOnEsc={true}>
             <button id="close-fandom-modal" onClick={() => setOpenAdd(false)}>Close</button>
-            <form id="add-fandom-form" onSubmit={addFandom}>
+            <h3 className="header" id="update-header">Add a new fandom</h3>
+            <form className="fandom-form" id="add-fandom-form" onSubmit={addFandom}>
                 <div className="input">
                     <label className="input-label">Fandom</label>
                     <input type="text" placeholder="Fandom to be added" onChange={event => setFandom(event.target.value)}/><br/>
