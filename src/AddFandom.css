@@ -18,6 +18,17 @@
 	transition: .25s ease;
 }
 
+.search-options {
+    width: 20%;
+    height: 10%;
+    border: none;
+}
+
+.search-options:hover {
+    background-color: rgba(102, 88, 211, .7);
+    cursor: pointer;
+}
+
 #submit {
     padding-top: 1.5rem;
 }

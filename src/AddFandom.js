@@ -9,6 +9,7 @@ const AddFandom = ({openAdd, setOpenAdd, message, setMessage}) => {
     const [fandom, setFandom] = useState('')
     const [ffn_url, setFFN_url] = useState('')
     const [ao3_url, setAO3_url] = useState('')
+    const [search, setSearch] = useState('')
 
     const addFandom = (event) => {
         event.preventDefault()
@@ -61,7 +62,7 @@ const AddFandom = ({openAdd, setOpenAdd, message, setMessage}) => {
             }
         }
         
-        if (fandom !== '' && (ffn_url !== '' || ao3_url !== '')) {
+        if (fandom !== '' && (ffn_url !== '' || ao3_url !== '') && search !== '') {
             if (ffn_url !== '') {
                 checkValidURL(ffn_url)
                 checkValidFFNURL()
@@ -77,7 +78,8 @@ const AddFandom = ({openAdd, setOpenAdd, message, setMessage}) => {
                 const fandom_object = {
                     fandom: fandom,
                     ffn_url: ffn_url,
-                    ao3_url: ao3_url
+                    ao3_url: ao3_url,
+                    search: search
                 }
                 services.addFandom(fandom_object).then(data => {
                     setFandom('')
@@ -99,6 +101,9 @@ const AddFandom = ({openAdd, setOpenAdd, message, setMessage}) => {
             else if (ffn_url === '' && ao3_url === '') {
                 setMessage('Please provide one or both site URLs.')
             }
+            else if (search === '') {
+                setMessage('Please specify how many pages you would like to search.')
+            }
         }
     }
 
@@ -117,6 +122,11 @@ const AddFandom = ({openAdd, setOpenAdd, message, setMessage}) => {
                 </div>
                 <div className="input">
                     <label className="input-label">Archive of our Own URL</label> <input type="text" placeholder="AO3 URL" onChange={event => setAO3_url(event.target.value)}/><br/>
+                </div>
+                <div id="clarify-search">
+                    <p id="clarify-search-question">Do you want to search just one page or multiple pages?</p>
+                    <button className="search-options" id="search-one" onClick={() => setSearch('One')}>Just one page</button><br/>
+                    <button className="search-options" id="search-many" onClick={() => setSearch('Many')}>Multiple pages</button>
                 </div>
                 <div id="submit">
                     <input type="submit" id="submit-input" value="Add fandom"/>
