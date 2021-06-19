@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import Modal from 'react-modal';
 import services from './services/services.js';
 import './UpdateFandom.css';
+import './modal.css';
 
 const UpdateFandom = ({openUpdate, setOpenUpdate, message, setMessage, fandomName}) => {
 

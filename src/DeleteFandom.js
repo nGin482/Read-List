@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import Modal from 'react-modal';
 import services from './services/services.js';
 import './DeleteFandom.css'
+import './modal.css'
 
 const DeleteFandom = ({fandomName, openDelete, setOpenDelete, message, setMessage}) => {
     const [message2, setMessage2] = useState('')

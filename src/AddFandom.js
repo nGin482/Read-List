@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import Modal from 'react-modal';
 import services from './services/services.js';
 import './AddFandom.css';
+import './modal.css'
 
 const AddFandom = ({openAdd, setOpenAdd, message, setMessage}) => {
 
