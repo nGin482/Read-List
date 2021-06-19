@@ -20,6 +20,7 @@
 .env.production.local
 packages.txt
 readlist schema.drawio
+text_to_json.py
 
 npm-debug.log*
 yarn-debug.log*
@@ -28,3 +29,4 @@ yarn-error.log*
 /sampledata
 /stories
 /archives
+/misc
