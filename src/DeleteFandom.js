@@ -5,27 +5,24 @@ import './DeleteFandom.css'
 import './modal.css'
 
 const DeleteFandom = ({fandomName, openDelete, setOpenDelete, message, setMessage}) => {
-    const [message2, setMessage2] = useState('')
-
     const [deleteConfirm, setDeleteConfirm] = useState(false)
-    setMessage('Are you sure you want to delete ' + fandomName + ' from the archives list?')
-
+    
     if (deleteConfirm) {
         services.deleteFandom(fandomName).then(data => {
-            setMessage2(data.message)
+            setMessage(data.message)
         }).catch(err => {
-            setMessage2(err.response.data.message)
+            setMessage(err.response.data.message)
         })
     }
-    
+
     return (
         <Modal isOpen={openDelete} id="delete-fandom-modal">
             <button id="close-fandom-modal" onClick={() => setOpenDelete(false)}>Close</button>
             <h3 className="header" id="delete-header">Delete {fandomName}</h3>
-            <p id="delete-fandom-message">{message}</p>
+            <p id="delete-fandom-message">Are you sure you want to delete {fandomName} from the archives list?</p>
             <button className="confirm-delete-options" id="confirm-delete-yes" onClick={() => setDeleteConfirm(true)}>Yes</button><br/>
             <button className="confirm-delete-options" id="confirm-delete-no" onClick={() => setOpenDelete(false)}>No</button>
-            <p id="delete-fandom-message2">{message2}</p>
+            <p id="delete-fandom-message">{message}</p>
         </Modal>
     )
 }
