@@ -3,6 +3,7 @@ import Modal from 'react-modal';
 import services from './services/services.js';
 import AddFandom from './AddFandom.js';
 import UpdateFandom from './UpdateFandom.js';
+import DeleteFandom from './DeleteFandom.js';
 import './Fandoms.css';
 
 import ffn_logo from './images/FF.Net_Logo.png'
@@ -12,6 +13,7 @@ const Fandoms = () => {
     const [fandoms, setFandoms] = useState([])
     const [openAdd, setOpenAdd] = useState(false)
     const [openUpdate, setOpenUpdate] = useState(false)
+    const [openDelete, setOpenDelete] = useState(false)
     const [fandomName, setFandomName] = useState('')
     
     const [message, setMessage] = useState('')
@@ -27,9 +29,12 @@ const Fandoms = () => {
         setOpenAdd(true)
         setMessage('')
     }
-
     const openUpdateModal = () => {
         setOpenUpdate(true)
+        setMessage('')
+    }
+    const openDeleteModal = () => {
+        setOpenDelete(true)
         setMessage('')
     }
 
@@ -48,11 +53,16 @@ const Fandoms = () => {
                             openUpdateModal()
                             setFandomName(fandom.fandom)
                         }}>Update this fandom</span>
+                        <span id="open-delete`-modal" onClick={() => {
+                            openDeleteModal()
+                            setFandomName(fandom.fandom)
+                        }}>Delete this fandom</span>
                         </div>
                     )}
                 </ul>
                 <AddFandom openAdd={openAdd} setOpenAdd={setOpenAdd} message={message} setMessage={setMessage}/>
                 <UpdateFandom openUpdate={openUpdate} setOpenUpdate={setOpenUpdate} message={message} setMessage={setMessage} fandomName={fandomName}/>
+                <DeleteFandom fandomName={fandomName} openDelete={openDelete} setOpenDelete={setOpenDelete} message={message} setMessage={setMessage}/>
             </div>
         )
     }
