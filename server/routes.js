@@ -1,7 +1,7 @@
 const express = require('express')
 const fs = require('fs')
 
-const {validateFFNRecord, validateAO3Record, getAllFiles, getCurrentDate, searchAllStoriesByKey, stringToDate, findToUpdate, getAllDates, checkFandomAddition, getFandomData, checkFandomUpdate} = require('./utils/utils')
+const {validateFFNRecord, validateAO3Record, getAllFiles, getCurrentDate, searchAllStoriesByKey, stringToDate, findToUpdate, getAllDates, checkFandomAddition, getFandomData, checkFandomUpdate, checkFandomDeletion} = require('./utils/utils')
 const Story = require('./models/stories')
 const allStories = getAllFiles()
 
@@ -276,6 +276,33 @@ apiRouter.put('/api/fandoms/:fandom/update', (request, response) => {
             response.status(404).json({message: 'The fandom given can not be found. Please make sure the fandom name is correct'})
         }
         
+    }
+})
+
+apiRouter.delete('/api/fandoms/:fandom/delete', (request, response) => {
+    const fandom = request.params.fandom
+
+    if (fandom) {
+        fandoms = getFandomData()
+        const recordedFandom = fandoms.find(f => f.fandom === fandom)
+
+        if (recordedFandom) {
+            fandoms = fandoms.filter(f => f.fandom !== recordedFandom.fandom)
+            
+            const checkOriginal = checkFandomDeletion(fandom)
+            fs.writeFileSync('./archives/archives.json', JSON.stringify(fandoms, null, "\t"))
+            const checkDeletion = checkFandomDeletion(fandom)
+            
+            if (!checkOriginal && checkDeletion) {
+                response.status(200).json({message: 'The fandom has been deleted'})
+            }
+            else {
+                response.status(500).json({message: 'The fandom has not been deleted'})
+            }
+        }
+        else {
+            response.status(404).json({message: 'The fandom given cannot be found'})
+        }
     }
 })
 
