@@ -43,6 +43,10 @@ const updateFandom = (fandomName, fandomData) => {
     return axios.put('/api/fandoms/' + fandomName + '/update', fandomData).then(response => response.data)
 }
 
+const deleteFandom = (fandomName) => {
+    return axios.delete('/api/fandoms/' + fandomName + '/delete').then(response => response.data)
+}
+
 const getDates = () => {
     return axios.get('/api/dates').then(response => response.data)
 }
@@ -58,6 +62,7 @@ const requests = {
     getFandoms,
     addFandom,
     updateFandom,
+    deleteFandom,
     getDates
 }
 
