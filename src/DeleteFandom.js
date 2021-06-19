@@ -23,7 +23,7 @@ const DeleteFandom = ({fandomName, openDelete, setOpenDelete, message, setMessag
             <h3 className="header" id="delete-header">Delete {fandomName}</h3>
             <p id="delete-fandom-message">{message}</p>
             <button className="confirm-delete-options" id="confirm-delete-yes" onClick={() => setDeleteConfirm(true)}>Yes</button><br/>
-            <button className="confirm-delete-options" id="confirm-delete-no">No</button>
+            <button className="confirm-delete-options" id="confirm-delete-no" onClick={() => setOpenDelete(false)}>No</button>
             <p id="delete-fandom-message2">{message2}</p>
         </Modal>
     )
