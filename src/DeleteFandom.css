@@ -1,7 +1,12 @@
+.message {
+    margin-left: 3%;
+}
+
 .confirm-delete-options {
     width: 20%;
     height: 10%;
     border: none;
+    margin-left: 3%;
 }
 
 .confirm-delete-options:hover {
