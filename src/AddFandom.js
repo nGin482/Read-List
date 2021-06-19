@@ -112,21 +112,25 @@ const AddFandom = ({openAdd, setOpenAdd, message, setMessage}) => {
             <button id="close-fandom-modal" onClick={() => setOpenAdd(false)}>Close</button>
             <h3 className="header" id="update-header">Add a new fandom</h3>
             <form className="fandom-form" id="add-fandom-form" onSubmit={addFandom}>
-                <div className="input">
-                    <label className="input-label">Fandom</label>
-                    <input type="text" placeholder="Fandom to be added" onChange={event => setFandom(event.target.value)}/><br/>
-                </div>
-                <div className="input">
-                    <label className="input-label">Fanfiction.Net URL</label>
-                    <input type="text" placeholder="FFN URL" onChange={event => setFFN_url(event.target.value)}/><br/>
-                </div>
-                <div className="input">
-                    <label className="input-label">Archive of our Own URL</label> <input type="text" placeholder="AO3 URL" onChange={event => setAO3_url(event.target.value)}/><br/>
-                </div>
-                <div id="clarify-search">
-                    <p id="clarify-search-question">Do you want to search just one page or multiple pages?</p>
-                    <button className="search-options" id="search-one" onClick={() => setSearch('One')}>Just one page</button><br/>
-                    <button className="search-options" id="search-many" onClick={() => setSearch('Many')}>Multiple pages</button>
+                <div id="columns">
+                    <div className="column" id="fandom-details">
+                        <div className="input">
+                            <label className="input-label">Fandom</label>
+                            <input type="text" placeholder="Fandom to be added" onChange={event => setFandom(event.target.value)}/><br/>
+                        </div>
+                        <div className="input">
+                            <label className="input-label">Fanfiction.Net URL</label>
+                            <input type="text" placeholder="FFN URL" onChange={event => setFFN_url(event.target.value)}/><br/>
+                        </div>
+                        <div className="input">
+                            <label className="input-label">Archive of our Own URL</label> <input type="text" placeholder="AO3 URL" onChange={event => setAO3_url(event.target.value)}/><br/>
+                        </div>
+                    </div>
+                    <div className="column" id="clarify-search">
+                        <p id="clarify-search-question">Do you want to search just one page or multiple pages?</p>
+                        <button className="search-options" id="search-one" onClick={() => setSearch('One')}>Just one page</button><br/>
+                        <button className="search-options" id="search-many" onClick={() => setSearch('Many')}>Multiple pages</button>
+                    </div>
                 </div>
                 <div id="submit">
                     <input type="submit" id="submit-input" value="Add fandom"/>
