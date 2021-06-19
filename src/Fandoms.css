@@ -29,3 +29,41 @@
 .ffn-logo {
     width: 40%;
 }
+
+.label {
+	color: #8597a3;
+	position: absolute;
+	top: 1.5rem;
+	transition: .25s ease;
+}
+
+#submit-input {
+    padding: 1em;
+    font-weight: 500;
+	background-color: #6658d3;
+	color: #FFF;
+	border: 0;
+    width: 20%;
+    justify-content: center;
+    align-items: center;
+}
+
+#submit-input:hover {
+    background-color: rgba(102, 88, 211, .7);
+}
+
+#open-update-modal {
+    display: flex;
+    border: solid black 1px;
+    padding: 1%;
+    margin-left: 5%;
+    background-color: lightgray;
+    width: 22%;
+    justify-content: center;
+    align-items: center;
+}
+
+#open-update-modal:hover {
+    background-color: black;
+    color: white;
+}
