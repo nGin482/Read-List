@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import Modal from 'react-modal';
 import services from './services/services.js';
+import './DeleteFandom.css'
 
 const DeleteFandom = ({fandomName, openDelete, setOpenDelete, message, setMessage}) => {
     const [message2, setMessage2] = useState('')
@@ -21,8 +22,8 @@ const DeleteFandom = ({fandomName, openDelete, setOpenDelete, message, setMessag
             <button id="close-fandom-modal" onClick={() => setOpenDelete(false)}>Close</button>
             <h3 className="header" id="delete-header">Delete {fandomName}</h3>
             <p id="delete-fandom-message">{message}</p>
-            <button className="confirm-delete-options" id="confirm-delete" onClick={() => setDeleteConfirm(true)}>Yes</button>
-            <button className="confirm-delete-options" id="confirm-delete">No</button>
+            <button className="confirm-delete-options" id="confirm-delete-yes" onClick={() => setDeleteConfirm(true)}>Yes</button><br/>
+            <button className="confirm-delete-options" id="confirm-delete-no">No</button>
             <p id="delete-fandom-message2">{message2}</p>
         </Modal>
     )

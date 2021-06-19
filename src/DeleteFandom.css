@@ -1,0 +1,14 @@
+.confirm-delete-options {
+    width: 20%;
+    height: 10%;
+    border: none;
+}
+
+.confirm-delete-options:hover {
+    background-color: rgba(102, 88, 211, .7);
+    cursor: pointer;
+}
+
+#confirm-delete-no {
+    margin-top: 2%;
+}
