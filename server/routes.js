@@ -222,14 +222,14 @@ apiRouter.post('/api/fandoms/add', (request, response) => {
 
     if (body) {
         const fandom = body.fandom
-        const ao3_url = body.ao3_url
-        const ffn_url = body.ffn_url
         
         if (!checkFandomAddition(fandom)) {
             const fandom_object = {
-                fandom: fandom,
-                FFN: ffn_url,
-                AO3: ao3_url
+                fandom: body.fandom,
+                FFN: body.ffn_url,
+                AO3: body.ao3_url,
+                search: body.search
+
             }
             fandoms.push(fandom_object)
             fs.writeFileSync('./archives/archives.json', JSON.stringify(fandoms, null, "\t"))
