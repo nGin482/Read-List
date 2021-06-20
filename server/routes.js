@@ -107,18 +107,15 @@ apiRouter.put('/api/story/:ID/interested', (request, response) => {
     if (story) {
         Story.findOne({storyID: storyID}).then(result => {
             if (result === null) {
-                let storyInDB = false
                 let error = ''
                 if (story.archive === 'Fanfiction.Net') {
                     const addStoryDB = new Story(validateFFNRecord(story))
                     addStoryDB.collectedDate = stringToDate(getCurrentDate())
-                    addStoryDB.save().then(() => {
-                        storyInDB = true
-                    }).catch(err => {
+                    addStoryDB.save().catch(err => {
                         error = err
                     })
 
-                    if (writeToInterestedFile() && storyInDB) {
+                    if (writeToInterestedFile(story)) {
                         response.status(200).json({message: 'The story has been added to the read list', story: story})
                     }
                     else {
@@ -128,13 +125,11 @@ apiRouter.put('/api/story/:ID/interested', (request, response) => {
                 else {
                     const addStoryDB = new Story(validateAO3Record(story))
                     addStoryDB.collectedDate = stringToDate(getCurrentDate())
-                    addStoryDB.save().then(() => {
-                        storyInDB = true
-                    }).catch(err => {
+                    addStoryDB.save().catch(err => {
                         error = err
                     })
 
-                    if (writeToInterestedFile() && storyInDB) {
+                    if (writeToInterestedFile(story)) {
                         response.status(200).json({message: 'The story has been added to the read list', story: story})
                     }
                     else {
