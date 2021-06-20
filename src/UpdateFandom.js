@@ -14,16 +14,14 @@ const UpdateFandom = ({openUpdate, setOpenUpdate, message, setMessage, fandomNam
         event.preventDefault()
 
         if (field === 'search') {
-            console.log(field)
-            console.log(search)
             if (search !== '') {
                 const updateDetails = {
                     field: field,
-                    newData: newData
+                    newData: search
                 }
                 services.updateFandom(fandomName, updateDetails).then(data => {
                     setField('')
-                    setNewData('')
+                    setSearch('')
                     setMessage(data.message)
                 }).catch(err => {
                     setMessage(err.response.data.message)
