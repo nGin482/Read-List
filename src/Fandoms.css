@@ -30,6 +30,11 @@
     width: 40%;
 }
 
+#search-value {
+    display: block;
+    text-align: center;
+}
+
 .header {
     text-align: center;
 }
