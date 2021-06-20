@@ -1,7 +1,7 @@
 const express = require('express')
 const fs = require('fs')
 
-const {validateFFNRecord, validateAO3Record, getAllFiles, getCurrentDate, searchAllStoriesByKey, stringToDate, findToUpdate, getAllDates, checkFandomAddition, getFandomData, checkFandomUpdate, checkFandomDeletion} = require('./utils/utils')
+const {validateFFNRecord, validateAO3Record, getAllFiles, getCurrentDate, searchAllStoriesByKey, stringToDate, findToUpdate, getAllDates, checkFandomAddition, getFandomData, checkFandomUpdate, checkFandomDeletion, writeToInterestedFile} = require('./utils/utils')
 const Story = require('./models/stories')
 const allStories = getAllFiles()
 
@@ -39,7 +39,7 @@ apiRouter.get('/api/stories/mostRecent', (request, response) => {
     }
 })
 
-apiRouter.get('/api/stories/:FANDOM', (request, response) => {
+apiRouter.get('/api/stories/fandom/:FANDOM', (request, response) => {
     const fandom = request.params.FANDOM
     
     const storiesByFandom = searchAllStoriesByKey('fandoms', fandom)
@@ -107,23 +107,39 @@ apiRouter.put('/api/story/:ID/interested', (request, response) => {
     if (story) {
         Story.findOne({storyID: storyID}).then(result => {
             if (result === null) {
+                let storyInDB = false
+                let error = ''
                 if (story.archive === 'Fanfiction.Net') {
                     const addStoryDB = new Story(validateFFNRecord(story))
                     addStoryDB.collectedDate = stringToDate(getCurrentDate())
                     addStoryDB.save().then(() => {
-                        response.status(200).json({message: 'The story has been added to the read list', story: story})
+                        storyInDB = true
                     }).catch(err => {
-                        response.status(500).json({error: 'There was an error adding the story to the read list', res: err})
+                        error = err
                     })
+
+                    if (writeToInterestedFile() && storyInDB) {
+                        response.status(200).json({message: 'The story has been added to the read list', story: story})
+                    }
+                    else {
+                        response.status(500).json({error: 'There was an error adding the story to the read list', res: error})
+                    }
                 }
                 else {
                     const addStoryDB = new Story(validateAO3Record(story))
                     addStoryDB.collectedDate = stringToDate(getCurrentDate())
                     addStoryDB.save().then(() => {
-                        response.status(200).json({message: 'The story has been added to the read list', story: story})
+                        storyInDB = true
                     }).catch(err => {
-                        response.status(500).json({error: 'There was an error adding the story to the read list', res: err})
+                        error = err
                     })
+
+                    if (writeToInterestedFile() && storyInDB) {
+                        response.status(200).json({message: 'The story has been added to the read list', story: story})
+                    }
+                    else {
+                        response.status(500).json({error: 'There was an error adding the story to the read list', res: error})
+                    }
                 }
             }
             else {

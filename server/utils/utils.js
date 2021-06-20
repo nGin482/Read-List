@@ -20,7 +20,9 @@ const getAllFiles = () => {
     const stories = []
     
     files.map(file => {
-        stories.push({'date': file.substring(0, file.indexOf('.')), 'stories': JSON.parse(fs.readFileSync('./stories/' + file))})
+        if (!file.includes('interested')) {
+            stories.push({'date': file.substring(0, file.indexOf('.')), 'stories': JSON.parse(fs.readFileSync('./stories/' + file))})
+        }
     })
 
     return stories
@@ -198,6 +200,27 @@ const checkFandomDeletion = (fandomName) => {
     }
 }
 
+const writeToInterestedFile = story => {
+    const interested = JSON.parse(fs.readFileSync('./stories/interested/interested.json'))
+    interested.push(story)
+    fs.writeFileSync('./stories/interested/interested.json', JSON.stringify(interested, null, "\t"))
+
+    const check = checkStoryAdditionInterested(story.title)
+    return check
+}
+
+const checkStoryAdditionInterested = title => {
+    const interested = JSON.parse(fs.readFileSync('./stories/interested/interested.json'))
+    
+    flag = false
+    interested.map(story => {
+        if (story.title === title) {
+            flag = true
+        }
+    })
+    return flag
+}
+
 module.exports = {
     validateAO3Record,
     validateFFNRecord,
@@ -210,5 +233,6 @@ module.exports = {
     getFandomData,
     checkFandomAddition,
     checkFandomUpdate,
-    checkFandomDeletion
+    checkFandomDeletion,
+    writeToInterestedFile
 }
