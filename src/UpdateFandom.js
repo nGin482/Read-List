@@ -86,10 +86,12 @@ const UpdateFandom = ({openUpdate, setOpenUpdate, message, setMessage, fandomNam
                 </div>
                 {field === 'search' 
                     ? 
-                    <div id="clarify-search">
-                        <p id="clarify-search-question">Do you want to search just one page or multiple pages?</p>
-                        <button className="update-search-options" id="search-one" onClick={() => setSearch('One')}>Just one page</button><br/>
-                        <button className="update-search-options" id="search-many" onClick={() => setSearch('Many')}>Multiple pages</button>
+                    <div id="container">
+                        <div id="clarify-search">
+                            <p id="clarify-search-question">Do you want to search just one page or multiple pages?</p>
+                            <button className="update-search-options" id="search-one" onClick={() => setSearch('One')}>Just one page</button><br/>
+                            <button className="update-search-options" id="search-many" onClick={() => setSearch('Many')}>Multiple pages</button>
+                        </div>
                     </div>
                     :
                     <div className="input">
