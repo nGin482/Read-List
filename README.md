@@ -8,14 +8,12 @@ A repository for a web application featuring a back end server that collects a n
     - will be updating story in read list DB 
 
 ## To Do
-1. Fandoms component
-2. Option to allow fandoms to search multiple pages when adding/updating
-3. Update DB models
-4. Add story to read list
-5. Mobile Design
-6. Update styles
-7. Update Documentation
-8. Deploy
+1. Interested component
+2. Search function for stories interested --> by title + id + fandom
+3. Mobile Design
+4. Update styles
+5. Update Documentation
+6. Deploy
 
 
 
