@@ -87,6 +87,9 @@ const AddFandom = ({openAdd, setOpenAdd, message, setMessage}) => {
                     setAO3_url('')
                     setMessage(data.message)
                 }).catch(err => {
+                    setFandom('')
+                    setFFN_url('')
+                    setAO3_url('')
                     setMessage(err.response.data.message)
                 })
             }

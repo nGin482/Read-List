@@ -24,6 +24,8 @@ const UpdateFandom = ({openUpdate, setOpenUpdate, message, setMessage, fandomNam
                     setSearch('')
                     setMessage(data.message)
                 }).catch(err => {
+                    setField('')
+                    setSearch('')
                     setMessage(err.response.data.message)
                 })
             }
@@ -58,6 +60,8 @@ const UpdateFandom = ({openUpdate, setOpenUpdate, message, setMessage, fandomNam
                     setNewData('')
                     setMessage(data.message)
                 }).catch(err => {
+                    setField('')
+                    setNewData('')
                     setMessage(err.response.data.message)
                 })
             }
