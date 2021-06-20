@@ -160,11 +160,11 @@ const checkFandomAddition = (fandom_given) => {
     return flag
 }
 
-const checkFandomUpdate = (fandomName, updateDetails) => {
+const checkFandomUpdate = (fandomName, field, expected) => {
     const fandoms = getFandomData()
 
-    if (updateDetails.field === 'fandom') {
-        const newFandom = fandoms.find(f => f.fandom === updateDetails.newData)
+    if (field === 'fandom') {
+        const newFandom = fandoms.find(f => f.fandom === expected)
         console.log(newFandom)
         if (newFandom) {
             return true
@@ -176,7 +176,8 @@ const checkFandomUpdate = (fandomName, updateDetails) => {
     else {
         const recorded_fandom = fandoms.find(f => f.fandom === fandomName)
         if (recorded_fandom) {
-            if (recorded_fandom[updateDetails.field] === updateDetails.newData) {
+            if (recorded_fandom[field] === expected) {
+                console.log('is it this?')
                 return true
             }
             else {
