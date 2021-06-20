@@ -8,31 +8,61 @@ const UpdateFandom = ({openUpdate, setOpenUpdate, message, setMessage, fandomNam
 
     const [field, setField] = useState('')
     const [newData, setNewData] = useState('')
+    const [search, setSearch] = useState('')
 
     const updateFandom = (event) => {
         event.preventDefault()
 
-        if (field !== '' && newData !== '' && fandomName !== '') {
-            const updateDetails = {
-                field: field,
-                newData: newData
+        if (field === 'search') {
+            console.log(field)
+            console.log(search)
+            if (search !== '') {
+                const updateDetails = {
+                    field: field,
+                    newData: newData
+                }
+                services.updateFandom(fandomName, updateDetails).then(data => {
+                    setField('')
+                    setNewData('')
+                    setMessage(data.message)
+                }).catch(err => {
+                    setMessage(err.response.data.message)
+                })
             }
-            services.updateFandom(fandomName, updateDetails).then(data => {
-                setField('')
-                setNewData('')
-                setMessage(data.message)
-            }).catch(err => {
-                setMessage(err.response.data.message)
-            })
-        }
-        else if (field === '' && newData !== '') {
-            setMessage('Please select a data item to change before submitting')
-        }
-        else if (field !== '' && newData === '') {
-            setMessage('Please enter new data before submitting')
+            else {
+                setMessage('Please specify how many pages to search')
+            }
         }
         else {
-            setMessage('Please select a data item to change and enter new data before submitting')
+            if (field === '') {
+                if (newData === '') {
+                    setMessage('Please select a data item to change and enter new data before submitting')
+                }
+                if (newData !== '') {
+                    setMessage('Please select a data item to change before submitting')
+                }
+            }
+            else if (newData === '') {
+                if (field === '') {
+                    setMessage('Please select a data item to change and enter new data before submitting')
+                }
+                if (field !== '') {
+                    setMessage('Please enter new data before submitting')
+                }
+            }
+            else {
+                const updateDetails = {
+                    field: field,
+                    newData: newData
+                }
+                services.updateFandom(fandomName, updateDetails).then(data => {
+                    setField('')
+                    setNewData('')
+                    setMessage(data.message)
+                }).catch(err => {
+                    setMessage(err.response.data.message)
+                })
+            }
         }
     }
 
@@ -49,12 +79,22 @@ const UpdateFandom = ({openUpdate, setOpenUpdate, message, setMessage, fandomNam
                         <option value="fandom">Fandom name</option>
                         <option value="FFN">Fanfiction.Net URL</option>
                         <option value="AO3">Archive of our own URL</option>
+                        <option value="search">Search</option>
                     </select>
                 </div>
-                <div className="input">
-                    <label className="label">Enter the new data here</label>
-                    <input type="text" placeholder="New data" onChange={event => setNewData(event.target.value)}/><br/>
-                </div>
+                {field === 'search' 
+                    ? 
+                    <div id="clarify-search">
+                        <p id="clarify-search-question">Do you want to search just one page or multiple pages?</p>
+                        <button className="update-search-options" id="search-one" onClick={() => setSearch('One')}>Just one page</button><br/>
+                        <button className="update-search-options" id="search-many" onClick={() => setSearch('Many')}>Multiple pages</button>
+                    </div>
+                    :
+                    <div className="input">
+                        <label className="label">Enter the new data here</label>
+                        <input type="text" placeholder="New data" onChange={event => setNewData(event.target.value)}/><br/>
+                    </div>
+                }
                 <div id="submit">
                     <input type="submit" id="submit-input" value="Update fandom"/>
                 </div>
