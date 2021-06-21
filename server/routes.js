@@ -320,6 +320,24 @@ apiRouter.delete('/api/fandoms/:fandom/delete', (request, response) => {
     }
 })
 
+// https://restfulapi.net/rest-put-vs-post/
+apiRouter.get('/api/reading-list', async (request, response) => {
+    let readingList = []
+    
+    await Story.find({}).then(result => {
+        readingList = result
+        response.status(200).json(readingList)
+
+    }).catch(err => {
+        response.status(500).json({message: 'There was an error retrieving the reading list', error: err})
+    })
+    
+    if (readingList.length === 0) {
+        response.status(404).json({message: 'No stories were found in the reading list'})
+    }
+
+})
+
 apiRouter.get('/api/dates', (request, response) => {
     if (getAllDates() === []) {
         response.status(404).json({error: 'No dates are available'})
