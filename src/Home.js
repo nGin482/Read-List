@@ -7,6 +7,7 @@ import StoryPage from './StoryPage.js';
 import Calendar from './Calendar';
 import StoriesForDate from './StoriesForDate';
 import Fandoms from './Fandoms';
+import ReadingList from './ReadingList';
 import './App.css';
 import './nav.css';
 
@@ -44,7 +45,7 @@ const App = () => {
                 <div id="menu-items">
                     <ul>
                         <li><Link style={padding} to='/'>Home</Link></li>
-                        <li><Link style={padding} to='/interested'>Interested</Link></li>
+                        <li><Link style={padding} to='/reading-list'>Reading List</Link></li>
                         <li><Link style={padding} to='/fandoms'>Fandoms</Link></li>
                         <Calendar dates={dates}/>
                     </ul>
@@ -54,6 +55,7 @@ const App = () => {
                 <Route path='/story/:storyID'><StoryPage/></Route>
                 <Route path='/stories/:date'><StoriesForDate/></Route>
                 <Route path='/fandoms'><Fandoms/></Route>
+                <Route path='/reading-list'><ReadingList/></Route>
                 <Route path='/'><StoryList stories={stories}/></Route>
             </Switch>
         </Router>
