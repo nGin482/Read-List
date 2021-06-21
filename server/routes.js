@@ -325,17 +325,23 @@ apiRouter.get('/api/reading-list', async (request, response) => {
     let readingList = []
     
     await Story.find({}).then(result => {
-        readingList = result
-        response.status(200).json(readingList)
-
+        const readListFile = JSON.parse(fs.readFileSync('./stories/interested/interested.json'))
+        result.forEach(story => {
+            readListFile.forEach(fileStory => {
+                if (story.url === fileStory.url) {
+                    readingList.push(fileStory)
+                }
+            })
+        })
+        if (readingList.length !== 0) {
+            response.status(200).json(readingList)
+        }
+        else {
+            response.status(404).json({message: 'No stories were found in the reading list'})
+        }
     }).catch(err => {
         response.status(500).json({message: 'There was an error retrieving the reading list', error: err})
     })
-    
-    if (readingList.length === 0) {
-        response.status(404).json({message: 'No stories were found in the reading list'})
-    }
-
 })
 
 apiRouter.get('/api/dates', (request, response) => {
