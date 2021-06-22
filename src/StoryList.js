@@ -71,7 +71,7 @@ const StoryList = ({stories}) => {
                     <p><span>Viewing:</span><br/>Stories from {givenDate}<br/>{fandomFilter} on {archiveFilter}</p><br/>
                     <p id="number"><span>Number of stories:</span><br/>{filterStories().length}</p>
                 </div>
-                {filterStories().length > 0 ? filterStories().map(story => <div><Story story={story}/><button className="edit-story" key={"edit-"+story.storyID}><a href={'/story/'+ story.storyID}>Edit Details</a></button></div>) : <div id='no-story-warning'>There are no stories to view from this date</div>}
+                {filterStories().length > 0 ? filterStories().map(story => <div><Story story={story} view={"browsing"}/><button className="edit-story" key={"edit-"+story.storyID}><a href={'/story/'+ story.storyID}>Edit Details</a></button></div>) : <div id='no-story-warning'>There are no stories to view from this date</div>}
                 <div id="filter-archive">
                     <button onClick={()=> setArchiveFilter('Fanfiction.Net')}>Fanfiction.Net</button>
                     <button onClick={()=> setArchiveFilter('Archive of our Own')}>Archive of our Own</button>

@@ -3,7 +3,7 @@ import services from './services/services';
 import Modal from 'react-modal';
 import './Story.css';
 
-const Story = ({story}) => {
+const Story = ({story, view}) => {
     const [openModal, setOpenModal] = useState(false)
     
     const markStory = () => {
@@ -107,7 +107,11 @@ const Story = ({story}) => {
                         </div>
                     </div>
                     <a href={story.url}>Link to this story</a>
-                    <button id="add-to-read-list" onClick={() => markStory()}>Add to Read List</button>
+                    {view === 'browsing' ? 
+                        <button id="add-to-read-list" onClick={() => markStory()}>Add to Read List</button> 
+                        :
+                        <button id="mark-as-read" onClick={() => console.log('This story has been read')}>Mark as Read</button>
+                    }
                 </div>
             )
         }

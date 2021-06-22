@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal'
 import services from './services/services.js'
+import Story from './Story.js'
 
 const ReadingList = () => {
     const [readList, setReadList] = useState([])
@@ -20,7 +21,7 @@ const ReadingList = () => {
         <div>
             <h3>Reading List</h3>
             <ul>
-                {readList.map(story => <li>{story.title}</li>)}
+                {readList.map(story => <Story key={story.title} story={story} view={"read-list"}/>)}
             </ul>
         </div>
     )
