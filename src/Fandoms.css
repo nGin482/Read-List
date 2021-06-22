@@ -113,6 +113,15 @@ input:focus {
     color: white;
 }
 
+#search-box {
+    margin-left: 70%;
+}
+
+#search-box input {
+    border-bottom: none;
+    width: 40%;
+}
+
 @media screen and (max-width: 640px) {
     .ao3-logo {
         width: 50%;
