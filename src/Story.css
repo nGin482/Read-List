@@ -165,3 +165,14 @@ dd {
     margin-bottom: 2%;
     padding: 1%;
 }
+
+#mark-as-read {
+    display: block;
+    margin: auto;
+    margin-bottom: 2%;
+    padding: 1%;
+}
+
+#mark-as-read:hover {
+    background-color: green;
+}
