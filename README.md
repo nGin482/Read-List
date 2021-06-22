@@ -8,12 +8,13 @@ A repository for a web application featuring a back end server that collects a n
     - will be updating story in read list DB 
 
 ## To Do
-1. Interested component
+1. Reading List component
 2. Search function for stories interested --> by title + id + fandom
 3. Mobile Design
-4. Update styles
-5. Update Documentation
-6. Deploy
+4. NotificationError service - discord.js
+5. Update styles
+6. Update Documentation
+7. Deploy
 
 
 
