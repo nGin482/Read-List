@@ -10,12 +10,14 @@ A repository for a web application featuring a back end server that collects a n
 ## To Do
 1. Reading List component
 2. Search function for reading list --> by title + id + fandom
-3. Completed stories - backend and frontend
-3. Mobile Design
-4. NotificationError service - discord.js
-5. Update styles
-6. Update Documentation
-7. Deploy
+3. Remove interest in story
+4. Completed stories - backend and frontend
+5. List of stories to ignore
+6. Mobile Design
+7. NotificationError service - discord.js
+8. Update styles
+9. Update Documentation
+10. Deploy
 
 
 
