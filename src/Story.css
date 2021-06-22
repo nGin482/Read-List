@@ -158,3 +158,10 @@ dd {
 .tags li {
     margin-left: 2%;
 }
+
+#add-to-read-list {
+    display: block;
+    margin: auto;
+    margin-bottom: 2%;
+    padding: 1%;
+}

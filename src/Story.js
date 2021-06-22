@@ -108,7 +108,7 @@ const Story = (story) => {
                         </div>
                     </div>
                     <a href={thisStory.url}>Link to this story</a>
-                    <button onClick={() => markStory()}>Add to Read List</button>
+                    <button id="add-to-read-list" onClick={() => markStory()}>Add to Read List</button>
                 </div>
             )
         }
