@@ -202,6 +202,7 @@ const checkFandomDeletion = (fandomName) => {
 
 const writeToInterestedFile = story => {
     const interested = JSON.parse(fs.readFileSync('./stories/interested/interested.json'))
+    story.storyID = Number(story.storyID)
     interested.push(story)
     fs.writeFileSync('./stories/interested/interested.json', JSON.stringify(interested, null, "\t"))
 
