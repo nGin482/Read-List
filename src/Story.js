@@ -7,7 +7,7 @@ const Story = ({story, view}) => {
     const [openModal, setOpenModal] = useState(false)
     
     const markStory = () => {
-        services.markAsInterested(story).then(() => setOpenModal(true))
+        services.addToReadList(story).then(() => setOpenModal(true))
     }
     
     if (story) {

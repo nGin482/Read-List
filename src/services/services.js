@@ -18,11 +18,6 @@ const getMostRecentStories = () => {
     return axios.get(storiesURL + 'mostRecent').then(response => response.data)
 }
 
-const markAsInterested = (story) => {
-    console.log(story.storyID)
-    return axios.put(storyURL + story.storyID + '/interested').then(response => response.data)
-}
-
 const updateStoryDetails = (story) => {
     return axios.put('/api/update/' + story.storyID, story).then(response => response.data)
 }
@@ -51,6 +46,10 @@ const getReadingList = () => {
     return axios.get('/api/reading-list').then(response => response.data)
 }
 
+const addToReadList = (story) => {
+    return axios.post(storyURL + story.storyID + '/interested').then(response => response.data)
+}
+
 const getDates = () => {
     return axios.get('/api/dates').then(response => response.data)
 }
@@ -60,7 +59,6 @@ const requests = {
     getStoriesByFandom,
     getStoriesByID,
     getMostRecentStories,
-    markAsInterested,
     updateStoryDetails,
     removeStories,
     getFandoms,
@@ -68,6 +66,7 @@ const requests = {
     updateFandom,
     deleteFandom,
     getReadingList,
+    addToReadList,
     getDates
 }
 
