@@ -1,3 +1,15 @@
 #reading-list-header {
     text-align: center;
 }
+
+#reading-list-search-box {
+    margin-left: 70%;
+    border: solid 5px black;
+    padding: 1%;
+    background-color: rgba(102, 88, 211, .7);
+}
+
+.reading-list-search-submit:hover {
+    cursor: pointer;
+    background-color: darkgray;
+}
