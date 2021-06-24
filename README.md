@@ -1,5 +1,10 @@
 # This Project
-A repository for a web application featuring a back end server that collects a number of fanfics from different archives across AO3 and FFN; as well as a front end that allows the user to view the stories.
+A reading list web application that manages a list of fanfics that are considered worth reading. 
+
+These stories are collected from across a number of different fandoms from Fanfiction.Net and Archive of our Own. 
+The details of these stories are collected by a python project that are then sent to this project by means of an API call to the Read List's back-end server. There is a JSON file created each time this project receives the stories collected.
+
+This repository features a back end server that collects a number of fanfics from different archives across AO3 and FFN; as well as a front end that allows the user to view the stories.
 
 ## Known Issues
 1. Delete handler from the main page not performing as expected
@@ -9,12 +14,13 @@ A repository for a web application featuring a back end server that collects a n
 ## To Do
 1. Reading List component
 2. Completed stories - backend and frontend
-3. List of stories to ignore
-4. ErrorNotification service - discord.js
-5. Mobile Design
-6. Update styles
-7. Update Documentation
-8. Deploy
+3. Add fandoms data to mongodb cluster
+4. List of stories to ignore - wait until collections schema is updated in FanficArchives project
+5. ErrorNotification service - discord.js
+6. Mobile Design
+7. Update styles
+8. Update Documentation
+9. Deploy
 
 
 
