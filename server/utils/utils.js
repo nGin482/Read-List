@@ -225,7 +225,6 @@ const checkStoryAdditionInterested = title => {
 const removeFromReadingListFile = storyID => {
     const readingListFile = JSON.parse(fs.readFileSync('./stories/interested/interested.json'))
     const readingListFileUpdated = readingListFile.filter(story => story.storyID !== Number(storyID))
-    console.log(readingListFileUpdated)
     fs.writeFileSync('./stories/interested/interested.json', JSON.stringify(readingListFileUpdated, null, "\t"))
 }
 
