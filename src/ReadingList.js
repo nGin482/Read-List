@@ -59,21 +59,21 @@ const ReadingList = () => {
                     <legend id="title-legend">Search by Title</legend>
                     <form onSubmit={searchReadList}>
                         <input type="text" placeholder="Title" onChange={event => setSearchValue(event.target.value)}/>
-                        <input type="submit" className="reading-list-search-submit" onClick={() => setSearchParameter('title')}/>
+                        <input type="submit" className="reading-list-search-submit" value="Search" onClick={() => setSearchParameter('title')}/>
                     </form>
                 </fieldset>
                 <fieldset id="fandom-fieldset">
                     <legend id="fandom-legend">Search by Fandom</legend>
                     <form onSubmit={searchReadList}>
                         <input type="text" placeholder="Fandom" onChange={event => setSearchValue(event.target.value)}/>
-                        <input type="submit" className="reading-list-search-submit" onClick={() => setSearchParameter('fandoms')}/>
+                        <input type="submit" className="reading-list-search-submit" value="Search" onClick={() => setSearchParameter('fandoms')}/>
                     </form>
                 </fieldset>
                 <fieldset id="id-fieldset">
                     <legend id="id-legend">Search by ID</legend>
                     <form onSubmit={searchReadList}>
                         <input type="text" placeholder="ID" onChange={event => setSearchValue(event.target.value)}/>
-                        <input type="submit" className="reading-list-search-submit" onClick={() => setSearchParameter('storyID')}/>
+                        <input type="submit" className="reading-list-search-submit" value="Search" onClick={() => setSearchParameter('storyID')}/>
                     </form>
                 </fieldset>
                 <button id="reset-search" onClick={() => resetSearch()}>Reset Search</button>
