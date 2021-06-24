@@ -354,8 +354,12 @@ apiRouter.delete('/api/reading-list/:storyID', (request, response) => {
 
     Story.findOneAndDelete({storyID: storyID}).then(result => {
         console.log(result)
-        removeFromReadingListFile(storyID)
-        response.status(200).json({message: 'This story has been removed from the reading list'})
+        if (removeFromReadingListFile(storyID)) {
+            response.status(200).json({message: 'This story has been removed from the reading list'})
+        }
+        else {
+            response.status(500).json({message: 'There was a problem removing the story from the reading list'})    
+        }
     }).catch(err => {
         console.log(err)
         response.status(500).json({message: 'There was a problem removing the story from the reading list'})

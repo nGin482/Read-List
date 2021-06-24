@@ -226,6 +226,15 @@ const removeFromReadingListFile = storyID => {
     const readingListFile = JSON.parse(fs.readFileSync('./stories/interested/interested.json'))
     const readingListFileUpdated = readingListFile.filter(story => story.storyID !== Number(storyID))
     fs.writeFileSync('./stories/interested/interested.json', JSON.stringify(readingListFileUpdated, null, "\t"))
+
+    const readFileAgain = JSON.parse(fs.readFileSync('./stories/interested/interested.json'))
+    const check = readFileAgain.find(story => story.storyID === storyID)
+    if (!check) {
+        return true
+    }
+    else {
+        return false
+    }
 }
 
 module.exports = {
