@@ -1,5 +1,7 @@
 const fs = require('fs')
 
+const readingListPath = './stories/ReadingList/reading-list.json'
+
 const validateAO3Record = record => {
     record.storyID = record.url.substring((record.url.lastIndexOf('/')+1))
 
@@ -20,7 +22,7 @@ const getAllFiles = () => {
     const stories = []
     
     files.map(file => {
-        if (!file.includes('interested')) {
+        if (!file.includes('Reading')) {
             stories.push({'date': file.substring(0, file.indexOf('.')), 'stories': JSON.parse(fs.readFileSync('./stories/' + file))})
         }
     })
@@ -201,17 +203,17 @@ const checkFandomDeletion = (fandomName) => {
 }
 
 const writeToInterestedFile = story => {
-    const interested = JSON.parse(fs.readFileSync('./stories/interested/interested.json'))
+    const interested = JSON.parse(fs.readFileSync(readingListPath))
     story.storyID = Number(story.storyID)
     interested.push(story)
-    fs.writeFileSync('./stories/interested/interested.json', JSON.stringify(interested, null, "\t"))
+    fs.writeFileSync(readingListPath, JSON.stringify(interested, null, "\t"))
 
     const check = checkStoryAdditionInterested(story.title)
     return check
 }
 
 const checkStoryAdditionInterested = title => {
-    const interested = JSON.parse(fs.readFileSync('./stories/interested/interested.json'))
+    const interested = JSON.parse(fs.readFileSync(readingListPath))
     
     flag = false
     interested.map(story => {
@@ -223,11 +225,11 @@ const checkStoryAdditionInterested = title => {
 }
 
 const removeFromReadingListFile = storyID => {
-    const readingListFile = JSON.parse(fs.readFileSync('./stories/interested/interested.json'))
+    const readingListFile = JSON.parse(fs.readFileSync(readingListPath))
     const readingListFileUpdated = readingListFile.filter(story => story.storyID !== Number(storyID))
-    fs.writeFileSync('./stories/interested/interested.json', JSON.stringify(readingListFileUpdated, null, "\t"))
+    fs.writeFileSync(readingListPath, JSON.stringify(readingListFileUpdated, null, "\t"))
 
-    const readFileAgain = JSON.parse(fs.readFileSync('./stories/interested/interested.json'))
+    const readFileAgain = JSON.parse(fs.readFileSync(readingListPath))
     const check = readFileAgain.find(story => story.storyID === storyID)
     if (!check) {
         return true
