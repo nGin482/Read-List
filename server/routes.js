@@ -1,7 +1,7 @@
 const express = require('express')
 const fs = require('fs')
 
-const {validateFFNRecord, validateAO3Record, getAllFiles, getCurrentDate, searchAllStoriesByKey, stringToDate, findToUpdate, getAllDates, checkFandomAddition, getFandomData, checkFandomUpdate, checkFandomDeletion, writeToInterestedFile} = require('./utils/utils')
+const {validateFFNRecord, validateAO3Record, getAllFiles, getCurrentDate, searchAllStoriesByKey, stringToDate, findToUpdate, getAllDates, checkFandomAddition, getFandomData, checkFandomUpdate, checkFandomDeletion, writeToInterestedFile, removeFromReadingListFile} = require('./utils/utils')
 const Story = require('./models/stories')
 const allStories = getAllFiles()
 
@@ -349,6 +349,18 @@ apiRouter.post('/api/story/:ID/interested', (request, response) => {
     }
 })
 
+apiRouter.delete('/api/reading-list/:storyID', (request, response) => {
+    const storyID = request.params.storyID
+
+    Story.findOneAndDelete({storyID: storyID}).then(result => {
+        console.log(result)
+        removeFromReadingListFile(storyID)
+        response.status(200).json({message: 'This story has been removed from the reading list'})
+    }).catch(err => {
+        console.log(err)
+        response.status(500).json({message: 'There was a problem removing the story from the reading list'})
+    })
+})
 
 // Available Dates route
 

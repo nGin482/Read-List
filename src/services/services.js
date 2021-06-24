@@ -1,6 +1,7 @@
 import axios from 'axios'
 const storiesURL = '/api/stories/'
 const storyURL = '/api/story/'
+const readListURL = '/api/reading-list/'
 
 const getDateStories = (date) => {
     return axios.get(storiesURL + 'date/' + date).then(response => response.data)
@@ -50,6 +51,10 @@ const addToReadList = (story) => {
     return axios.post(storyURL + story.storyID + '/interested').then(response => response.data)
 }
 
+const removeFromReadList = storyID => {
+    return axios.delete(readListURL + storyID).then(response => response.data)
+}
+
 const getDates = () => {
     return axios.get('/api/dates').then(response => response.data)
 }
@@ -67,6 +72,7 @@ const requests = {
     deleteFandom,
     getReadingList,
     addToReadList,
+    removeFromReadList,
     getDates
 }
 
