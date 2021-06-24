@@ -222,6 +222,13 @@ const checkStoryAdditionInterested = title => {
     return flag
 }
 
+const removeFromReadingListFile = storyID => {
+    const readingListFile = JSON.parse(fs.readFileSync('./stories/interested/interested.json'))
+    const readingListFileUpdated = readingListFile.filter(story => story.storyID !== Number(storyID))
+    console.log(readingListFileUpdated)
+    fs.writeFileSync('./stories/interested/interested.json', JSON.stringify(readingListFileUpdated, null, "\t"))
+}
+
 module.exports = {
     validateAO3Record,
     validateFFNRecord,
@@ -235,5 +242,6 @@ module.exports = {
     checkFandomAddition,
     checkFandomUpdate,
     checkFandomDeletion,
-    writeToInterestedFile
+    writeToInterestedFile,
+    removeFromReadingListFile
 }
