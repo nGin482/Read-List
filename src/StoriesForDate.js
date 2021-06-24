@@ -13,7 +13,7 @@ const StoriesForDate = () => {
         services.getDateStories(date).then(data => {
             setStories(data)
         })
-    }, []
+    }, [date]
     )
 
     return (

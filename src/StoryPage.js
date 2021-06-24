@@ -18,7 +18,7 @@ const StoryPage = () => {
                 setWarning('An error occurred')
             }
         })
-    }, [])
+    }, [storyID])
     console.log(story)
 
     if (story) {

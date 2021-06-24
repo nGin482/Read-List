@@ -32,7 +32,7 @@ const App = () => {
             setOpenModal(true);
             <Modal isOpen={openModal}>{err}<button onClick={() => setOpenModal(false)}>Close</button></Modal>
         })
-      }, []
+      }, [openModal]
     )
 
     const padding = {
