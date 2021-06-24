@@ -164,6 +164,11 @@ dd {
     margin: auto;
     margin-bottom: 2%;
     padding: 1%;
+    cursor: pointer;
+}
+
+#read-list-actions {
+    display: inline;
 }
 
 #add-to-read-list:hover {
@@ -172,4 +177,8 @@ dd {
 
 #mark-as-read:hover {
     background-color: green;
+}
+
+#remove-from-read-list:hover {
+    background-color: red;
 }
