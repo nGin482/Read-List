@@ -24,7 +24,7 @@ const ReadingList = () => {
         event.preventDefault()
         console.log(searchParameter)
         if (searchParameter === 'storyID') {
-            console.log(readList.filter(story => story[searchParameter] === Number(searchValue)))
+            setReadList(readList.filter(story => story[searchParameter] === Number(searchValue)))
         }
         else if (searchParameter === 'fandoms') {
             const list = []
