@@ -4,10 +4,14 @@ import Modal from 'react-modal';
 import './Story.css';
 
 const Story = ({story, view}) => {
-    const [openModal, setOpenModal] = useState(false)
+    const [openAddModal, setOpenAddModal] = useState(false)
+    const [openRemoveModal, setOpenRemoveModal] = useState(false)
     
-    const markStory = () => {
-        services.addToReadList(story).then(() => setOpenModal(true))
+    const addStoryToReadList = () => {
+        services.addToReadList(story).then(() => setOpenAddModal(true))
+    }
+    const removeStoryFromReadList = () => {
+        services.removeFromReadList(story.storyID).then(() => setOpenRemoveModal(true))
     }
     
     if (story) {
@@ -25,11 +29,19 @@ const Story = ({story, view}) => {
         // for AO3:
         // tags, warnings, categories
 
-        if (openModal) {
+        if (openAddModal) {
             return (
-                <Modal isOpen={openModal} id="story-interest-message">
-                    <button id="close-fandom-modal" onClick={() => setOpenModal(false)}>Close</button>
+                <Modal isOpen={openAddModal} id="story-interest-message">
+                    <button id="close-fandom-modal" onClick={() => setOpenAddModal(false)}>Close</button>
                     <p>The story has been added to the read list</p>
+                </Modal>
+            )
+        }
+        else if (openRemoveModal) {
+            return (
+                <Modal isOpen={openAddModal} id="story-interest-message">
+                    <button id="close-fandom-modal" onClick={() => setOpenAddModal(false)}>Close</button>
+                    <p>The story has been removed from the read list</p>
                 </Modal>
             )
         }
@@ -108,9 +120,12 @@ const Story = ({story, view}) => {
                     </div>
                     <a href={story.url}>Link to this story</a>
                     {view === 'browsing' ? 
-                        <button className="action-story" id="add-to-read-list" onClick={() => markStory()}>Add to Read List</button> 
+                        <button className="action-story" id="add-to-read-list" onClick={() => addStoryToReadList()}>Add to Read List</button> 
                         :
-                        <button className="action-story" id="mark-as-read" onClick={() => console.log('This story has been read')}>Mark as Read</button>
+                        <div id="read-list-actions">
+                            <button className="action-story" id="mark-as-read" onClick={() => console.log('This story has been read')}>Mark as Read</button>
+                            <button className="action-story" id="remove-from-read-list" onClick={() => removeStoryFromReadList()}>Remove Story from Read List</button>
+                        </div>
                     }
                 </div>
             )
