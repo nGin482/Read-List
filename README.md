@@ -2,22 +2,19 @@
 A repository for a web application featuring a back end server that collects a number of fanfics from different archives across AO3 and FFN; as well as a front end that allows the user to view the stories.
 
 ## Known Issues
-1. The user will need to reload after choosing a new date while in the /stories/:date url
-2. Delete handler from the main page not performing as expected
-3. Updating story data across all files not performing as expected on backend - review if this is necessary
-    - will be updating story in read list DB 
+1. Delete handler from the main page not performing as expected
+2. Updating story data across all files not performing as expected on backend - review if this is necessary
+    - will be updating story in read list DB instead
 
 ## To Do
 1. Reading List component
-2. Search function for reading list --> by title + id + fandom
-3. Remove interest in story
-4. Completed stories - backend and frontend
-5. List of stories to ignore
-6. Mobile Design
-7. NotificationError service - discord.js
-8. Update styles
-9. Update Documentation
-10. Deploy
+2. Completed stories - backend and frontend
+3. List of stories to ignore
+4. ErrorNotification service - discord.js
+5. Mobile Design
+6. Update styles
+7. Update Documentation
+8. Deploy
 
 
 
