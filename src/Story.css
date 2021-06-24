@@ -159,18 +159,15 @@ dd {
     margin-left: 2%;
 }
 
-#add-to-read-list {
+.action-story {
     display: block;
     margin: auto;
     margin-bottom: 2%;
     padding: 1%;
 }
 
-#mark-as-read {
-    display: block;
-    margin: auto;
-    margin-bottom: 2%;
-    padding: 1%;
+#add-to-read-list:hover {
+    background-color: yellowgreen;
 }
 
 #mark-as-read:hover {

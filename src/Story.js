@@ -108,9 +108,9 @@ const Story = ({story, view}) => {
                     </div>
                     <a href={story.url}>Link to this story</a>
                     {view === 'browsing' ? 
-                        <button id="add-to-read-list" onClick={() => markStory()}>Add to Read List</button> 
+                        <button className="action-story" id="add-to-read-list" onClick={() => markStory()}>Add to Read List</button> 
                         :
-                        <button id="mark-as-read" onClick={() => console.log('This story has been read')}>Mark as Read</button>
+                        <button className="action-story" id="mark-as-read" onClick={() => console.log('This story has been read')}>Mark as Read</button>
                     }
                 </div>
             )
