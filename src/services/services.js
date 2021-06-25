@@ -44,11 +44,11 @@ const deleteFandom = (fandomName) => {
 }
 
 const getReadingList = () => {
-    return axios.get('/api/reading-list').then(response => response.data)
+    return axios.get(readListURL).then(response => response.data)
 }
 
 const addToReadList = (story) => {
-    return axios.post(storyURL + story.storyID + '/interested').then(response => response.data)
+    return axios.post(readListURL + story.storyID).then(response => response.data)
 }
 
 const removeFromReadList = storyID => {

@@ -4,6 +4,7 @@ const fs = require('fs')
 const {validateFFNRecord, validateAO3Record, getAllFiles, getCurrentDate, searchAllStoriesByKey, stringToDate, findToUpdate, getAllDates, checkFandomAddition, getFandomData, checkFandomUpdate, checkFandomDeletion, writeToInterestedFile, removeFromReadingListFile} = require('./utils/utils')
 const Story = require('./models/stories')
 const allStories = getAllFiles()
+const readingListPath = './stories/ReadingList/reading-list.json'
 
 const apiRouter = express.Router()
 
@@ -283,7 +284,7 @@ apiRouter.get('/api/reading-list', async (request, response) => {
     let readingList = []
     
     await Story.find({}).then(result => {
-        const readListFile = JSON.parse(fs.readFileSync('./stories/interested/interested.json'))
+        const readListFile = JSON.parse(fs.readFileSync(readingListPath))
         result.forEach(story => {
             readListFile.forEach(fileStory => {
                 if (story.url === fileStory.url) {
@@ -302,7 +303,7 @@ apiRouter.get('/api/reading-list', async (request, response) => {
     })
 })
 
-apiRouter.post('/api/story/:ID/interested', (request, response) => {
+apiRouter.post('/api/reading-list/:ID', (request, response) => {
     const storyID = Number(request.params.ID)
     const story = searchAllStoriesByKey('storyID', storyID)[0]
     
