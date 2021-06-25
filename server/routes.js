@@ -385,7 +385,7 @@ apiRouter.get('/api/completed-list', async (request, response) => {
                 }
             })
         })
-        response.status(200).json(result)
+        response.status(200).json(completedList)
     }).catch(err => {
         response.status(200).json({message: 'There was a problem acessing the list of stories read.', error: err})
     })
