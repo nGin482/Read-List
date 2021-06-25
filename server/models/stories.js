@@ -6,6 +6,7 @@ const {Schema} = mongoose
 const storySchema = new Schema({
     storyID: {required: true, type: Number},
     collectedDate: {type: Date},
+    readStatus: {type: Boolean},
     dateRead: {type: Date},
     status: {type: String},
     archive: {type: String},

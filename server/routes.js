@@ -303,17 +303,18 @@ apiRouter.get('/api/reading-list', async (request, response) => {
     })
 })
 
-apiRouter.post('/api/reading-list/:ID', (request, response) => {
+apiRouter.post('/api/reading-list/:ID', async (request, response) => {
     const storyID = Number(request.params.ID)
     const story = searchAllStoriesByKey('storyID', storyID)[0]
     
     if (story) {
-        Story.findOne({storyID: storyID}).then(result => {
+       await Story.findOne({storyID: storyID}).then(result => {
             if (result === null) {
                 let error = ''
                 if (story.archive === 'Fanfiction.Net') {
                     const addStoryDB = new Story(validateFFNRecord(story))
                     addStoryDB.collectedDate = stringToDate(getCurrentDate())
+                    addStoryDB.readStatus = false
                     addStoryDB.save().catch(err => {
                         error = err
                     })
@@ -328,6 +329,7 @@ apiRouter.post('/api/reading-list/:ID', (request, response) => {
                 else {
                     const addStoryDB = new Story(validateAO3Record(story))
                     addStoryDB.collectedDate = stringToDate(getCurrentDate())
+                    addStoryDB.readStatus = false
                     addStoryDB.save().catch(err => {
                         error = err
                     })
@@ -350,10 +352,10 @@ apiRouter.post('/api/reading-list/:ID', (request, response) => {
     }
 })
 
-apiRouter.delete('/api/reading-list/:storyID', (request, response) => {
+apiRouter.delete('/api/reading-list/:storyID', async (request, response) => {
     const storyID = request.params.storyID
 
-    Story.findOneAndDelete({storyID: storyID}).then(result => {
+    await Story.findOneAndDelete({storyID: storyID}).then(result => {
         console.log(result)
         if (removeFromReadingListFile(storyID)) {
             response.status(200).json({message: 'This story has been removed from the reading list'})
