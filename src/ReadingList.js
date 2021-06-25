@@ -47,7 +47,7 @@ const ReadingList = () => {
     const displaySearchBox = () => {
         return (
             <div id="reading-list-search-box">
-                <button id="close-reading-list-search-box" onClick={() => setDisplaySearch(false)}>Close Search</button>
+                <button id="close-reading-list-search-box" onClick={() => closeSearchBox()}>Close Search</button>
                 <div id="search-criteria">
                     <span id="search-criteria-header">Select how you want to search</span>
                     <button className="search-criteria-options" id="search-by-title" onClick={() => setSearchParameter('title')}>Search by Title</button>
@@ -58,6 +58,11 @@ const ReadingList = () => {
                 <button id="reset-search" onClick={() => resetSearch()}>Reset Search</button>
             </div>
         )
+    }
+
+    const closeSearchBox = () => {
+        setDisplaySearch(false)
+        resetSearch()
     }
 
     const displaySearchOption = () => {
