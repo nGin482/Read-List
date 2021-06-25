@@ -1,6 +1,7 @@
 const fs = require('fs')
 
 const readingListPath = './stories/ReadingList/reading-list.json'
+const completedListPath = './stories/CompletedList/completed-list.json'
 
 const validateAO3Record = record => {
     record.storyID = record.url.substring((record.url.lastIndexOf('/')+1))
@@ -22,7 +23,7 @@ const getAllFiles = () => {
     const stories = []
     
     files.map(file => {
-        if (!file.includes('Reading')) {
+        if (!file.includes('Reading') && !file.includes('Completed')) {
             stories.push({'date': file.substring(0, file.indexOf('.')), 'stories': JSON.parse(fs.readFileSync('./stories/' + file))})
         }
     })
@@ -239,6 +240,24 @@ const removeFromReadingListFile = storyID => {
     }
 }
 
+const markStoryAsRead = storyID => {
+    const readingListData = JSON.parse(fs.readFileSync(readingListPath))
+    const completedListData = JSON.parse(fs.readFileSync(completedListPath))
+
+    const story = readingListData.find(story => story.storyID === Number(storyID))
+    completedListData.push(story)
+    fs.writeFileSync(completedListPath, JSON.stringify(completedListData, null, "\t"))
+
+    const check = JSON.parse(fs.readFileSync(completedListPath)).find(story => story.storyID === Number(storyID))
+
+    if (check) {
+        return true
+    }
+    else {
+        return false
+    }
+}
+
 module.exports = {
     validateAO3Record,
     validateFFNRecord,
@@ -253,5 +272,6 @@ module.exports = {
     checkFandomUpdate,
     checkFandomDeletion,
     writeToInterestedFile,
-    removeFromReadingListFile
+    removeFromReadingListFile,
+    markStoryAsRead
 }

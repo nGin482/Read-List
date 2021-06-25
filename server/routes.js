@@ -1,7 +1,7 @@
 const express = require('express')
 const fs = require('fs')
 
-const {validateFFNRecord, validateAO3Record, getAllFiles, getCurrentDate, searchAllStoriesByKey, stringToDate, findToUpdate, getAllDates, checkFandomAddition, getFandomData, checkFandomUpdate, checkFandomDeletion, writeToInterestedFile, removeFromReadingListFile} = require('./utils/utils')
+const {validateFFNRecord, validateAO3Record, getAllFiles, getCurrentDate, searchAllStoriesByKey, stringToDate, findToUpdate, getAllDates, checkFandomAddition, getFandomData, checkFandomUpdate, checkFandomDeletion, writeToInterestedFile, removeFromReadingListFile, markStoryAsRead} = require('./utils/utils')
 const Story = require('./models/stories')
 const allStories = getAllFiles()
 const readingListPath = './stories/ReadingList/reading-list.json'
@@ -276,8 +276,6 @@ apiRouter.delete('/api/fandoms/:fandom/delete', (request, response) => {
     }
 })
 
-// https://restfulapi.net/rest-put-vs-post/
-
 // Reading List routes
 
 apiRouter.get('/api/reading-list', async (request, response) => {
@@ -367,6 +365,26 @@ apiRouter.delete('/api/reading-list/:storyID', async (request, response) => {
         console.log(err)
         response.status(500).json({message: 'There was a problem removing the story from the reading list'})
     })
+})
+
+// Completed List routes
+
+apiRouter.put('/api/completed-list', async (request, response) => {
+    const storyID = Number(request.body.storyID)
+
+    await Story.findOneAndUpdate({storyID: storyID}, {readStatus: true}).then(result => {
+        result.dateRead = stringToDate(getCurrentDate())
+        result.save().catch(err => {
+            response.status(500).json({message: 'There was a problem updating the story.', error: err})
+        })
+        if (markStoryAsRead(storyID)) {
+            response.status(200).json({message: 'The story has been updated to show that it has been read.', readDate: result.dateRead})
+        }
+        else {
+            response.status(500).json({message: "There was a problem marking the story as read. It has been updated in the database but the story's details do not reflect this"})
+        }
+    })
+
 })
 
 // Available Dates route
