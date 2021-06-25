@@ -8,6 +8,7 @@ import Calendar from './Calendar';
 import StoriesForDate from './StoriesForDate';
 import Fandoms from './Fandoms';
 import ReadingList from './ReadingList';
+import CompletedList from './CompletedList';
 import './App.css';
 import './nav.css';
 
@@ -46,6 +47,7 @@ const App = () => {
                     <ul>
                         <li><Link style={padding} to='/'>Home</Link></li>
                         <li><Link style={padding} to='/reading-list'>Reading List</Link></li>
+                        <li><Link style={padding} to='/completed-list'>Completed List</Link></li>
                         <li><Link style={padding} to='/fandoms'>Fandoms</Link></li>
                         <Calendar dates={dates}/>
                     </ul>
@@ -56,6 +58,7 @@ const App = () => {
                 <Route path='/stories/:date'><StoriesForDate/></Route>
                 <Route path='/fandoms'><Fandoms/></Route>
                 <Route path='/reading-list'><ReadingList/></Route>
+                <Route path='/completed-list'><CompletedList/></Route>
                 <Route path='/'><StoryList stories={stories}/></Route>
             </Switch>
         </Router>
