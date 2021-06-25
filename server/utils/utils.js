@@ -248,6 +248,9 @@ const markStoryAsRead = storyID => {
     completedListData.push(story)
     fs.writeFileSync(completedListPath, JSON.stringify(completedListData, null, "\t"))
 
+    const updatedReadingList = readingListData.filter(story => story.storyID !== Number(storyID))
+    fs.writeFileSync(readingListPath, JSON.stringify(updatedReadingList, null, "\t"))
+
     const check = JSON.parse(fs.readFileSync(completedListPath)).find(story => story.storyID === Number(storyID))
 
     if (check) {

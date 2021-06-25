@@ -381,7 +381,7 @@ apiRouter.put('/api/completed-list', async (request, response) => {
             response.status(200).json({message: 'The story has been updated to show that it has been read.', readDate: result.dateRead})
         }
         else {
-            response.status(500).json({message: "There was a problem marking the story as read. It has been updated in the database but the story's details do not reflect this"})
+            response.status(500).json({message: "There was a problem marking the story as read. It has been updated in the database but the story's details do not reflect this."})
         }
     })
 
