@@ -29,6 +29,27 @@ const Story = ({story, view}) => {
         // for AO3:
         // tags, warnings, categories
 
+        const storyActions = () => {
+            if (view === 'browsing') {
+                return (
+                    <button className="action-story" id="add-to-read-list" onClick={() => addStoryToReadList()}>Add to Read List</button> 
+                )
+            }
+            else if (view === 'read-list') {
+                return (
+                    <div id="read-list-actions">
+                        <button className="action-story" id="mark-as-read" onClick={() => console.log('This story has been read')}>Mark as Read</button>
+                        <button className="action-story" id="remove-from-read-list" onClick={() => removeStoryFromReadList()}>Remove Story from Read List</button>
+                    </div>
+                )
+            }
+            else if (view === 'stories-read') {
+                return (
+                    <button className="action-story" id="add-to-read-list" onClick={() => console.log('This story will be moved back to the read list')}>Move back to Reading List</button> 
+                )
+            }
+        }
+
         if (openAddModal) {
             return (
                 <Modal isOpen={openAddModal} id="story-interest-message">
@@ -119,14 +140,7 @@ const Story = ({story, view}) => {
                         </div>
                     </div>
                     <a href={story.url}>Link to this story</a>
-                    {view === 'browsing' ? 
-                        <button className="action-story" id="add-to-read-list" onClick={() => addStoryToReadList()}>Add to Read List</button> 
-                        :
-                        <div id="read-list-actions">
-                            <button className="action-story" id="mark-as-read" onClick={() => console.log('This story has been read')}>Mark as Read</button>
-                            <button className="action-story" id="remove-from-read-list" onClick={() => removeStoryFromReadList()}>Remove Story from Read List</button>
-                        </div>
-                    }
+                    {storyActions()}
                 </div>
             )
         }
