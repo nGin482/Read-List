@@ -5,6 +5,7 @@ const {validateFFNRecord, validateAO3Record, getAllFiles, getCurrentDate, search
 const Story = require('./models/stories')
 const allStories = getAllFiles()
 const readingListPath = './stories/ReadingList/reading-list.json'
+const completedListPath = './stories/CompletedList/completed-list.json'
 
 const apiRouter = express.Router()
 
@@ -368,6 +369,27 @@ apiRouter.delete('/api/reading-list/:storyID', async (request, response) => {
 })
 
 // Completed List routes
+
+apiRouter.get('/api/completed-list', async (request, response) => {
+    const completedList = []
+    
+    await Story.find({readStatus: true}).then(result => {
+        if (result.length === 0) {
+            response.status(404).json({message: 'There are no stories that have been read.'})
+        }
+        const completedListData = JSON.parse(fs.readFileSync(completedListPath))
+        result.forEach(story => {
+            completedListData.forEach(fileStory => {
+                if (story.url === fileStory.url) {
+                    completedList.push(fileStory)
+                }
+            })
+        })
+        response.status(200).json(result)
+    }).catch(err => {
+        response.status(200).json({message: 'There was a problem acessing the list of stories read.', error: err})
+    })
+})
 
 apiRouter.put('/api/completed-list', async (request, response) => {
     const storyID = Number(request.body.storyID)
