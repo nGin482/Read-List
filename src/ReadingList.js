@@ -36,10 +36,68 @@ const ReadingList = () => {
                     }
                 })
             })
-            console.log(list)
+            setReadList(list)
         }
         else {
             setReadList(readList.filter(story => story[searchParameter] === searchValue))
+        }
+    }
+    
+    const [displaySearch, setDisplaySearch] = useState(false)
+    const displaySearchBox = () => {
+        return (
+            <div id="reading-list-search-box">
+                <button id="close-reading-list-search-box" onClick={() => setDisplaySearch(false)}>Close Search</button>
+                <div id="search-criteria">
+                    <span id="search-criteria-header">Select how you want to search</span>
+                    <button className="search-criteria-options" id="search-by-title" onClick={() => setSearchParameter('title')}>Search by Title</button>
+                    <button className="search-criteria-options" id="search-by-title" onClick={() => setSearchParameter('fandoms')}>Search by Fandom</button>
+                    <button className="search-criteria-options" id="search-by-title" onClick={() => setSearchParameter('storyID')}>Search by Story ID</button>
+                </div>
+                {displaySearchOption()}                
+                <button id="reset-search" onClick={() => resetSearch()}>Reset Search</button>
+            </div>
+        )
+    }
+
+    const displaySearchOption = () => {
+        if (searchParameter.includes('title')) {
+            return (
+                <fieldset id="title-fieldset">
+                    <legend id="title-legend">Search by Title</legend>
+                    <form onSubmit={searchReadList}>
+                        <input type="text" className="reading-list-search-input" placeholder="Title" onChange={event => setSearchValue(event.target.value)}/>
+                        <input type="submit" className="reading-list-search-submit" value="Search" onClick={() => setSearchParameter('title')}/>
+                    </form>
+                </fieldset>
+            )
+        }
+        else if (searchParameter.includes('fandoms')) {
+            return (
+                <fieldset id="fandom-fieldset">
+                    <legend id="fandom-legend">Search by Fandom</legend>
+                    <form onSubmit={searchReadList}>
+                        <input type="text" className="reading-list-search-input" placeholder="Fandom" onChange={event => setSearchValue(event.target.value)}/>
+                        <input type="submit" className="reading-list-search-submit" value="Search" onClick={() => setSearchParameter('fandoms')}/>
+                    </form>
+                </fieldset>
+            )
+        }
+        else if (searchParameter.includes('storyID')) {
+            return (
+                <fieldset id="id-fieldset">
+                    <legend id="id-legend">Search by ID</legend>
+                    <form onSubmit={searchReadList}>
+                        <input type="text" className="reading-list-search-input" placeholder="ID" onChange={event => setSearchValue(event.target.value)}/>
+                        <input type="submit" className="reading-list-search-submit" value="Search" onClick={() => setSearchParameter('storyID')}/>
+                    </form>
+                </fieldset>
+            )
+        }
+        else {
+            return (
+                ''
+            )
         }
     }
 
@@ -49,36 +107,14 @@ const ReadingList = () => {
         setReadList(readListDefeault)
 
     }
-    // https://betterprogramming.pub/understanding-the-useeffect-dependency-array-2913da504c44
 
     return (
         <div>
             <h2 id="reading-list-header">Reading List</h2>
-            <div id="reading-list-search-box">
-                <fieldset id="title-fieldset">
-                    <legend id="title-legend">Search by Title</legend>
-                    <form onSubmit={searchReadList}>
-                        <input type="text" placeholder="Title" onChange={event => setSearchValue(event.target.value)}/>
-                        <input type="submit" className="reading-list-search-submit" value="Search" onClick={() => setSearchParameter('title')}/>
-                    </form>
-                </fieldset>
-                <fieldset id="fandom-fieldset">
-                    <legend id="fandom-legend">Search by Fandom</legend>
-                    <form onSubmit={searchReadList}>
-                        <input type="text" placeholder="Fandom" onChange={event => setSearchValue(event.target.value)}/>
-                        <input type="submit" className="reading-list-search-submit" value="Search" onClick={() => setSearchParameter('fandoms')}/>
-                    </form>
-                </fieldset>
-                <fieldset id="id-fieldset">
-                    <legend id="id-legend">Search by ID</legend>
-                    <form onSubmit={searchReadList}>
-                        <input type="text" placeholder="ID" onChange={event => setSearchValue(event.target.value)}/>
-                        <input type="submit" className="reading-list-search-submit" value="Search" onClick={() => setSearchParameter('storyID')}/>
-                    </form>
-                </fieldset>
-                <button id="reset-search" onClick={() => resetSearch()}>Reset Search</button>
+            {displaySearch ? displaySearchBox() : <button id="open-reading-list-search-box" onClick={() => setDisplaySearch(true)}>Search for a story</button>}
+            <div id="reading-list">
+                {readList.map(story => <Story key={story.title} story={story} view={"read-list"}/>)}
             </div>
-            {readList.map(story => <Story key={story.title} story={story} view={"read-list"}/>)}
         </div>
     )
 }

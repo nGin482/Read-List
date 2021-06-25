@@ -6,7 +6,41 @@
     margin-left: 70%;
     border: solid 5px black;
     padding: 1%;
+    background-color: #73b504;
+}
+
+#open-reading-list-search-box {
+    display: block;
+    float: right;
+    margin-right: 10%;
+    padding: 1%;
+}
+
+#search-criteria-header {
+    display: block;
+    /* text-align: center; */
+}
+
+.search-criteria-options {
+    display: block;
+    width: 40%;
+    margin: 0 auto;
+    margin-top: 3%;
+    padding: 3%;
+}
+
+.search-criteria-options:hover {
     background-color: rgba(102, 88, 211, .7);
+}
+
+.reading-list-search-input {
+    display: block;
+    margin: 0 auto;
+}
+
+.reading-list-search-submit {
+    display: block;
+    margin: 0 auto;
 }
 
 .reading-list-search-submit:hover {
@@ -18,4 +52,5 @@
     display: block;
     max-width: 20%;
     margin: 0 auto;
+    margin-top: 5%;
 }
