@@ -305,7 +305,7 @@ apiRouter.get('/api/reading-list', async (request, response) => {
 apiRouter.post('/api/reading-list/:ID', async (request, response) => {
     const storyID = Number(request.params.ID)
     const story = searchAllStoriesByKey('storyID', storyID)[0]
-    
+
     if (story) {
        await Story.findOne({storyID: storyID}).then(result => {
             if (result === null) {
@@ -345,7 +345,9 @@ apiRouter.post('/api/reading-list/:ID', async (request, response) => {
                 if (result.readStatus) {
                     response.status(409).json({message: 'You have already read this story.'})
                 }
-                response.status(409).json({message: 'This story has already been added to the read list'})
+                else {
+                    response.status(409).json({message: 'This story has already been added to the read list'})
+                }
             }
         })
     }
