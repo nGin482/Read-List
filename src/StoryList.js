@@ -17,32 +17,50 @@ const StoryList = ({stories}) => {
 
     const allFandoms = () => {
         // use route when implemented
-        return ['Code Geass', 'Doctor Who', 'Endeavour', 'Lewis', 'NCIS', 'NCIS: Los Angeles', 
+        return ['Code Geass', 'Doctor Who', 'Endeavour', 'Lewis', 'NCIS', 'NCIS: LA', 
         'Person of Interest', 'Transformers All Media Types', 'Transformers (Cinematic Universe)', 'Transformers Prime']
     }
 
     const filterStoriesByFandom = () => {
         const givenCollection = stories.stories
-        const givenStories = []
+        const filteredStories = []
         if (fandomFilter.includes('All') && !fandomFilter.includes('Transformers')) {
-            for (var i = 0; i < givenCollection.length; i++) {
-                const archive = givenCollection[i]
-                for (var j = 0; j < archive.stories.length; j++) {
-                    givenStories.push(archive.stories[j])
-                }
-            }
-        }
-        else {
-            for (var archiveIdx = 0; archiveIdx < givenCollection.length; archiveIdx++) {
-                const archive = givenCollection[archiveIdx]
-                if (archive.fandom.includes(fandomFilter)) {
-                    for (var storyIdx = 0; storyIdx < archive.stories.length; storyIdx++) {
-                        givenStories.push(archive.stories[storyIdx])
+            givenCollection.forEach(fandom => {
+                if (fandom.FFN) {
+                    if (fandom.FFN.length > 0) {
+                        fandom.FFN.forEach(story => {
+                            filteredStories.push(story)
+                        })
                     }
                 }
+                if (fandom.AO3) {
+                    if (fandom.AO3.length > 0) {
+                        fandom.AO3.forEach(story => {
+                            filteredStories.push(story)
+                        })
+                    }
+                }
+            })
+        }
+        else {
+            const chosenFandom = givenCollection.find(fandom => fandom.fandom === fandomFilter)
+            console.log(chosenFandom)
+            if (chosenFandom.FFN) {
+                if (chosenFandom.FFN.length > 0) {
+                    chosenFandom.FFN.forEach(story => {
+                        filteredStories.push(story)
+                    })
+                }
+            }
+            if (chosenFandom.AO3) {
+                if (chosenFandom.AO3.length > 0) {
+                    chosenFandom.AO3.forEach(story => {
+                        filteredStories.push(story)
+                    })
+                }
             }
         }
-        return givenStories
+        return filteredStories
     }
 
     const filterStories = () => {
@@ -63,7 +81,7 @@ const StoryList = ({stories}) => {
                     <button onClick={()=> setArchiveFilter('All')}>All</button>
                 </div>
                 <div id="filter-fandom">
-                    {allFandoms().map(fandom => <button onClick={() => setFandomFilter(fandom)}>{fandom}</button>)}
+                    {allFandoms().map(fandom => <button key={fandom} onClick={() => setFandomFilter(fandom)}>{fandom}</button>)}
                     <button onClick={() => setFandomFilter('All Stories')}>All</button>
                 </div>
                 <br/>
@@ -88,7 +106,7 @@ const StoryList = ({stories}) => {
                     <button onClick={()=> setArchiveFilter('All')}>All</button>
                 </div>
                 <div id="filter-fandom">
-                    {allFandoms().map(fandom => <button onClick={() => setFandomFilter(fandom)}>{fandom}</button>)}
+                    {allFandoms().map(fandom => <button key={fandom} onClick={() => setFandomFilter(fandom)}>{fandom}</button>)}
                     <button onClick={() => setFandomFilter('All Stories')}>All</button>
                 </div>
                 <div id="remove-stories">
