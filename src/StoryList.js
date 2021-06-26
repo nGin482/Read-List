@@ -6,6 +6,7 @@ import Modal from 'react-modal';
 const StoryList = ({stories}) => {
     const [archiveFilter, setArchiveFilter] = useState('All')
     const [fandomFilter, setFandomFilter] = useState('All Stories')
+    const [storiesToDisplay, setStoriesToDisplay] = useState([])
     const givenDate = stories.date
     
     const filterStoriesByArchive = (stories) => {
@@ -67,6 +68,43 @@ const StoryList = ({stories}) => {
         return filterStoriesByArchive(filterStoriesByFandom())
     }
 
+    const displayFilters = () => {
+        return (
+            <div id="filter-options">
+                <div id="filter-archive">
+                    <button onClick={()=> setArchiveFilter('Fanfiction.Net')}>Fanfiction.Net</button>
+                    <button onClick={()=> setArchiveFilter('Archive of our Own')}>Archive of our Own</button>
+                    <button onClick={()=> setArchiveFilter('All')}>All</button>
+                </div>
+                <div id="filter-fandom">
+                    {allFandoms().map(fandom => <button key={fandom} onClick={() => setFandomFilter(fandom)}>{fandom}</button>)}
+                    <button onClick={() => setFandomFilter('All Stories')}>All</button>
+                </div>
+            </div>
+        )
+    }
+
+    const displayStories = () => {
+        const filteredStories = filterStories()
+        if (filteredStories.length > 0) {
+            return (
+                filteredStories.map(story => 
+                    <div>
+                        <Story story={story} view={"browsing"}/>
+                        <button className="edit-story" key={"edit-"+story.storyID}>
+                            <a href={'/story/'+ story.storyID}>Edit Details</a>
+                        </button>
+                    </div>
+                )
+            )
+        }
+        else {
+            return (
+                <div id='no-story-warning'>There are no stories to view from this date</div>
+            )
+        }
+    }
+
     if (!stories.stories) {
         return (
             <Modal isOpen={true}>Waiting for stories to load ...</Modal>
@@ -75,40 +113,15 @@ const StoryList = ({stories}) => {
     else {
         return (
             <div id="story-list">
-                <div id="filter-archive">
-                    <button onClick={()=> setArchiveFilter('Fanfiction.Net')}>Fanfiction.Net</button>
-                    <button onClick={()=> setArchiveFilter('Archive of our Own')}>Archive of our Own</button>
-                    <button onClick={()=> setArchiveFilter('All')}>All</button>
-                </div>
-                <div id="filter-fandom">
-                    {allFandoms().map(fandom => <button key={fandom} onClick={() => setFandomFilter(fandom)}>{fandom}</button>)}
-                    <button onClick={() => setFandomFilter('All Stories')}>All</button>
-                </div>
+                {displayFilters()}
                 <br/>
                 <div id='filter-results'>
                     <p><span>Viewing:</span><br/>Stories from {givenDate}<br/>{fandomFilter} on {archiveFilter}</p><br/>
                     <p id="number"><span>Number of stories:</span><br/>{filterStories().length}</p>
                 </div>
-                {filterStories().length > 0 ? 
-                    filterStories().map(story => 
-                    <div>
-                        <Story story={story} view={"browsing"}/>
-                        <button className="edit-story" key={"edit-"+story.storyID}>
-                            <a href={'/story/'+ story.storyID}>Edit Details</a>
-                        </button>
-                    </div>)
-                    :
-                    <div id='no-story-warning'>There are no stories to view from this date</div>
-                }
-                <div id="filter-archive">
-                    <button onClick={()=> setArchiveFilter('Fanfiction.Net')}>Fanfiction.Net</button>
-                    <button onClick={()=> setArchiveFilter('Archive of our Own')}>Archive of our Own</button>
-                    <button onClick={()=> setArchiveFilter('All')}>All</button>
-                </div>
-                <div id="filter-fandom">
-                    {allFandoms().map(fandom => <button key={fandom} onClick={() => setFandomFilter(fandom)}>{fandom}</button>)}
-                    <button onClick={() => setFandomFilter('All Stories')}>All</button>
-                </div>
+                {displayStories()}
+                <br/>
+                {displayFilters()}
                 <div id="remove-stories">
                     <button onClick={() => console.log('button clicked')}>Finished</button>
                 </div>
