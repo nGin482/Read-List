@@ -1,7 +1,7 @@
 const express = require('express')
 const fs = require('fs')
 
-const {validateFFNRecord, validateAO3Record, getAllFiles, getCurrentDate, searchAllStoriesByKey, stringToDate, findToUpdate, getAllDates, checkFandomAddition, getFandomData, checkFandomUpdate, checkFandomDeletion, writeToInterestedFile, removeFromReadingListFile, markStoryAsRead} = require('./utils/utils')
+const {validateFFNRecord, validateAO3Record, getAllFiles, getCurrentDate, searchAllStoriesByKey, stringToDate, findToUpdate, getAllDates, checkFandomAddition, getFandomData, checkFandomUpdate, checkFandomDeletion, writeToInterestedFile, removeFromReadingListFile, markStoryAsRead, checkStoryBeforeAddToComplete} = require('./utils/utils')
 const Story = require('./models/stories')
 const allStories = getAllFiles()
 const readingListPath = './stories/ReadingList/reading-list.json'
@@ -387,26 +387,30 @@ apiRouter.get('/api/completed-list', async (request, response) => {
         })
         response.status(200).json(completedList)
     }).catch(err => {
-        response.status(200).json({message: 'There was a problem acessing the list of stories read.', error: err})
+        response.status(500).json({message: 'There was a problem acessing the list of stories read.', error: err})
     })
 })
 
 apiRouter.put('/api/completed-list', async (request, response) => {
     const storyID = Number(request.body.storyID)
 
-    await Story.findOneAndUpdate({storyID: storyID}, {readStatus: true}).then(result => {
-        result.dateRead = stringToDate(getCurrentDate())
-        result.save().catch(err => {
-            response.status(500).json({message: 'There was a problem updating the story.', error: err})
+    if (checkStoryBeforeAddToComplete(storyID)) {
+        response.status(409).json({message: "The story you've selected has already been added to the list of stories read."})
+    }
+    else {
+        
+        await Story.findOneAndUpdate({storyID: storyID}, {"$set": {readStatus: true, dateRead: stringToDate(getCurrentDate())}}).then(result => {
+            result.save().catch(err => {
+                response.status(500).json({message: 'There was a problem updating the story.', error: err})
+            })
+            if (markStoryAsRead(storyID)) {
+                response.status(200).json({message: 'The story has been updated to show that it has been read.', readDate: result.dateRead})
+            }
+            else {
+                response.status(500).json({message: "There was a problem marking the story as read. It has been updated in the database but the story's details do not reflect this."})
+            }
         })
-        if (markStoryAsRead(storyID)) {
-            response.status(200).json({message: 'The story has been updated to show that it has been read.', readDate: result.dateRead})
-        }
-        else {
-            response.status(500).json({message: "There was a problem marking the story as read. It has been updated in the database but the story's details do not reflect this."})
-        }
-    })
-
+    }
 })
 
 // Available Dates route
