@@ -71,7 +71,6 @@ const searchAllStoriesByKey = (key, expected) => {
             }
             else {
                 day.stories.forEach(fandom => {
-                    console.log(fandom.FFN)
                     if (fandom.FFN) {
                         if (fandom.FFN.length > 0) {
                             fandom.FFN.forEach(story => {
