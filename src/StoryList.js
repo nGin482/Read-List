@@ -6,7 +6,6 @@ import Modal from 'react-modal';
 const StoryList = ({stories}) => {
     const [archiveFilter, setArchiveFilter] = useState('All')
     const [fandomFilter, setFandomFilter] = useState('All Stories')
-    const [storiesToDisplay, setStoriesToDisplay] = useState([])
     const givenDate = stories.date
     
     const filterStoriesByArchive = (stories) => {
@@ -17,9 +16,11 @@ const StoryList = ({stories}) => {
     }
 
     const allFandoms = () => {
-        // use route when implemented
-        return ['Code Geass', 'Doctor Who', 'Endeavour', 'Lewis', 'NCIS', 'NCIS: LA', 
-        'Person of Interest', 'Transformers All Media Types', 'Transformers (Cinematic Universe)', 'Transformers Prime']
+        const fandoms = []
+        stories.stories.forEach(fandom => {
+            fandoms.push(fandom.fandom)
+        })
+        return fandoms
     }
 
     const filterStoriesByFandom = () => {
