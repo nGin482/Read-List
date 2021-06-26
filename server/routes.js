@@ -342,6 +342,9 @@ apiRouter.post('/api/reading-list/:ID', async (request, response) => {
                 }
             }
             else {
+                if (result.readStatus) {
+                    response.status(409).json({message: 'You have already read this story.'})
+                }
                 response.status(409).json({message: 'This story has already been added to the read list'})
             }
         })
