@@ -15,7 +15,7 @@ const CompletedList = () => {
 
     return (
         <div id="stories-read">
-            {storiesRead.map(story => <Story story={story}/>)}
+            {storiesRead.map(story => <Story key={story.title} story={story} view={'stories-read'}/>)}
         </div>
     )
 }
