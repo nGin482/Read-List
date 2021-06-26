@@ -261,6 +261,17 @@ const markStoryAsRead = storyID => {
     }
 }
 
+const checkStoryBeforeAddToComplete = storyID => {
+    const completedListData = JSON.parse(fs.readFileSync(completedListPath))
+    
+    completedListData.forEach(story => {
+        if (story.storyID === storyID) {
+            return true
+        }
+    })
+    return false
+}
+
 module.exports = {
     validateAO3Record,
     validateFFNRecord,
@@ -276,5 +287,6 @@ module.exports = {
     checkFandomDeletion,
     writeToInterestedFile,
     removeFromReadingListFile,
-    markStoryAsRead
+    markStoryAsRead,
+    checkStoryBeforeAddToComplete
 }
