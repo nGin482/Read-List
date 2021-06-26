@@ -52,16 +52,46 @@ const stringToDate = givenDate => {
 const searchAllStoriesByKey = (key, expected) => {
     const stories = getAllFiles()
     let result = []
+    
+    var cutoff = new Date()
+    cutoff.setDate(26)
+    cutoff.setMonth(5)
 
     if (key === 'storyID') {
         stories.map(day => {
-            day.stories.map(archive => {
-                archive.stories.map(story => {
-                    if (story[key] === expected) {
-                        result.push(story)
+            // if file before 26/6
+            if (stringToDate(day.date).toJSON() < cutoff.toJSON()) {
+                day.stories.map(archive => {
+                    archive.stories.map(story => {
+                        if (story[key] === expected) {
+                            result.push(story)
+                        }
+                    })
+                })
+            }
+            else {
+                day.stories.forEach(fandom => {
+                    console.log(fandom.FFN)
+                    if (fandom.FFN) {
+                        if (fandom.FFN.length > 0) {
+                            fandom.FFN.forEach(story => {
+                                if (story[key] === expected) {
+                                    result.push(story)
+                                }
+                            })
+                        }
+                    }
+                    if (fandom.AO3) {
+                        if (fandom.AO3.length > 0) {
+                            fandom.AO3.forEach(story => {
+                                if (story[key] === expected) {
+                                    result.push(story)
+                                }
+                            })
+                        }
                     }
                 })
-            })
+            }
         })
     }
     else {
