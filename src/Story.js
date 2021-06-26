@@ -4,31 +4,42 @@ import Modal from 'react-modal';
 import './Story.css';
 
 const Story = ({story, view}) => {
-    const [openAddModal, setOpenAddModal] = useState(false)
-    const [openRemoveModal, setOpenRemoveModal] = useState(false)
+    const [openModal, setOpenModal] = useState(false)
+    const [message, setMessage] = useState('')
     
     const addStoryToReadList = () => {
-        services.addToReadList(story).then(() => setOpenAddModal(true))
+        setOpenModal(true)
+        services.addToReadList(story).then(res => {
+            setMessage(res.message)
+        }).catch(err => {
+            setMessage(err.response.data.message)
+        })
     }
     const removeStoryFromReadList = () => {
-        services.removeFromReadList(story.storyID).then(() => setOpenRemoveModal(true))
+        setOpenModal(true)
+        services.removeFromReadList(story.storyID).then(res => {
+            setMessage(res.message)
+        }).catch(err => {
+            setMessage(err.response.data.message)
+        })
+    }
+    const addStoryToCompleteList = () => {
+        setOpenModal(true)
+        services.addtoCompleteList(story.storyID).then(res => {
+            setMessage(res.message)
+        }).catch(err => {
+            setMessage(err.response.data.message)
+        })
     }
     
-    if (story) {
-        if (story == null) {
-            return (
-                <div>
-                    <h3>Waiting for story to load</h3>
-                </div>
-            )
-        }
-        // publishedDate + updatedDate as such until projects uses stories from 21/1/21
-        // otherwise as such
-        // <dt>Published Date:</dt><dd>{story.publishedDate}</dd>
-
-        // for AO3:
-        // tags, warnings, categories
-
+    if (!story) {
+        return (
+            <div>
+                <h3>Waiting for story to load</h3>
+            </div>
+        )
+    }
+    else {
         const storyActions = () => {
             if (view === 'browsing') {
                 return (
@@ -38,7 +49,7 @@ const Story = ({story, view}) => {
             else if (view === 'read-list') {
                 return (
                     <div id="read-list-actions">
-                        <button className="action-story" id="mark-as-read" onClick={() => console.log('This story has been read')}>Mark as Read</button>
+                        <button className="action-story" id="mark-as-read" onClick={() => addStoryToCompleteList()}>Mark as Read</button>
                         <button className="action-story" id="remove-from-read-list" onClick={() => removeStoryFromReadList()}>Remove Story from Read List</button>
                     </div>
                 )
@@ -50,19 +61,11 @@ const Story = ({story, view}) => {
             }
         }
 
-        if (openAddModal) {
+        if (openModal) {
             return (
-                <Modal isOpen={openAddModal} id="story-interest-message">
-                    <button id="close-fandom-modal" onClick={() => setOpenAddModal(false)}>Close</button>
-                    <p>The story has been added to the read list</p>
-                </Modal>
-            )
-        }
-        else if (openRemoveModal) {
-            return (
-                <Modal isOpen={openAddModal} id="story-interest-message">
-                    <button id="close-fandom-modal" onClick={() => setOpenAddModal(false)}>Close</button>
-                    <p>The story has been removed from the read list</p>
+                <Modal isOpen={openModal} id="story-interest-message">
+                    <button id="close-fandom-modal" onClick={() => setOpenModal(false)}>Close</button>
+                    <p className="modal-message" id="story-action-message">{message}</p>
                 </Modal>
             )
         }
