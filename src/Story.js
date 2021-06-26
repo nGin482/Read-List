@@ -5,6 +5,8 @@ import './Story.css';
 
 const Story = ({story, view}) => {
     const [openModal, setOpenModal] = useState(false)
+    const [warningModal, setWarningModal] = useState(false)
+    const [confirmComplete, setConfirmComplete] = useState(false)
     const [message, setMessage] = useState('')
     
     const addStoryToReadList = () => {
@@ -24,12 +26,25 @@ const Story = ({story, view}) => {
         })
     }
     const addStoryToCompleteList = () => {
-        setOpenModal(true)
-        services.addtoCompleteList(story.storyID).then(res => {
-            setMessage(res.message)
-        }).catch(err => {
-            setMessage(err.response.data.message)
-        })
+        if (story.status.includes('Work in Progress')) {
+            setWarningModal(true)
+        }
+        else if (confirmComplete) {
+            setOpenModal(true)
+            services.addtoCompleteList(story.storyID).then(res => {
+                setMessage(res.message)
+            }).catch(err => {
+                setMessage(err.response.data.message)
+            })
+        }
+        else {
+            setOpenModal(true)
+            services.addtoCompleteList(story.storyID).then(res => {
+                setMessage(res.message)
+            }).catch(err => {
+                setMessage(err.response.data.message)
+            })
+        }
     }
     
     if (!story) {
@@ -66,6 +81,17 @@ const Story = ({story, view}) => {
                 <Modal isOpen={openModal} id="story-interest-message">
                     <button id="close-fandom-modal" onClick={() => setOpenModal(false)}>Close</button>
                     <p className="modal-message" id="story-action-message">{message}</p>
+                </Modal>
+            )
+        }
+        else if (warningModal) {
+            return (
+                <Modal isOpen={warningModal} id="story-interest-message">
+                    <button id="close-fandom-modal" onClick={() => setOpenModal(false)}>Close</button>
+                    <p className="modal-message" id="story-action-warning">This story suggests it is still a Work in Progress. 
+                    Are you sure you want to add it the list of stories read?</p>
+                    <button onClick={() => setConfirmComplete(true)}>Yes</button>
+                    <button onClick={() => setWarningModal(false)}>No</button>
                 </Modal>
             )
         }
