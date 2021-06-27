@@ -51,8 +51,8 @@ const Fandoms = () => {
                 <ul id="fandoms-list">
                     {fandoms.filter(f => f.fandom.includes(search)).map(fandom => <div key={fandom.fandom} className="fandom-card">
                         <h4 className="fandom-name">{fandom.fandom}</h4>
-                        {fandom.FFN !== '' ? <img src={ffn_logo} className="ffn-logo" alt="Stories from Fanfiction.Net are being recorded"/> : ''}
-                        {fandom.AO3 !== '' ? <img src={ao3_logo} className="ao3-logo" alt="Stories from Archive of our Own are being recorded"/> : ''}
+                        {fandom.FFN_URL !== '' ? <img src={ffn_logo} className="ffn-logo" alt="Stories from Fanfiction.Net are being recorded"/> : ''}
+                        {fandom.AO3_URL !== '' ? <img src={ao3_logo} className="ao3-logo" alt="Stories from Archive of our Own are being recorded"/> : ''}
                         <span id="search-value">{fandom.search === "One" ? 'One page is being searched' : 'Multiple pages are being searched'}</span>
                         <br/>
                         <span id="open-update-modal" onClick={() => {

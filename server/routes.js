@@ -193,34 +193,33 @@ apiRouter.get('/api/fandoms', async (request, response) => {
     })
 })
 
-apiRouter.post('/api/fandoms/add', (request, response) => {
-    const fandoms = getFandomData()
+apiRouter.post('/api/fandoms/add', async (request, response) => {
     const body = request.body
 
-    if (body) {
-        const fandom = body.fandom
-        
-        if (!checkFandomAddition(fandom)) {
-            const fandom_object = {
-                fandom: body.fandom,
-                FFN: body.ffn_url,
-                AO3: body.ao3_url,
-                search: body.search
-
-            }
-            fandoms.push(fandom_object)
-            fs.writeFileSync('./archives/archives.json', JSON.stringify(fandoms, null, "\t"))
-            if (checkFandomAddition(fandom)) {
-                response.status(200).json({message: 'The new fandom has been added.', fandom: fandom_object})
-            }
-            else {
-                response.status(500).json({message: 'There was an error trying to add the fandom to the list.'})
-            }
-        }
-        else {
+    let flag = false
+    await Fandom.findOne({fandom: body.fandom}).then(result => {
+        if (result) {
             response.status(409).json({message: 'The fandom given has already been recorded.'})
         }
-
+        else {
+            flag = true
+        }
+    }).catch(err => {
+        response.status(500).json({message: 'There was an error trying to see if this fandom has already been recorded.', error: err})
+    })
+    
+    if (flag) {
+        const fandom = new Fandom({
+            fandom: body.fandom,
+            FFN_URL: body.ffn_url,
+            AO3_URL: body.ao3_url,
+            search: body.search
+        })
+        fandom.save().then(() => {
+            response.status(200).json({message: 'The new fandom has been added.', fandom: fandom})
+        }).catch(err => {
+            response.status(500).json({message: 'There was an error trying to add the fandom to the list.', error: err})
+        })
     }
 })
 
