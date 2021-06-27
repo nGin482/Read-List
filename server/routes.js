@@ -1,7 +1,7 @@
 const express = require('express')
 const fs = require('fs')
 
-const {validateFFNRecord, validateAO3Record, getAllFiles, getCurrentDate, searchAllStoriesByKey, stringToDate, findToUpdate, getAllDates, checkFandomAddition, getFandomData, checkFandomUpdate, checkFandomDeletion, writeToInterestedFile, removeFromReadingListFile, markStoryAsRead, checkStoryBeforeAddToComplete} = require('./utils/utils')
+const {validateFFNRecord, validateAO3Record, getAllFiles, getCurrentDate, searchAllStoriesByKey, stringToDate, findToUpdate, getAllDates, checkFandomAddition, getFandomData, checkFandomUpdate, checkFandomDeletion, writeToInterestedFile, removeFromReadingListFile, markStoryAsRead, checkStoryBeforeAddToComplete, moveStoryBacktoReadingList} = require('./utils/utils')
 const Story = require('./models/stories')
 const allStories = getAllFiles()
 const readingListPath = './stories/ReadingList/reading-list.json'
@@ -396,11 +396,11 @@ apiRouter.get('/api/completed-list', async (request, response) => {
     })
 })
 
-apiRouter.put('/api/completed-list', async (request, response) => {
+apiRouter.post('/api/completed-list', async (request, response) => {
     const storyID = Number(request.body.storyID)
 
     if (checkStoryBeforeAddToComplete(storyID)) {
-        response.status(409).json({message: "The story you've selected has already been added to the list of stories read."})
+        response.status(409).json({message: "You have already read this story."})
     }
     else {
         
@@ -416,6 +416,20 @@ apiRouter.put('/api/completed-list', async (request, response) => {
             }
         })
     }
+})
+
+apiRouter.delete('/api/completed-list/:storyID', async (request, response) => {
+    const storyID = Number(request.params.storyID)
+
+    await Story.findOne({storyID: storyID}).then(result => {
+        result.readStatus = false
+        result.dateRead = undefined
+        result.save().catch(err => {
+            response.status(500).json({message: 'There was a problem trying to move this story back to the reading list.', error: err})
+        })
+    })
+    moveStoryBacktoReadingList(storyID)
+    response.status(200).json({message: 'This story has been moved back to the reading list.'})
 })
 
 // Available Dates route

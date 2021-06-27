@@ -301,6 +301,18 @@ const checkStoryBeforeAddToComplete = storyID => {
     return false
 }
 
+const moveStoryBacktoReadingList = storyID => {
+    const readingListData = JSON.parse(fs.readFileSync(readingListPath))
+    const completedListData = JSON.parse(fs.readFileSync(completedListPath))
+
+    const story = completedListData.find(story => story.storyID === storyID)
+    readingListData.push(story)
+    fs.writeFileSync(readingListPath, JSON.stringify(readingListData, null, "\t"))
+
+    const updatedCompleteList = completedListData.filter(story => story.storyID !== storyID)
+    fs.writeFileSync(completedListPath, JSON.stringify(updatedCompleteList, null, "\t"))
+}
+
 module.exports = {
     validateAO3Record,
     validateFFNRecord,
@@ -317,5 +329,6 @@ module.exports = {
     writeToInterestedFile,
     removeFromReadingListFile,
     markStoryAsRead,
-    checkStoryBeforeAddToComplete
+    checkStoryBeforeAddToComplete,
+    moveStoryBacktoReadingList
 }
