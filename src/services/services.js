@@ -61,7 +61,11 @@ const getCompletedList = () => {
 }
 
 const addtoCompleteList = storyID => {
-    return axios.put(completedListURL, {storyID: storyID}).then(response => response.data)
+    return axios.post(completedListURL + storyID).then(response => response.data)
+}
+
+const moveBacktoReadList = storyID => {
+    return axios.delete(completedListURL + storyID).then(response => response.data)
 }
 
 const getDates = () => {
@@ -84,6 +88,7 @@ const requests = {
     removeFromReadList,
     getCompletedList,
     addtoCompleteList,
+    moveBacktoReadList,
     getDates
 }
 
