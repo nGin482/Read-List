@@ -396,8 +396,8 @@ apiRouter.get('/api/completed-list', async (request, response) => {
     })
 })
 
-apiRouter.post('/api/completed-list', async (request, response) => {
-    const storyID = Number(request.body.storyID)
+apiRouter.post('/api/completed-list/:storyID', async (request, response) => {
+    const storyID = Number(request.params.storyID)
 
     if (checkStoryBeforeAddToComplete(storyID)) {
         response.status(409).json({message: "You have already read this story."})
