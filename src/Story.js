@@ -59,10 +59,9 @@ const Story = ({story, view}) => {
                 if (story.status.includes('Work in Progress')) {
                     return (
                         <div id="read-list-actions">
-                            <button className="action-story" id="add-to-read-list" onClick={() => setWarningModal(true)}>Add to Read List</button>
+                            <button className="action-story" id="mark-as-read" onClick={() => setWarningModal(true)}>Mark Story as Read</button>
                             <button className="action-story" id="remove-from-read-list" onClick={() => removeStoryFromReadList()}>Remove Story from Read List</button>
-                        </div>
-                        
+                        </div> 
                     )
                 }
                 else {
