@@ -26,25 +26,12 @@ const Story = ({story, view}) => {
         })
     }
     const addStoryToCompleteList = () => {
-        if (story.status.includes('Work in Progress')) {
-            setWarningModal(true)
-        }
-        else if (confirmComplete) {
-            setOpenModal(true)
-            services.addtoCompleteList(story.storyID).then(res => {
-                setMessage(res.message)
-            }).catch(err => {
-                setMessage(err.response.data.message)
-            })
-        }
-        else {
-            setOpenModal(true)
-            services.addtoCompleteList(story.storyID).then(res => {
-                setMessage(res.message)
-            }).catch(err => {
-                setMessage(err.response.data.message)
-            })
-        }
+        setOpenModal(true)
+        services.addtoCompleteList(story.storyID).then(res => {
+            setMessage(res.message)
+        }).catch(err => {
+            setMessage(err.response.data.message)
+        })
     }
     
     if (!story) {
@@ -62,12 +49,23 @@ const Story = ({story, view}) => {
                 )
             }
             else if (view === 'read-list') {
-                return (
-                    <div id="read-list-actions">
-                        <button className="action-story" id="mark-as-read" onClick={() => addStoryToCompleteList()}>Mark as Read</button>
-                        <button className="action-story" id="remove-from-read-list" onClick={() => removeStoryFromReadList()}>Remove Story from Read List</button>
-                    </div>
-                )
+                if (story.status.includes('Work in Progress')) {
+                    return (
+                        <div id="read-list-actions">
+                            <button className="action-story" id="add-to-read-list" onClick={() => setWarningModal(true)}>Add to Read List</button>
+                            <button className="action-story" id="remove-from-read-list" onClick={() => removeStoryFromReadList()}>Remove Story from Read List</button>
+                        </div>
+                        
+                    )
+                }
+                else {
+                    return (
+                        <div id="read-list-actions">
+                            <button className="action-story" id="mark-as-read" onClick={() => addStoryToCompleteList()}>Mark as Read</button>
+                            <button className="action-story" id="remove-from-read-list" onClick={() => removeStoryFromReadList()}>Remove Story from Read List</button>
+                        </div>
+                    )
+                }
             }
             else if (view === 'stories-read') {
                 return (
@@ -90,7 +88,10 @@ const Story = ({story, view}) => {
                     <button id="close-fandom-modal" onClick={() => setOpenModal(false)}>Close</button>
                     <p className="modal-message" id="story-action-warning">This story suggests it is still a Work in Progress. 
                     Are you sure you want to add it the list of stories read?</p>
-                    <button onClick={() => setConfirmComplete(true)}>Yes</button>
+                    <button onClick={() => {
+                        setWarningModal(false)
+                        addStoryToCompleteList()
+                    }}>Yes</button>
                     <button onClick={() => setWarningModal(false)}>No</button>
                 </Modal>
             )
