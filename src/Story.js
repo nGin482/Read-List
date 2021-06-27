@@ -6,7 +6,6 @@ import './Story.css';
 const Story = ({story, view}) => {
     const [openModal, setOpenModal] = useState(false)
     const [warningModal, setWarningModal] = useState(false)
-    const [confirmComplete, setConfirmComplete] = useState(false)
     const [message, setMessage] = useState('')
     
     const addStoryToReadList = () => {
@@ -28,6 +27,14 @@ const Story = ({story, view}) => {
     const addStoryToCompleteList = () => {
         setOpenModal(true)
         services.addtoCompleteList(story.storyID).then(res => {
+            setMessage(res.message)
+        }).catch(err => {
+            setMessage(err.response.data.message)
+        })
+    }
+    const moveStoryBacktoReadingList = () => {
+        setOpenModal(true)
+        services.moveBacktoReadList(story.storyID).then(res => {
             setMessage(res.message)
         }).catch(err => {
             setMessage(err.response.data.message)
@@ -69,7 +76,7 @@ const Story = ({story, view}) => {
             }
             else if (view === 'stories-read') {
                 return (
-                    <button className="action-story" id="add-to-read-list" onClick={() => console.log('This story will be moved back to the read list')}>Move back to Reading List</button> 
+                    <button className="action-story" id="add-to-read-list" onClick={() => moveStoryBacktoReadingList()}>Move back to Reading List</button> 
                 )
             }
         }
