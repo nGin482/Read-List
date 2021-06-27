@@ -2,7 +2,8 @@ const express = require('express')
 const fs = require('fs')
 
 const {validateFFNRecord, validateAO3Record, getAllFiles, getCurrentDate, searchAllStoriesByKey, stringToDate, findToUpdate, getAllDates, checkFandomAddition, getFandomData, checkFandomUpdate, checkFandomDeletion, writeToInterestedFile, removeFromReadingListFile, markStoryAsRead, checkStoryBeforeAddToComplete, moveStoryBacktoReadingList} = require('./utils/utils')
-const Story = require('./models/stories')
+const Story = require('./mongo/models/stories')
+const Fandom = require('./mongo/models/fandoms')
 const allStories = getAllFiles()
 const readingListPath = './stories/ReadingList/reading-list.json'
 const completedListPath = './stories/CompletedList/completed-list.json'
@@ -178,10 +179,18 @@ apiRouter.delete('/api/date/:Date', (request, response) => {
 
 // Fandoms route
 
-apiRouter.get('/api/fandoms', (request, response) => {
-    const fandoms = JSON.parse(fs.readFileSync('./archives/archives.json'))
-
-    response.status(200).json(fandoms)
+apiRouter.get('/api/fandoms', async (request, response) => {
+    
+    await Fandom.find({}).then(result => {
+        if (result.length === 0) {
+            response.status(404).json({message: 'There are no fandoms stored in the DB'})
+        }
+        else {
+            response.status(200).json(result)
+        }
+    }).catch(err => {
+        response.status(500).json({message: 'A problem occurred when trying to retrieve the list of fandoms.', error: err})
+    })
 })
 
 apiRouter.post('/api/fandoms/add', (request, response) => {
