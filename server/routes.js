@@ -258,31 +258,19 @@ apiRouter.put('/api/fandoms/:fandom/update', (request, response) => {
     }
 })
 
-apiRouter.delete('/api/fandoms/:fandom/delete', (request, response) => {
+apiRouter.delete('/api/fandoms/:fandom/delete', async (request, response) => {
     const fandom = request.params.fandom
 
-    if (fandom) {
-        fandoms = getFandomData()
-        const recordedFandom = fandoms.find(f => f.fandom === fandom)
-
-        if (recordedFandom) {
-            fandoms = fandoms.filter(f => f.fandom !== recordedFandom.fandom)
-            
-            const checkOriginal = checkFandomDeletion(fandom)
-            fs.writeFileSync('./archives/archives.json', JSON.stringify(fandoms, null, "\t"))
-            const checkDeletion = checkFandomDeletion(fandom)
-            
-            if (!checkOriginal && checkDeletion) {
-                response.status(200).json({message: 'The fandom has been deleted'})
-            }
-            else {
-                response.status(500).json({message: 'The fandom has not been deleted'})
-            }
+    await Fandom.findOneAndDelete({fandom: fandom}).then(result => {
+        if (result) {
+            response.status(200).json({message: 'The fandom has been deleted.', fandom: result})
         }
         else {
-            response.status(404).json({message: 'The fandom given cannot be found'})
+            response.status(404).json({message: 'The fandom given cannot be found.'})
         }
-    }
+    }).catch(err => {
+        response.status(500).json({message: 'There was an error deleting the fandom.', error: err})
+    })
 })
 
 // Reading List routes
