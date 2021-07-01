@@ -223,38 +223,31 @@ apiRouter.post('/api/fandoms/add', async (request, response) => {
     }
 })
 
-apiRouter.put('/api/fandoms/:fandom/update', (request, response) => {
+apiRouter.put('/api/fandoms/:fandom/update', async (request, response) => {
     const body = request.body
-    
-    if (body) {
-        const fandom = request.params.fandom
-        const fandoms = getFandomData()
-        const recorded_fandom = fandoms.find(f => f.fandom === fandom)
+    const fandom = request.params.fandom
 
-        if (recorded_fandom) {
-            const field = body.field
-            const newData = body.newData
-
-            const checkOriginalData = checkFandomUpdate(fandom, field, newData)
-            
-            recorded_fandom[field] = newData
-            fs.writeFileSync('./archives/archives.json', JSON.stringify(fandoms, null, "\t"))
-            
-            const checkUpdate = checkFandomUpdate(fandom, field, newData)
-            if (!checkOriginalData && checkUpdate) {
-                response.status(200).json({message: 'The fandom has been updated with the given details. Please refresh the page to see the changes.'})
-            }
-            else if (checkOriginalData && checkUpdate) {
-                response.status(200).json({message: 'No change has been made as the values have remained the same.'})
+    const correct_fields = ['fandom', 'FFN_URL', 'AO3_URL', 'search']
+    let flag = false
+    correct_fields.forEach(field => {
+        if (field === body.field) {
+            flag = true
+        }
+    })
+    if (flag) {
+        await Fandom.findOneAndUpdate({fandom: fandom}, {$set: {[body.field]: body.newData}}, {new: true}).then(result => {
+            if (result) {
+                response.status(200).json({message: 'The fandom has been updated with the details given. Please refresh the page to see the changes.', fandom: result})
             }
             else {
-                response.status(500).json({message: 'The fandom has not been updated with the given details.'})
+                response.status(404).json({message: 'The fandom you have chosen to update can not be found.'})
             }
-        }
-        else {
-            response.status(404).json({message: 'The fandom given can not be found. Please make sure the fandom name is correct.'})
-        }
-        
+        }).catch(err => {
+            console.log(err)
+        })
+    }
+    else {
+        response.status(400).json({message: 'The fandom can not be updated because the field given is not valid'})
     }
 })
 
