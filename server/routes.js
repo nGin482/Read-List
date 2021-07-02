@@ -284,10 +284,10 @@ apiRouter.get('/api/reading-list', async (request, response) => {
             response.status(200).json(readingList)
         }
         else {
-            response.status(404).json({message: 'No stories were found in the reading list'})
+            response.status(404).json({message: 'No stories were found in the reading list.'})
         }
     }).catch(err => {
-        response.status(500).json({message: 'There was an error retrieving the reading list', error: err})
+        response.status(500).json({message: 'There was an error retrieving the reading list.', error: err})
     })
 })
 
@@ -311,7 +311,7 @@ apiRouter.post('/api/reading-list/:ID', async (request, response) => {
                         response.status(200).json({message: 'The story has been added to the read list', story: story})
                     }
                     else {
-                        response.status(500).json({error: 'There was an error adding the story to the read list', res: error})
+                        response.status(500).json({error: 'There was an error adding the story to the read list.', res: error})
                     }
                 }
                 else {
@@ -323,10 +323,10 @@ apiRouter.post('/api/reading-list/:ID', async (request, response) => {
                     })
 
                     if (writeToInterestedFile(story)) {
-                        response.status(200).json({message: 'The story has been added to the read list', story: story})
+                        response.status(200).json({message: 'The story has been added to the read list.', story: story})
                     }
                     else {
-                        response.status(500).json({error: 'There was an error adding the story to the read list', res: error})
+                        response.status(500).json({error: 'There was an error adding the story to the read list.', res: error})
                     }
                 }
             }
@@ -335,13 +335,13 @@ apiRouter.post('/api/reading-list/:ID', async (request, response) => {
                     response.status(409).json({message: 'You have already read this story.'})
                 }
                 else {
-                    response.status(409).json({message: 'This story has already been added to the read list'})
+                    response.status(409).json({message: 'This story has already been added to the read list.'})
                 }
             }
         })
     }
     else {
-        response.status(404).json({message: 'The story could not be found'})
+        response.status(404).json({message: 'The story could not be found.'})
     }
 })
 
@@ -349,16 +349,15 @@ apiRouter.delete('/api/reading-list/:storyID', async (request, response) => {
     const storyID = request.params.storyID
 
     await Story.findOneAndDelete({storyID: storyID}).then(result => {
-        console.log(result)
         if (removeFromReadingListFile(storyID)) {
-            response.status(200).json({message: 'This story has been removed from the reading list'})
+            response.status(200).json({message: 'This story has been removed from the reading list.'})
         }
         else {
-            response.status(500).json({message: 'There was a problem removing the story from the reading list'})    
+            response.status(500).json({message: 'There was a problem removing the story from the reading list.'})    
         }
     }).catch(err => {
         console.log(err)
-        response.status(500).json({message: 'There was a problem removing the story from the reading list'})
+        response.status(500).json({message: 'There was a problem removing the story from the reading list.'})
     })
 })
 
@@ -425,7 +424,7 @@ apiRouter.delete('/api/completed-list/:storyID', async (request, response) => {
 
 apiRouter.get('/api/dates', (request, response) => {
     if (getAllDates() === []) {
-        response.status(404).json({error: 'No dates are available'})
+        response.status(404).json({error: 'No dates are available.'})
     }
     else {
         response.status(200).json(getAllDates())
