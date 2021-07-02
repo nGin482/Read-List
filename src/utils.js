@@ -94,8 +94,50 @@ const checkValidationAddFandom = (fandom, ffn_url, ao3_url, search) => {
     }
 }
 
+const checkValidationUpdateFandom = (field, newData) => {
+    if (field === '' && newData === '') {
+        return {status: false, message: 'Please select a data item to change and enter new data before submitting.'}
+    }
+    else if (field === '' && newData !== '') {
+        return {status: false, message: 'Please select a data item to change before submitting.'}
+    }
+    else if (newData === '' && field !== '') {
+        return {status: false, message: 'Please enter new data before submitting.'}
+    }
+    else {
+        if (field === 'FFN_URL') {
+            if (!checkValidFFNURL(newData)) {
+                return {status: false, message: 'This is not a valid Fanfiction.Net URL. Please make sure the URL given is from Fanfiction.Net before submitting.'}
+            }
+            else {
+                return {status: true}
+            }
+        }
+        else if (field === 'AO3_URL') {
+            if (!checkValidAO3URL(newData)) {
+                return {status: false, message: 'This is not a valid AO3 URL. Please make sure the URL given is from Archive of our Own before submitting.'}
+            }
+            else {
+                return {status: true}
+            }
+        }
+        else if (field === 'search') {
+            if (newData === '') {
+                return {status: false, message: 'Please specify how many pages to search.'}
+            }
+            else {
+                return {status: true}
+            }
+        }
+        else {
+            return {status: true}
+        }
+    }
+}
+
 const utilFunctions = {
-    checkValidationAddFandom
+    checkValidationAddFandom,
+    checkValidationUpdateFandom
 }
 
 export default utilFunctions;

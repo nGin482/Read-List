@@ -12,13 +12,6 @@ const AddFandom = ({openAdd, setOpenAdd, message, setMessage}) => {
     const [ao3_url, setAO3_url] = useState('')
     const [search, setSearch] = useState('')
 
-    if (!openAdd) {
-        setFandom('')
-        setFFN_url('')
-        setAO3_url('')
-        setSearch('')
-    }
-    
     const addFandom = (event) => {
         event.preventDefault()
 
