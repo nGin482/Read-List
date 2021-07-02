@@ -12,9 +12,9 @@ This repository features a back end server that collects a number of fanfics fro
     - will be updating story in read list DB instead
 
 ## To Do
-1. Add fandoms data to mongodb cluster
-2. List of stories to ignore
-3. ErrorNotification service - discord.js
+1. List of stories to ignore
+2. ErrorNotification service - discord.js
+3. Re-organise the components directory
 4. Mobile Design
 5. Update styles
 6. Update Documentation
