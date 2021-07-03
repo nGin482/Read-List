@@ -76,7 +76,7 @@ const Story = ({story, view, fandom}) => {
                     return (
                         <div id="read-list-actions">
                             <button className="action-story" id="mark-as-read" onClick={() => setWarningModal(true)}>Mark Story as Read</button>
-                            <button className="action-story" id="remove-from-read-list" onClick={() => removeStoryFromReadList()}>Remove Story from Read List</button>
+                            <button className="action-story" id="remove-from-read-list" onClick={() => removeStoryFromReadList()}>Remove Story from Reading List</button>
                         </div> 
                     )
                 }
@@ -84,7 +84,7 @@ const Story = ({story, view, fandom}) => {
                     return (
                         <div id="read-list-actions">
                             <button className="action-story" id="mark-as-read" onClick={() => addStoryToCompleteList()}>Mark as Read</button>
-                            <button className="action-story" id="remove-from-read-list" onClick={() => removeStoryFromReadList()}>Remove Story from Read List</button>
+                            <button className="action-story" id="remove-from-read-list" onClick={() => removeStoryFromReadList()}>Remove Story from Reading List</button>
                         </div>
                     )
                 }
