@@ -223,6 +223,18 @@ apiRouter.post('/api/fandoms/add', async (request, response) => {
     }
 })
 
+apiRouter.post('/api/fandoms/:fandom/ignore/', async (request, response) => {
+    const fandom = request.params.fandom
+    const storyTitle = request.body.title
+
+    await Fandom.findOneAndUpdate({fandom: fandom}, {$push: {ignore: storyTitle}}).then(result => {
+        result.save().then(() => {
+            response.status(200).json({message: 'The story ' + storyTitle + ' is now being ignored.', fandom: fandom})
+        })
+    })
+
+})
+
 apiRouter.put('/api/fandoms/:fandom/update', async (request, response) => {
     const body = request.body
     const fandom = request.params.fandom
