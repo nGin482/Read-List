@@ -1,6 +1,7 @@
 import axios from 'axios'
 const storiesURL = '/api/stories/'
 const storyURL = '/api/story/'
+const fandomsURL = '/api/fandoms/'
 const readListURL = '/api/reading-list/'
 const completedListURL = '/api/completed-list/'
 
@@ -29,19 +30,19 @@ const removeStories = (date) => {
 }
 
 const getFandoms = () => {
-    return axios.get('/api/fandoms').then(response => response.data)
+    return axios.get(fandomsURL).then(response => response.data)
 }
 
 const addFandom = (fandom_data) => {
-    return axios.post('/api/fandoms/add', fandom_data).then(response => response.data)
+    return axios.post(fandomsURL + 'add', fandom_data).then(response => response.data)
 }
 
 const updateFandom = (fandomName, fandomData) => {
-    return axios.put('/api/fandoms/' + fandomName + '/update', fandomData).then(response => response.data)
+    return axios.put(fandomsURL + fandomName + '/update', fandomData).then(response => response.data)
 }
 
 const deleteFandom = (fandomName) => {
-    return axios.delete('/api/fandoms/' + fandomName + '/delete').then(response => response.data)
+    return axios.delete(fandomsURL + fandomName + '/delete').then(response => response.data)
 }
 
 const getReadingList = () => {
@@ -68,6 +69,10 @@ const moveBacktoReadList = storyID => {
     return axios.delete(completedListURL + storyID).then(response => response.data)
 }
 
+const ignoreStory = (fandom, title) => {
+    return axios.post(fandomsURL + fandom + '/ignore', {title: title}).then(response => response.data)
+}
+
 const getDates = () => {
     return axios.get('/api/dates').then(response => response.data)
 }
@@ -83,6 +88,7 @@ const requests = {
     addFandom,
     updateFandom,
     deleteFandom,
+    ignoreStory,
     getReadingList,
     addToReadList,
     removeFromReadList,

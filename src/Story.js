@@ -3,7 +3,7 @@ import services from './services/services';
 import Modal from 'react-modal';
 import './Story.css';
 
-const Story = ({story, view}) => {
+const Story = ({story, view, fandom}) => {
     const [openModal, setOpenModal] = useState(false)
     const [warningModal, setWarningModal] = useState(false)
     const [message, setMessage] = useState('')
@@ -40,6 +40,19 @@ const Story = ({story, view}) => {
             setMessage(err.response.data.message)
         })
     }
+    const ignoreThisStory = () => {
+        setOpenModal(true)
+        if (fandom === 'All Stories') {
+            setMessage('We are unable to ignore this story because we do not know which fandom it was written for. To ignore this story, use the fandom filter located at the top or bottom of the page.')
+        }
+        else {
+            services.ignoreStory(fandom, story.title).then(res => {
+                setMessage(res.message)
+            }).catch(err => {
+                setMessage(err.response.data.message)
+            })
+        }
+    }
     
     if (!story) {
         return (
@@ -52,7 +65,10 @@ const Story = ({story, view}) => {
         const storyActions = () => {
             if (view === 'browsing') {
                 return (
-                    <button className="action-story" id="add-to-read-list" onClick={() => addStoryToReadList()}>Add to Read List</button> 
+                    <div id="browsing-actions">
+                        <button className="action-story" id="add-to-read-list" onClick={() => addStoryToReadList()}>Add to Read List</button> 
+                        <button className="action-story" id="ignore-story" onClick={() => ignoreThisStory()}>Ignore this Story</button> 
+                    </div>
                 )
             }
             else if (view === 'read-list') {
