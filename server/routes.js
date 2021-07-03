@@ -213,7 +213,8 @@ apiRouter.post('/api/fandoms/add', async (request, response) => {
             fandom: body.fandom,
             FFN_URL: body.ffn_url,
             AO3_URL: body.ao3_url,
-            search: body.search
+            search: body.search,
+            ignore: []
         })
         fandom.save().then(() => {
             response.status(200).json({message: 'The new fandom has been added.', fandom: fandom})
