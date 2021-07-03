@@ -47,7 +47,7 @@ const checkValidationAddFandom = (fandom, ffn_url, ao3_url, search) => {
                 }
             }
             else {
-                return {status: false, message: 'This is not a valid Fanfiction.Net URL. Please make sure the URL given is from Fanfiction.Net before submitting'}
+                return {status: false, message: 'This is not a valid Fanfiction.Net URL. Please make sure the URL given is from Fanfiction.Net before submitting.'}
             }
         }
         else if (ao3_url !== '' && ffn_url === '') {
@@ -60,7 +60,7 @@ const checkValidationAddFandom = (fandom, ffn_url, ao3_url, search) => {
                 }
             }
             else {
-                return {status: false, message: 'This is not a valid AO3 URL. Please make sure the URL given is from Archive of our Own before submitting'}
+                return {status: false, message: 'This is not a valid AO3 URL. Please make sure the URL given is from Archive of our Own before submitting.'}
             }
         }
         else if (ffn_url !== '' && ao3_url !== '') {
@@ -76,13 +76,13 @@ const checkValidationAddFandom = (fandom, ffn_url, ao3_url, search) => {
                 }
             }
             else if (!ffn_check && ao3_check) {
-                return {status: false, message: 'This is not a valid Fanfiction.Net URL. Please make sure the URL given is from Fanfiction.Net before submitting'}
+                return {status: false, message: 'This is not a valid Fanfiction.Net URL. Please make sure the URL given is from Fanfiction.Net before submitting.'}
             }
             else if (!ao3_check && ffn_check) {
-                return {status: false, message: 'This is not a valid AO3 URL. Please make sure the URL given is from Archive of our Own before submitting'}
+                return {status: false, message: 'This is not a valid AO3 URL. Please make sure the URL given is from Archive of our Own before submitting.'}
             }
             else {
-                return {status: false, message: 'The Fanfiction.Net and the Archive of our Own URLs given do not come from their respective sites. Please make sure they are correct URLs before submitting'}
+                return {status: false, message: 'The Fanfiction.Net and the Archive of our Own URLs given do not come from their respective sites. Please make sure they are correct URLs before submitting.'}
             }
         }
         else {
