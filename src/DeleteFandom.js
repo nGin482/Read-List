@@ -8,6 +8,7 @@ const DeleteFandom = ({fandomName, openDelete, setOpenDelete, message, setMessag
     const [deleteConfirm, setDeleteConfirm] = useState(false)
     
     if (deleteConfirm) {
+        setDeleteConfirm(false)
         services.deleteFandom(fandomName).then(data => {
             setMessage(data.message)
         }).catch(err => {
