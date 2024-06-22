@@ -1,11 +1,22 @@
-import axios from 'axios'
-const storiesURL = '/api/stories/'
-const storyURL = '/api/story/'
-const fandomsURL = '/api/fandoms/'
-const readListURL = '/api/reading-list/'
-const completedListURL = '/api/completed-list/'
+import axios from 'axios';
 
-const getDateStories = (date) => {
+class APIClient {
+    
+}
+
+const BASE_URL = 'http://localhost:3001/api';
+
+const storiesURL = `${BASE_URL}/stories/`;
+const storyURL = `${BASE_URL}/story/`
+const fandomsURL = `${BASE_URL}/fandoms/`
+const readListURL = `${BASE_URL}/reading-list/`
+const completedListURL = `${BASE_URL}/completed-list/`
+
+const getDateStories = async (date: string) => {
+    const response = await axios.get(storiesURL + 'date/' + date);
+    if (response.status === 200) {
+        return response.data;
+    }
     return axios.get(storiesURL + 'date/' + date).then(response => response.data)
 }
 
@@ -13,8 +24,8 @@ const getStoriesByFandom = (fandom) => {
     return axios.get(storiesURL + fandom).then(response => response.data)
 }
 
-const getStoriesByID = ID => {
-    return axios.get(storyURL + ID).then(response => response.data)
+const getStoriesByID = (id: string) => {
+    return axios.get(storyURL + id).then(response => response.data)
 }
 
 const getMostRecentStories = () => {
@@ -74,7 +85,7 @@ const ignoreStory = (fandom, title) => {
 }
 
 const getDates = () => {
-    return axios.get('/api/dates').then(response => response.data)
+    return axios.get(`${BASE_URL}/dates`).then(response => response.data)
 }
 
 const requests = {

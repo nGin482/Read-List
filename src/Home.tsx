@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
 import Modal from 'react-modal';
-import services from './services/services';
+
+import services from "./services/services";
 import StoryList from './StoryList';
-import StoryPage from './StoryPage.js';
+import StoryPage from './StoryPage';
 import Calendar from './Calendar';
 import StoriesForDate from './StoriesForDate';
 import Fandoms from './Fandoms';
@@ -11,19 +12,21 @@ import ReadingList from './ReadingList';
 import CompletedList from './CompletedList';
 import './App.css';
 import './nav.css';
+import { Collection } from './utils';
 
 // menu icon
 // react-responsive for media queries
 // https://www.npmjs.com/package/react-responsive
 
 const App = () => {
-    const [stories, setStories] = useState([])
+    const [collection, setCollection] = useState<Collection>(null)
     const [dates, setDates] = useState([])
     const [openModal, setOpenModal] = useState(false)
 
     useEffect(() => {
       services.getMostRecentStories().then(data => {
-        setStories(data)
+        console.log(data)
+        setCollection(data)
         }).catch(err => {
             <Modal isOpen={true}>{err}</Modal>
         })
@@ -59,7 +62,7 @@ const App = () => {
                 <Route path='/fandoms'><Fandoms/></Route>
                 <Route path='/reading-list'><ReadingList/></Route>
                 <Route path='/completed-list'><CompletedList/></Route>
-                <Route path='/'><StoryList stories={stories}/></Route>
+                <Route path='/'><StoryList collection={collection}/></Route>
             </Switch>
         </Router>
     );

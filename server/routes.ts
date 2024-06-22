@@ -1,4 +1,4 @@
-const express = require('express')
+import express, { Router } from 'express'
 const fs = require('fs')
 
 const {validateFFNRecord, validateAO3Record, getAllFiles, getCurrentDate, searchAllStoriesByKey, stringToDate, findToUpdate, getAllDates, checkFandomAddition, getFandomData, checkFandomUpdate, checkFandomDeletion, writeToInterestedFile, removeFromReadingListFile, markStoryAsRead, checkStoryBeforeAddToComplete, moveStoryBacktoReadingList} = require('./utils/utils')
@@ -6,9 +6,9 @@ const Story = require('./mongo/models/stories')
 const Fandom = require('./mongo/models/fandoms')
 const allStories = getAllFiles()
 const readingListPath = './stories/ReadingList/reading-list.json'
-const completedListPath = './stories/CompletedList/completed-list.json'
+const completedListPath = './stories/CompletedList/completed-list.json';
 
-const apiRouter = express.Router()
+const apiRouter = Router();
 
 
 apiRouter.get('/api/stories', (request, response) => {
@@ -34,7 +34,7 @@ apiRouter.get('/api/stories/mostRecent', (request, response) => {
             }, 5000)
         }
     }
-    if (mostRecent === []) {
+    if (mostRecent.length === 0) {
         response.status(404).json({error: 'No collections are currently available'})
     }
     else {
@@ -135,7 +135,7 @@ apiRouter.put('/api/update/:ID', (request, response) => {
     const body = request.body
 
     const collection = findToUpdate(storyID)
-    let storyToUpdate = ''
+    let storyToUpdate = null
     let status = false
 
     collection.map(day => {
@@ -436,7 +436,7 @@ apiRouter.delete('/api/completed-list/:storyID', async (request, response) => {
 // Available Dates route
 
 apiRouter.get('/api/dates', (request, response) => {
-    if (getAllDates() === []) {
+    if (getAllDates().length === 0) {
         response.status(404).json({error: 'No dates are available.'})
     }
     else {
@@ -444,4 +444,4 @@ apiRouter.get('/api/dates', (request, response) => {
     }
 })
 
-module.exports = apiRouter
+export { apiRouter };

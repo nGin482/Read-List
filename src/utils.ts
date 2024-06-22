@@ -1,4 +1,4 @@
-const checkValidURL = url => {
+const checkValidURL = (url: string) => {
     if (!url.includes('https://')) {
         return false
     }
@@ -7,7 +7,7 @@ const checkValidURL = url => {
     }
 }
 
-const checkValidFFNURL = ffn_url => {
+const checkValidFFNURL = (ffn_url: string) => {
     if (checkValidURL(ffn_url)) {
         if (!ffn_url.includes('fanfiction.net')) {
             return false
@@ -21,7 +21,7 @@ const checkValidFFNURL = ffn_url => {
     }
 }
 
-const checkValidAO3URL = ao3_url => {
+const checkValidAO3URL = (ao3_url: string) => {
     if (checkValidURL(ao3_url)) {
         if (!ao3_url.includes('archiveofourown.org')) {
             return false
@@ -35,7 +35,7 @@ const checkValidAO3URL = ao3_url => {
     }
 }
 
-const checkValidationAddFandom = (fandom, ffn_url, ao3_url, search) => {
+const checkValidationAddFandom = (fandom: string, ffn_url: string, ao3_url: string, search: string) => {
     if (fandom !== '') {
         if (ffn_url !== '' && ao3_url === '') {
             if (checkValidFFNURL(ffn_url)) {
@@ -135,9 +135,32 @@ const checkValidationUpdateFandom = (field, newData) => {
     }
 }
 
+interface IStory {
+    id: number,
+    title: string
+    collectedDate: Date
+    readStatus: boolean
+    dateRead: Date
+    status: string
+    archive: string
+    url: string
+}
+
+interface IArchiveStories {
+    fandom: string
+    AO3_URL: IStory[]
+    FFN_URL: IStory[]
+}
+
+interface Collection {
+    date: string
+    stories: IArchiveStories[]
+}
+
 const utilFunctions = {
     checkValidationAddFandom,
     checkValidationUpdateFandom
 }
 
 export default utilFunctions;
+export { IStory, IArchiveStories, Collection }

@@ -3,7 +3,7 @@ const express = require('express')
 const cors = require('cors')
 
 const connectDB = require('./mongo/mongo.js')
-const apiRouter = require('./routes')
+import { apiRouter } from "./routes";
 
 const app = express()
 app.use(cors())
