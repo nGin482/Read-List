@@ -63,10 +63,7 @@ const StoryList = ({ collection }: { collection: Collection }) => {
                 {storiesDisplayed.length > 0 ? (
                     storiesDisplayed.map(story => (
                         <div key={story.title}>
-                            <Story story={story} view={"browsing"} fandom={fandomFilter}/>
-                            <button className="edit-story" key={"edit-"+story.storyID}>
-                                <a href={'/story/'+ story.storyID}>Edit Details</a>
-                            </button>
+                            <Story story={story} view="browsing" fandom={fandomFilter}/>
                         </div>
                     ))
                 ) : (

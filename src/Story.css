@@ -1,175 +1,26 @@
 .story-card {
-    border-radius: 5px;
-    border-color: black;
-    border-style: solid;
+    border: solid black 4px;
+    border-radius: 10px;
     margin: 5%;
-    padding-left: 2%;
-    position: relative;
     background-color: white;
 }
 
-#story-title {
+.story-card .ant-descriptions-title {
     text-align: center;
 }
 
-dl {
-    width: 100%;
-    overflow: hidden;
+.ant-btn-primary.ignore-story:hover {
+    background: linear-gradient(-45deg, #ffcc00, #fafafa 50%, #ffcc00 60%) !important;
+    background-position-x: 100%;
+    animation: shimmer 2s linear;
+    color: #000a !important;
 }
 
-/* https://www.the-art-of-web.com/css/format-dl/ */
-dt { 
-    width: 10%;
-    background-color: darkgrey;
-}
-dd { 
-    /* width: 90%; */
-    /* adjust the width; make sure the total of both is 100% */
-    padding: 0;
-    margin: 0;
-}
-
-.characters {
-    border: solid 1px black;
-    /* position: absolute; */
-    display: inline-block;
-    margin-right: 1%;
-    /* float: left; */
-    width: 20%;
-}
-.characters dt {
-    width: 100%;
-}
-.characters li {
-    margin-left: 2%;
-}
-
-.relationships {
-    border: solid 1px black;
-    /* position: absolute; */
-    display: inline-block;
-    margin-right: 1%;
-    /* float: left; */
-    width: 20%;
-    /* width: max-content; */
-}
-.relationships dt {
-    width: 100%;
-}
-.relationships li {
-    margin-left: 2%;
-}
-
-.fandoms {
-    border: solid 1px black;
-    display: inline-block;
-    /* float: left; */
-    width: 15%;
-}
-.fandoms dt {
-    width: 100%;
-}
-.fandoms li {
-    margin-left: 2%;
-}
-
-.story-details dt {
-    width: 100%;
-}
-.chapters {
-    float: left;
-    margin-right: 5%;
-}
-.words {
-    float: left;
-    margin-right: 5%;
-}
-.date {
-    float: left;
-    margin-right: 5%;
-}
-.updatedDate {
-    float: left;
-    margin-right: 5%;
-}
-.publishedDate {
-    float: left;
-    margin-right: 5%;
-}
-.rating {
-    float: left;
-    margin-right: 5%;
-}
-.status {
-    float: left;
-    margin-right: 5%;
-}
-.archive {
-    float: left;
-    margin-right: 5%;
-}
-
-.AO3-tagging {
-    position: relative;
-    top: 60%;
-    /* overflow: hidden; */
-}
-.AO3-tagging dt {
-    width: 100%;
-}
-
-.warnings {
-    position: absolute;
-    border: solid 1px black;
-    /* float: left; */
-    /* clear: right; */
-    left: 50%;
-    top: 30%;
-}
-.warnings li {
-    margin-left: 2%;
-}
-
-.categories {
-    /* position: static; */
-    border: solid 1px black;
-    /* float: left; */
-    /* clear: both; */
-    left: 50%;
-    top: 30%;
-    width: 15%;
-}
-.categories dt {
-    width: 100;
-}
-.categories li {
-    margin-left: 2%;
-}
-
-.tags {
-    position: static;
-    border: solid 1px black;
-    /* float: left; */
-    /* clear: right; */
-    left: 50%;
-    top: 30%;
-    width: 30%;
-}
-.tags li {
-    margin-left: 2%;
-}
-
-.action-story {
-    display: block;
-    margin: auto;
-    margin-bottom: 2%;
-    padding: 1%;
-    cursor: pointer;
-}
-
-#read-list-actions {
-    display: inline;
-}
+@keyframes shimmer {
+    to {
+        background-position-x: 0%;
+    }
+ }
 
 #add-to-read-list:hover {
     background-color: yellowgreen;

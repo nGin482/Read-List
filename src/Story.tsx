@@ -1,9 +1,18 @@
-import React, {useState} from 'react';
-import services from './services/services';
-import Modal from 'react-modal';
+import { useState } from "react";
+import { Button, Card, Descriptions, DescriptionsProps } from "antd";
+import Modal from "react-modal";
+
+import services from "./services/services";
+import { IStory } from "./utils/types";
 import './Story.css';
 
-const Story = ({story, view, fandom}) => {
+interface StoryProps {
+    story: IStory,
+    view: 'browsing' | 'read-list' | 'stories-read'
+    fandom: string
+}
+
+const Story = ({ story, view, fandom }: StoryProps) => {
     const [openModal, setOpenModal] = useState(false)
     const [warningModal, setWarningModal] = useState(false)
     const [message, setMessage] = useState('')
@@ -40,7 +49,7 @@ const Story = ({story, view, fandom}) => {
             setMessage(err.response.data.message)
         })
     }
-    const ignoreThisStory = () => {
+    const ignoreStory = () => {
         setOpenModal(true)
         if (fandom === 'All Stories') {
             setMessage('We are unable to ignore this story because we do not know which fandom it was written for. To ignore this story, use the fandom filter located at the top or bottom of the page.')
@@ -53,6 +62,130 @@ const Story = ({story, view, fandom}) => {
             })
         }
     }
+
+
+    const descriptionItems: DescriptionsProps['items'] = [
+        {
+            key: 'author',
+            label: 'Author',
+            children: story.author,
+            span: 4
+        },
+        {
+            key: 'summary',
+            label: 'Summary',
+            children: story.summary,
+            span: 4
+        },
+        {
+            key: 'chapters',
+            label: 'Chapters',
+            children: story.chapters
+        },
+        {
+            key: 'words',
+            label: 'Words',
+            children: story.words,
+            span: 3
+        },
+        {
+            key: 'fandoms',
+            label: 'Fandoms',
+            children: (
+                <ul>
+                    {story.fandoms.map(fandom => <li>{fandom}</li>)}
+                </ul>
+            ),
+            span: 3
+        },
+        {
+            key: 'characters',
+            label: 'Characters',
+            children: (
+                <ul>
+                    {story.characters.map(character => <li>{character}</li>)}
+                </ul>
+            ),
+            span: 2
+        },
+        {
+            key: 'relationships',
+            label: 'Relationships',
+            children: (
+                story.relationships.length > 0 ? (
+                    <ul>
+                        {story.relationships.map(ship => <li>{ship}</li>)}
+                    </ul>
+                ) : (
+                    <p>No relationships were tagged</p>
+                )
+            ),
+            span: 2
+        },
+        {
+            key: 'publishedDate',
+            label: 'Published Date',
+            children: story.publishedDate,
+            span: 2
+        },
+        {
+            key: 'updateDate',
+            label: 'Updated Date',
+            children: story.updatedDate,
+            span: 2
+        },
+        {
+            key: 'status',
+            label: 'Status',
+            children: story.status,
+            span: 1
+        },
+        {
+            key: 'rating',
+            label: 'Rating',
+            children: story.rating,
+            span: 2
+        },
+        {
+            key: 'genres',
+            label: 'Genres',
+            children: (
+                story.genres?.length > 0 ? (
+                    <ul>
+                        {story.genres.map(genre => <li>{genre}</li>)}
+                    </ul>
+                ) : (
+                    <p>No genres were tagged</p>
+                )
+            )
+        },
+        {
+            key: 'categories',
+            label: 'Categories',
+            children: (
+                story.categories?.length > 0 ? (
+                    <ul>
+                        {story.categories.map(category => <li>{category}</li>)}
+                    </ul>
+                ) : (
+                    <p>No categories were tagged</p>
+                )
+            )
+        },
+        {
+            key: 'tags',
+            label: 'Tags',
+            children: (
+                story.tags?.length > 0 ? (
+                    <ul>
+                        {story.tags.map(tag => <li>{tag}</li>)}
+                    </ul>
+                ) : (
+                    <p>No tags were tagged</p>
+                )
+            )
+        }
+    ];
     
     if (!story) {
         return (
@@ -64,35 +197,48 @@ const Story = ({story, view, fandom}) => {
     else {
         const storyActions = () => {
             if (view === 'browsing') {
-                return (
-                    <div id="browsing-actions">
-                        <button className="action-story" id="add-to-read-list" onClick={() => addStoryToReadList()}>Add to Read List</button> 
-                        <button className="action-story" id="ignore-story" onClick={() => ignoreThisStory()}>Ignore this Story</button> 
-                    </div>
-                )
+                return [
+                    <Button
+                        className="action-story"
+                        id="add-to-read-list"
+                        type="primary"
+                        onClick={addStoryToReadList}
+                    >
+                        Add to Read List
+                    </Button>,
+                    <Button
+                        className="ignore-story"
+                        type="primary"
+                        onClick={ignoreStory}
+                    >
+                        Ignore Story
+                    </Button>
+                ];
             }
             else if (view === 'read-list') {
                 if (story.status.includes('Work in Progress')) {
-                    return (
-                        <div id="read-list-actions">
-                            <button className="action-story" id="mark-as-read" onClick={() => setWarningModal(true)}>Mark Story as Read</button>
-                            <button className="action-story" id="remove-from-read-list" onClick={() => removeStoryFromReadList()}>Remove Story from Reading List</button>
-                        </div> 
-                    )
+                    return [
+                        <Button
+                            className="action-story"
+                            id="mark-as-read"
+                            onClick={() => setWarningModal(true)}
+                        >
+                            Mark Story as Read
+                        </Button>,
+                        <Button className="action-story" id="remove-from-read-list" onClick={removeStoryFromReadList}>Remove Story from Reading List</Button>
+                    ];
                 }
                 else {
-                    return (
-                        <div id="read-list-actions">
-                            <button className="action-story" id="mark-as-read" onClick={() => addStoryToCompleteList()}>Mark as Read</button>
-                            <button className="action-story" id="remove-from-read-list" onClick={() => removeStoryFromReadList()}>Remove Story from Reading List</button>
-                        </div>
-                    )
+                    return [
+                        <Button className="action-story" id="mark-as-read" onClick={addStoryToCompleteList}>Mark as Read</Button>,
+                        <Button className="action-story" id="remove-from-read-list" onClick={removeStoryFromReadList}>Remove Story from Reading List</Button>
+                    ];
                 }
             }
             else if (view === 'stories-read') {
-                return (
-                    <button className="action-story" id="add-to-read-list" onClick={() => moveStoryBacktoReadingList()}>Move back to Reading List</button> 
-                )
+                return [
+                    <Button className="action-story" id="add-to-read-list" onClick={moveStoryBacktoReadingList}>Move back to Reading List</Button>
+                ];
             }
         }
 
@@ -116,84 +262,34 @@ const Story = ({story, view, fandom}) => {
                     }}>Yes</button>
                     <button onClick={() => setWarningModal(false)}>No</button>
                 </Modal>
-            )
+            );
         }
         else {
             return (
-                <div className="story-card" id={story.title}>
-                    <h3 id="story-title">{story.title}</h3>
-                    <dt>Author:</dt><dd>{story.author}</dd>
-                    <dt>Summary:</dt><dd className='summary-dd'>{story.summary}</dd>
-                    <div className='characters'>
-                        <dt>Characters:</dt>
-                        {story.characters.length > 0 ? <dd>{story.characters.map(character => <li key={character}>{character}</li>)}</dd> : <dd>No characters were tagged</dd>}
-                    </div>
-                    <div className='relationships'>
-                        <dt>Relationships:</dt>
-                            {story.relationships.length > 0 ? <dd>{story.relationships.map(rel => <li key={rel}>{rel}</li>)}</dd> : <dd>No relationships were tagged</dd>}
-                    </div>
-                    <div className='fandoms'>
-                        <dt>Fandoms:</dt>
-                            {story.fandoms.length > 0 ? <dd>{story.fandoms.map(fandom => <li key={fandom}>{fandom}</li>)}</dd> : <dd>No fandoms were tagged</dd>}
-                    </div>
-                    <dl>
-                        <div className="story-details">
-                            <div className="chapters">
-                                <dt>Chapters:</dt><dd>{story.chapters}</dd>
-                            </div>
-                            <div className="words">
-                                <dt>Words:</dt><dd>{story.words}</dd>
-                            </div>
-    
-                            {story.publishedDate ? <div className="publishedDate"><dt>Published Date:</dt><dd>{story.publishedDate}</dd></div> : ''}
-                            {story.updatedDate ? <div className="updatedDate"><dt>Updated Date:</dt><dd>{story.updatedDate}</dd></div> : ''}
-                            {story.date ? <div className="date"><dt>Date:</dt><dd>{story.date}</dd></div> : ''}
-                            <div className="rating"><dt>Rating:</dt><dd>{story.rating}</dd></div>
-                            <div className="status"><dt>Status:</dt><dd>{story.status}</dd></div>
-                            <div className="archive"><dt>Archive:</dt><dd>{story.archive}</dd></div>
-                        </div>
-    
-                        {story.genres ? 
-                            <div>
-                                <dt>Genres:</dt><dd>{story.genres.length > 0 ? story.genres.map(genre => <li key={genre}>{genre}</li>) : <dd>No genres were tagged</dd>}</dd>
-                            </div> : 
-                            ''
-                        }
-                    </dl>
-                    <div className='AO3-tagging'>
-                        <div className='warnings'>
-                            <dt>Warnings:</dt>
-                            {story.warnings != null && story.warnings.length > 0 ? 
-                                <div>
-                                    <dd>{story.warnings.map(warning => <li key={warning}>{warning}</li>)}</dd>
-                                </div> : 
-                                <dd>No warnings were tagged</dd>
+                <>
+                    <Card
+                        className="story-card"
+                        actions={[
+                            <a href={story.url}>
+                                <Button type="primary">View Story</Button>
+                            </a>,
+                            <a href={`/story/${story.storyID}`}>
+                                <Button className="edit-story" type="primary">Edit Details</Button>
+                            </a>,
+                            ...storyActions()
+                        ]}
+                    >
+                        <Descriptions
+                            items={descriptionItems}
+                            title={story.title}
+                            bordered 
+                            extra={
+                                <Button type="link" href={story.url}>View Story</Button>
                             }
-                        </div>
-    
-                        <div className='categories'>
-                            <dt>Categories:</dt>
-                            {story.categories != null && story.categories.length > 0 ? 
-                                <div>
-                                    <dd>{story.categories.map(cat => <li key={cat}>{cat}</li>)}</dd>
-                                </div> : 
-                                <dd>No categories were tagged</dd>
-                            }
-                        </div>
-                        
-                        <div className='tags'>
-                            <dt>Tags:</dt>
-                            {story.tags != null && story.tags.length > 0 ? 
-                                <div>
-                                    <dd>{story.tags.map(tag => <li key={tag}>{tag}</li>)}</dd>
-                                </div> : 
-                                <dd>No tags were added</dd>
-                            }
-                        </div>
-                    </div>
-                    <a href={story.url}>Link to this story</a>
-                    {storyActions()}
-                </div>
+                            labelStyle={{ background: '#7775' }}
+                        />
+                    </Card>
+                </>
             )
         }
     }
