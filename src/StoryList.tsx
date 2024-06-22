@@ -3,7 +3,7 @@ import { Button } from 'antd';
 import Modal from 'react-modal';
 
 import Story from './Story';
-import { IStory, Collection } from './utils';
+import { IStory, Collection } from './utils/types';
 import './StoryList.css';
 
 
@@ -64,8 +64,8 @@ const StoryList = ({ collection }: { collection: Collection }) => {
                     storiesDisplayed.map(story => (
                         <div key={story.title}>
                             <Story story={story} view={"browsing"} fandom={fandomFilter}/>
-                            <button className="edit-story" key={"edit-"+story.id}>
-                                <a href={'/story/'+ story.id}>Edit Details</a>
+                            <button className="edit-story" key={"edit-"+story.storyID}>
+                                <a href={'/story/'+ story.storyID}>Edit Details</a>
                             </button>
                         </div>
                     ))

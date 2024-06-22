@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import Modal from 'react-modal';
 import services from './services/services.js';
-import utilFunctions from './utils.js';
+import utilFunctions from './utils';
 import './UpdateFandom.css';
 import './modal.css';
 

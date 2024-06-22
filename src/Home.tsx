@@ -10,9 +10,9 @@ import StoriesForDate from './StoriesForDate';
 import Fandoms from './Fandoms';
 import ReadingList from './ReadingList';
 import CompletedList from './CompletedList';
+import { Collection } from './utils/types';
 import './App.css';
 import './nav.css';
-import { Collection } from './utils';
 
 // menu icon
 // react-responsive for media queries

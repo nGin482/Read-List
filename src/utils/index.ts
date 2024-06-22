@@ -135,32 +135,9 @@ const checkValidationUpdateFandom = (field, newData) => {
     }
 }
 
-interface IStory {
-    id: number,
-    title: string
-    collectedDate: Date
-    readStatus: boolean
-    dateRead: Date
-    status: string
-    archive: string
-    url: string
-}
-
-interface IArchiveStories {
-    fandom: string
-    AO3_URL: IStory[]
-    FFN_URL: IStory[]
-}
-
-interface Collection {
-    date: string
-    stories: IArchiveStories[]
-}
-
 const utilFunctions = {
     checkValidationAddFandom,
     checkValidationUpdateFandom
 }
 
 export default utilFunctions;
-export { IStory, IArchiveStories, Collection }
