@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Button } from 'antd';
 import Modal from 'react-modal';
 
 import Story from './Story';
@@ -15,64 +16,48 @@ const StoryList = ({ collection }: { collection: Collection }) => {
         if (collection) {
             if (fandomFilter === 'All Stories') {
                 const archives = collection.stories;
-                console.log('oi')
                 let stories: IStory[] = [];
                 archives.forEach(archive => {
-                    console.log([...archive.AO3_URL, ...archive?.FFN_URL || []])
                     stories = stories.concat([...archive.AO3_URL, ...archive?.FFN_URL || []])
                 });
-                console.log(stories)
-                setStoriesDisplayed(stories)
-                // archives.forEach(archive => {
-                //     console.log([...archive.AO3_URL, ...archive?.FFN_URL || []].length)
-                //     setStoriesDisplayed([...archive.AO3_URL, ...archive?.FFN_URL || []]);
-                // });
+                setStoriesDisplayed(stories);
             }
             else {
                 const archive = collection.stories.find(arch => arch.fandom === fandomFilter);
-                console.log(archive)
                 setStoriesDisplayed([...archive?.FFN_URL || [], ...archive.AO3_URL]);
             }
         }
-        console.log(fandomFilter, fandomFilter === 'All Stories')
-    }, [fandomFilter]);
-
-    useEffect(() => {
-        console.log(storiesDisplayed.length)
-    }, [storiesDisplayed])
+    }, [fandomFilter, collection]);
     
-    const allFandoms = () => {
-        return collection.stories.map(archive => archive.fandom);
-    }
-
     const displayFilters = () => {
         return (
             <div id="filter-options">
-                <div id="filter-archive">
-                    <button onClick={()=> setArchiveFilter('Fanfiction.Net')}>Fanfiction.Net</button>
-                    <button onClick={()=> setArchiveFilter('Archive of our Own')}>Archive of our Own</button>
-                    <button onClick={()=> setArchiveFilter('All')}>All</button>
+                <div className="filter-archive">
+                    <Button onClick={() => setArchiveFilter('Fanfiction.Net')}>Fanfiction.Net</Button>
+                    <Button onClick={() => setArchiveFilter('Archive of our Own')}>AO3</Button>
+                    <Button onClick={() => setArchiveFilter('All')}>All</Button>
                 </div>
-                <div id="filter-fandom">
-                    {allFandoms().map(fandom => <button key={fandom} onClick={() => setFandomFilter(fandom)}>{fandom}</button>)}
-                    <button onClick={() => setFandomFilter('All Stories')}>All</button>
+                <div className="filter-fandom">
+                    {collection?.stories.map(archive => archive.fandom).map(fandom => (
+                        <Button key={fandom} onClick={() => setFandomFilter(fandom)}>{fandom}</Button>
+                    ))}
+                    <Button onClick={() => setFandomFilter('All Stories')}>All</Button>
                 </div>
             </div>
-        )
-    }
+        );
+    };
 
-    if (!collection?.stories) {
-        return (
+
+    return (
+        collection?.stories.length === 0 ? (
             <Modal isOpen={true}>Waiting for stories to load ...</Modal>
         )
-    }
-    else {
-        return (
+        : (
             <div id="story-list">
                 {displayFilters()}
                 <br/>
                 <div id='filter-results'>
-                    <p><span>Viewing:</span><br/>Stories from {collection.date}<br/>{fandomFilter} on {archiveFilter}</p><br/>
+                    <p><span>Viewing:</span><br/>Stories from {collection?.date}<br/>{fandomFilter} on {archiveFilter}</p><br/>
                     <p id="number"><span>Number of stories:</span><br/>{storiesDisplayed.length}</p>
                 </div>
                 {storiesDisplayed.length > 0 ? (
@@ -94,7 +79,7 @@ const StoryList = ({ collection }: { collection: Collection }) => {
                 </div>
             </div>
         )
-    }
-}
+    );
+};
 
 export default StoryList;

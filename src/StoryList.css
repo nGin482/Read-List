@@ -1,9 +1,9 @@
-#filter-archive {
+.filter-archive {
     display: flex;
-    margin: 0 auto;
+    margin: 1% auto;
     justify-content: center;
 }
-#filter-archive button {
+.filter-archive button {
     font-size: medium;
     -ms-box-sizing: content-box;
     -moz-box-sizing: content-box;
@@ -11,21 +11,27 @@
     box-sizing: content-box;
     width: 10%;
     border-radius: 5px;
+    margin: 0 1%
 }
-#filter-fandom {
+.filter-fandom {
     display: flex;
     margin: 0 auto;
     justify-content: center;
+    flex-wrap: wrap;
 }
-#filter-fandom button {
-    font-size: medium;
+.filter-fandom button {
     -ms-box-sizing: content-box;
     -moz-box-sizing: content-box;
     -webkit-box-sizing: content-box;
     box-sizing: content-box;
     width: 10%;
     border-radius: 5px;
+    margin: 0.25% 1%;
 }
+.filter-fandom .ant-btn {
+    white-space: normal;
+}
+
 button:hover {
     color: white;
     background-color: black;
