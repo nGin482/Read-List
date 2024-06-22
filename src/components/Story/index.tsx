@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { Button, Card, Descriptions, DescriptionsProps } from "antd";
-import Modal from "react-modal";
+import { Button, Card, Descriptions, DescriptionsProps, Modal, notification } from "antd";
 
 import services from "../../services/services";
 import { IStory } from "../../utils/types";
@@ -13,52 +12,73 @@ interface StoryProps {
 }
 
 const Story = ({ story, view, fandom }: StoryProps) => {
-    const [openModal, setOpenModal] = useState(false)
     const [warningModal, setWarningModal] = useState(false)
-    const [message, setMessage] = useState('')
     
     const addStoryToReadList = () => {
-        setOpenModal(true)
         services.addToReadList(story).then(res => {
-            setMessage(res.message)
+            notification.success({
+                message: `The story ${story.title} has been added to the Reading List`,
+            });
         }).catch(err => {
-            setMessage(err.response.data.message)
+            notification.error({
+                message: `There was a problem adding ${story.title} to the Reading List`,
+                description: err?.response?.data.message
+            });
         })
     }
     const removeStoryFromReadList = () => {
-        setOpenModal(true)
         services.removeFromReadList(story.storyID).then(res => {
-            setMessage(res.message)
+            notification.success({
+                message: `The story ${story.title} has been removed from the Reading List`,
+            });
         }).catch(err => {
-            setMessage(err.response.data.message)
+            notification.error({
+                message: `There was a problem removing ${story.title} from the Reading List`,
+                description: err?.response?.data.message
+            });
         })
     }
     const addStoryToCompleteList = () => {
-        setOpenModal(true)
         services.addtoCompleteList(story.storyID).then(res => {
-            setMessage(res.message)
+            notification.success({
+                message: `The story ${story.title} has been added to the Completed List`,
+            });
         }).catch(err => {
-            setMessage(err.response.data.message)
+            notification.error({
+                message: `There was a problem adding ${story.title} to the Completed List`,
+                description: err?.response?.data.message
+            });
         })
     }
     const moveStoryBacktoReadingList = () => {
-        setOpenModal(true)
         services.moveBacktoReadList(story.storyID).then(res => {
-            setMessage(res.message)
+            notification.success({
+                message: `The story ${story.title} has been moved back to the Reading List`,
+            });
         }).catch(err => {
-            setMessage(err.response.data.message)
+            notification.error({
+                message: `There was a problem moving ${story.title} back to the Reading List`,
+                description: err?.response?.data.message
+            });
         })
     }
     const ignoreStory = () => {
-        setOpenModal(true)
         if (fandom === 'All Stories') {
-            setMessage('We are unable to ignore this story because we do not know which fandom it was written for. To ignore this story, use the fandom filter located at the top or bottom of the page.')
+            notification.error({
+                message: `${story.title} cannot be ignored at the moment`,
+                description: 'To ignore this story, use the fandom filter located at the top or bottom of the page.'
+            });
         }
         else {
             services.ignoreStory(fandom, story.title).then(res => {
-                setMessage(res.message)
+                notification.success({
+                    message: `The story ${story.title} is now being ignored`,
+                });
             }).catch(err => {
-                setMessage(err.response.data.message)
+                notification.error({
+                    message: `There was a problem ignoring ${story.title}`,
+                    description: err?.response?.data.message
+                });
             })
         }
     }
@@ -240,59 +260,50 @@ const Story = ({ story, view, fandom }: StoryProps) => {
                     <Button className="action-story" id="add-to-read-list" onClick={moveStoryBacktoReadingList}>Move back to Reading List</Button>
                 ];
             }
-        }
+        };
 
-        if (openModal) {
-            return (
-                <Modal isOpen={openModal} id="story-interest-message">
-                    <button id="close-fandom-modal" onClick={() => setOpenModal(false)}>Close</button>
-                    <p className="modal-message" id="story-action-message">{message}</p>
-                </Modal>
-            )
-        }
-        else if (warningModal) {
-            return (
-                <Modal isOpen={warningModal} id="story-interest-message">
-                    <button id="close-fandom-modal" onClick={() => setOpenModal(false)}>Close</button>
-                    <p className="modal-message" id="story-action-warning">This story suggests it is still a Work in Progress. 
-                    Are you sure you want to add it the list of stories read?</p>
-                    <button onClick={() => {
-                        setWarningModal(false)
-                        addStoryToCompleteList()
-                    }}>Yes</button>
-                    <button onClick={() => setWarningModal(false)}>No</button>
-                </Modal>
-            );
-        }
-        else {
-            return (
-                <>
-                    <Card
-                        className="story-card"
-                        actions={[
-                            <a href={story.url}>
-                                <Button type="primary">View Story</Button>
-                            </a>,
-                            <a href={`/story/${story.storyID}`}>
-                                <Button className="edit-story" type="primary">Edit Details</Button>
-                            </a>,
-                            ...storyActions()
-                        ]}
+        return (
+            <>
+                <Card
+                    className="story-card"
+                    actions={[
+                        <a href={story.url}>
+                            <Button type="primary">View Story</Button>
+                        </a>,
+                        <a href={`/story/${story.storyID}`}>
+                            <Button className="edit-story" type="primary">Edit Details</Button>
+                        </a>,
+                        ...storyActions()
+                    ]}
+                >
+                    <Descriptions
+                        items={descriptionItems}
+                        title={story.title}
+                        bordered 
+                        extra={
+                            <Button type="link" href={story.url}>View Story</Button>
+                        }
+                        labelStyle={{ background: '#7775' }}
+                    />
+                </Card>
+                {warningModal && (
+                    <Modal
+                        open={warningModal}
+                        onOk={() => {
+                            setWarningModal(false);
+                            addStoryToCompleteList();
+                        }}
+                        okText="Yes"
+                        onCancel={() => setWarningModal(false)}
+                        cancelText="No"
                     >
-                        <Descriptions
-                            items={descriptionItems}
-                            title={story.title}
-                            bordered 
-                            extra={
-                                <Button type="link" href={story.url}>View Story</Button>
-                            }
-                            labelStyle={{ background: '#7775' }}
-                        />
-                    </Card>
-                </>
-            )
-        }
-    }
+                        <p className="modal-message" id="story-action-warning">This story suggests it is still a Work in Progress. 
+                        Are you sure you want to add it the list of stories read?</p>
+                    </Modal>
+                )}
+            </>
+        );
+    };
 }
 
 export default Story;
