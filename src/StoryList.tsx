@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Button } from 'antd';
 import Modal from 'react-modal';
 
-import Story from './Story';
+import Story from './components/Story';
 import { IStory, Collection } from './utils/types';
 import './StoryList.css';
 

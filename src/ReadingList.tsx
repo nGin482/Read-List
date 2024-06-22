@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal'
 import services from './services/services.js'
-import Story from './Story.js'
+import Story from './components/Story/index.js'
 import './ReadingList.css';
 
 const ReadingList = () => {

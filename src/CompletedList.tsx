@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import services from './services/services.js';
-import Story from './Story.js';
+import Story from './components/Story/index.js';
 
 const CompletedList = () => {
     const [storiesRead, setStoriesRead] = useState([])

@@ -2,8 +2,8 @@ import { useState } from "react";
 import { Button, Card, Descriptions, DescriptionsProps } from "antd";
 import Modal from "react-modal";
 
-import services from "./services/services";
-import { IStory } from "./utils/types";
+import services from "../../services/services";
+import { IStory } from "../../utils/types";
 import './Story.css';
 
 interface StoryProps {

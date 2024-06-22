@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
 import services from './services/services.js';
-import Story from './Story.js';
+import Story from './components/Story/index.js';
 import UpdateStory from './UpdateStory.js';
 
 const StoryPage = () => {
