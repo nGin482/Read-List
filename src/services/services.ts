@@ -1,9 +1,6 @@
 import axios from 'axios';
-import { Collection } from '../utils/types';
 
-class APIClient {
-    
-}
+import { Collection } from '../utils/types';
 
 const BASE_URL = 'http://localhost:3001/api';
 
@@ -13,12 +10,11 @@ const fandomsURL = `${BASE_URL}/fandoms/`
 const readListURL = `${BASE_URL}/reading-list/`
 const completedListURL = `${BASE_URL}/completed-list/`
 
-const getDateStories = async (date: string) => {
-    const response = await axios.get(storiesURL + 'date/' + date);
+const getStoriesByDate = async (date: string) => {
+    const response = await axios.get<Collection>(`${storiesURL}date/${date}`);
     if (response.status === 200) {
         return response.data;
     }
-    return axios.get(storiesURL + 'date/' + date).then(response => response.data)
 }
 
 const getStoriesByFandom = (fandom) => {
@@ -86,11 +82,11 @@ const ignoreStory = (fandom, title) => {
 }
 
 const getDates = () => {
-    return axios.get<string[]>(`${BASE_URL}/dates`).then(response => response.data)
+    return axios.get<string[][]>(`${BASE_URL}/dates`).then(response => response.data)
 }
 
 const requests = {
-    getDateStories,
+    getStoriesByDate,
     getStoriesByFandom,
     getStoriesByID,
     getMostRecentStories,

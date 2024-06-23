@@ -1,27 +1,21 @@
-import React, {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
-import {Link} from 'react-router-dom';
-import services from './services/services.js';
+
 import StoryList from './StoryList.js';
+import services from './services/services.js';
+import { Collection } from './utils/types.js';
 
 const StoriesForDate = () => {
-    const date = useParams().date
-    console.log(date)
-    const [stories, setStories] = useState([])
+    const { date } = useParams<{ date: string }>();
+    const [collection, setCollection] = useState<Collection>(null);
 
     useEffect(() => {
-        services.getDateStories(date).then(data => {
-            setStories(data)
-        })
-    }, [date]
-    )
+        services.getStoriesByDate(date).then(data => setCollection(data));
+    }, [date]);
 
     return (
-        <div>
-            <Link to={'/'}>Home</Link>
-            <StoryList stories={stories}/>
-        </div>
-    )
-}
+        <StoryList collection={collection}/>
+    );
+};
 
 export default StoriesForDate;

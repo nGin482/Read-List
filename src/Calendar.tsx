@@ -1,84 +1,38 @@
-import React, {useState} from 'react';
+import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import Modal from 'react-modal';
+import { DatePicker, Spin } from 'antd';
+import dayjs, { Dayjs } from 'dayjs';
+
 import './Calendar.css';
 
-const Calendar = (dates) => {
-    dates = dates.dates
-    const [month, setMonth] = useState('')
-    const [open, setOpen] = useState(false)
+const Calendar = ({ dates }: { dates: string[][] }) => {
+    const [datesAvailable, setDatesAvailable] = useState<Dayjs[]>([]);
+    const [dateChosen, setDateChosen] = useState<Dayjs>(null);
+    const history = useHistory<string>();
     
-    // on choosing date, make request and redirect
-    
-    let history = useHistory()
-    if (dates.length !== 0) {
+    useEffect(() => {
+        if (dates.length > 0) {
+            setDatesAvailable(dates[0].map(date => dayjs(date, 'D-M-YYYY')));
+        }
+    }, [dates])
 
-        let monthIdx = 0
-    
-        const getMonth = (date) => {
-            const givenMonth = date.slice(date.indexOf('-')+1, date.lastIndexOf('-'))
-            const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-    
-            return months[Number(givenMonth)-1]
+    useEffect(() => {
+        if (dateChosen) {
+            history.push(`/stories/${dateChosen.format('D-M-YYYY')}`);
         }
+    }, [dateChosen]);
     
-        const datesList = []
-        dates.forEach(month => {
-            const monthObj = {monthName: getMonth(month[0]), datesFromMonth: month}
-            datesList.push(monthObj)
-        })
-    
-        if (month === '') {
-            setMonth(datesList[monthIdx].monthName)
-        }
-    
-        const handleMonthChange = (direction) => {
-            if (direction === 'Next') {
-                if (monthIdx <= datesList.length-1) {
-                    monthIdx++
-                }
-            }
-            if (direction === 'Prev') {
-                if (monthIdx >= 1) {
-                    monthIdx--
-                }
-            }
-            setMonth(datesList[monthIdx].monthName)
-        }
-        
-        const selectDate = (givenDate) => {
-            setOpen(false)
-            if (givenDate !== '') {
-                history.push('/stories/' + givenDate)
-            }
-        }
-        Modal.setAppElement('#menu-items')
-        const customStyles = {
-            content: {
-                backgroundColor: 'rgb(251, 130, 97)'
-            }
-        }
-    
-        return (
-            <div id="modal">
-            <span id="change-date" onClick={() => setOpen(true)}>Change Date</span>
-                <Modal isOpen={open} id="calendar-view" style={customStyles}>
-                    <button onClick={() => setOpen(false)}>Close</button> <br/>
-                    <div id="headers">
-                        <div id="month-change-prev"><span onClick={() => handleMonthChange('Prev')}>Prev</span></div>
-                        <div id="month-change-next"><span onClick={() => handleMonthChange('Next')}>Next</span></div>
-                        <div id="month-shown"><span>{month}</span></div>
-                    </div>
-                    <ul>{month !== '' ? datesList.find(item => item.monthName === month).datesFromMonth.map(givenDate => <li key={givenDate} onClick={() => selectDate(givenDate)}>{givenDate}</li>): ''}
-                    </ul>
-                </Modal>
-            </div>
+    return (
+        datesAvailable.length > 0 ? (
+            <DatePicker
+                minDate={datesAvailable[0]}
+                maxDate={datesAvailable[datesAvailable.length - 1]}
+                onChange={setDateChosen}
+            />
+        ) : (
+            <Spin tip="Waiting for dates to be retrieved from the server" fullscreen />
         )
-    }
-    else {
-        Modal.setAppElement('#root')
-        return <Modal isOpen={true}>Waiting for available dates to be retrieved from the server ...</Modal>
-    }
-}
+    );
+};
 
 export default Calendar;
