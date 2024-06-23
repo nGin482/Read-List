@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from 'react';
-import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
-import Modal from 'react-modal';
+import { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { Menu, MenuProps, notification } from 'antd';
 
 import services from "./services/services";
 import StoryList from './StoryList';
@@ -20,51 +20,63 @@ import './nav.css';
 
 const App = () => {
     const [collection, setCollection] = useState<Collection>(null)
-    const [dates, setDates] = useState([])
-    const [openModal, setOpenModal] = useState(false)
+    const [dates, setDates] = useState<string[]>([]);
 
     useEffect(() => {
-      services.getMostRecentStories().then(data => {
-        console.log(data)
-        setCollection(data)
-        }).catch(err => {
-            <Modal isOpen={true}>{err}</Modal>
-        })
-        services.getDates().then(data => {
-            setDates(data)
-        }).catch(err => {
-            setOpenModal(true);
-            <Modal isOpen={openModal}>{err}<button onClick={() => setOpenModal(false)}>Close</button></Modal>
-        })
-      }, [openModal]
-    )
+        services.getMostRecentStories().then(
+            collection => setCollection(collection)
+        ).catch(err => {
+            notification.error({
+                message: 'There was a problem retrieving the most recent collection'
+            });
+        });
+        services.getDates().then(
+            data => setDates(data)
+        ).catch(err => {
+            notification.error({
+                message: 'There was a problem retrieving a list of available dates of collections'
+            });
+        });
+    }, []);
 
     const padding = {
         padding: 5
-    }
+    };
+
+    const navItems: MenuProps['items'] = [
+        {
+            key: 'home',
+            label: <Link style={padding} to='/'>Home</Link>
+        },
+        {
+            key: 'reading-list',
+            label: <Link style={padding} to='/reading-list'>Reading List</Link>
+        },
+        {
+            key: 'completed-list',
+            label: <Link style={padding} to='/completed-list'>Completed List</Link>
+        },
+        {
+            key: 'fandoms',
+            label: <Link style={padding} to='/fandoms'>Fandoms</Link>
+        }
+    ];
 
     return (
-        <Router>
-            <nav>
-                <div id="menu-items">
-                    <ul>
-                        <li><Link style={padding} to='/'>Home</Link></li>
-                        <li><Link style={padding} to='/reading-list'>Reading List</Link></li>
-                        <li><Link style={padding} to='/completed-list'>Completed List</Link></li>
-                        <li><Link style={padding} to='/fandoms'>Fandoms</Link></li>
-                        <Calendar dates={dates}/>
-                    </ul>
-                </div>
-            </nav>
-            <Switch>
-                <Route path='/story/:storyID'><StoryPage/></Route>
-                <Route path='/stories/:date'><StoriesForDate/></Route>
-                <Route path='/fandoms'><Fandoms/></Route>
-                <Route path='/reading-list'><ReadingList/></Route>
-                <Route path='/completed-list'><CompletedList/></Route>
-                <Route path='/'><StoryList collection={collection}/></Route>
-            </Switch>
-        </Router>
+        <>
+            <Calendar dates={dates}/>
+            <Router>
+                <Menu items={navItems} mode="horizontal" theme="dark" />
+                <Switch>
+                    <Route path='/story/:storyID'><StoryPage/></Route>
+                    <Route path='/stories/:date'><StoriesForDate/></Route>
+                    <Route path='/fandoms'><Fandoms/></Route>
+                    <Route path='/reading-list'><ReadingList/></Route>
+                    <Route path='/completed-list'><CompletedList/></Route>
+                    <Route path='/'><StoryList collection={collection}/></Route>
+                </Switch>
+            </Router>
+        </>
     );
 }
 

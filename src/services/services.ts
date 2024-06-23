@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Collection } from '../utils/types';
 
 class APIClient {
     
@@ -29,7 +30,7 @@ const getStoriesByID = (id: string) => {
 }
 
 const getMostRecentStories = () => {
-    return axios.get(storiesURL + 'mostRecent').then(response => response.data)
+    return axios.get<Collection>(storiesURL + 'mostRecent').then(response => response.data)
 }
 
 const updateStoryDetails = (story) => {
@@ -85,7 +86,7 @@ const ignoreStory = (fandom, title) => {
 }
 
 const getDates = () => {
-    return axios.get(`${BASE_URL}/dates`).then(response => response.data)
+    return axios.get<string[]>(`${BASE_URL}/dates`).then(response => response.data)
 }
 
 const requests = {
