@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Button } from 'antd';
-import Modal from 'react-modal';
+import { Button, Spin } from 'antd';
 
 import Story from './components/Story';
 import { IStory, Collection } from './utils/types';
@@ -50,7 +49,7 @@ const StoryList = ({ collection }: { collection: Collection }) => {
 
     return (
         collection?.stories.length === 0 ? (
-            <Modal isOpen={true}>Waiting for stories to load ...</Modal>
+            <Spin fullscreen tip="Waiting for stories to load" />
         )
         : (
             <div id="story-list">
