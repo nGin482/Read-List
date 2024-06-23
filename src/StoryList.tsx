@@ -61,10 +61,8 @@ const StoryList = ({ collection }: { collection: Collection }) => {
                     <p id="number"><span>Number of stories:</span><br/>{storiesDisplayed.length}</p>
                 </div>
                 {storiesDisplayed.length > 0 ? (
-                    storiesDisplayed.map(story => (
-                        <div key={story.title}>
-                            <Story story={story} view="browsing" fandom={fandomFilter}/>
-                        </div>
+                    storiesDisplayed.map((story, idx) => (
+                        <Story key={`${story.title}-${idx}`} story={story} view="browsing" fandom={fandomFilter}/>
                     ))
                 ) : (
                     <div id='no-story-warning'>There are no stories to view from this date</div>
