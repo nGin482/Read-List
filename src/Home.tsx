@@ -20,7 +20,7 @@ import './nav.css';
 
 const App = () => {
     const [collection, setCollection] = useState<Collection>(null)
-    const [dates, setDates] = useState<string[]>([]);
+    const [dates, setDates] = useState<string[][]>([]);
 
     useEffect(() => {
         services.getMostRecentStories().then(
@@ -59,12 +59,16 @@ const App = () => {
         {
             key: 'fandoms',
             label: <Link style={padding} to='/fandoms'>Fandoms</Link>
+        },
+        {
+            key: 'collection-browse',
+            label: <Calendar dates={dates}/>,
+            className: 'collection-browse'
         }
     ];
 
     return (
         <>
-            <Calendar dates={dates}/>
             <Router>
                 <Menu items={navItems} mode="horizontal" theme="dark" />
                 <Switch>
