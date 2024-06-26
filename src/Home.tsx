@@ -72,7 +72,7 @@ const App = () => {
             <Router>
                 <Menu items={navItems} mode="horizontal" theme="dark" />
                 <Switch>
-                    <Route path='/story/:storyID'><StoryPage/></Route>
+                    <Route path='/story/:id'><StoryPage/></Route>
                     <Route path='/stories/:date'><StoriesForDate/></Route>
                     <Route path='/fandoms'><Fandoms/></Route>
                     <Route path='/reading-list'><ReadingList/></Route>

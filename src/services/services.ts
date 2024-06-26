@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { Collection } from '../utils/types';
+import { Collection, IStory } from '../utils/types';
 
 const BASE_URL = 'http://localhost:3001/api';
 
@@ -21,8 +21,8 @@ const getStoriesByFandom = (fandom) => {
     return axios.get(storiesURL + fandom).then(response => response.data)
 }
 
-const getStoriesByID = (id: string) => {
-    return axios.get(storyURL + id).then(response => response.data)
+const getStoryById = async (id: string) => {
+    return axios.get<IStory>(`${storyURL}${id}`).then(response => response.data)
 }
 
 const getMostRecentStories = () => {
@@ -88,7 +88,7 @@ const getDates = () => {
 const requests = {
     getStoriesByDate,
     getStoriesByFandom,
-    getStoriesByID,
+    getStoryById,
     getMostRecentStories,
     updateStoryDetails,
     removeStories,

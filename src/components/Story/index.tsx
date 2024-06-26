@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Card, Descriptions, DescriptionsProps, Modal, notification } from "antd";
+import { Button, Card, Descriptions, Modal, notification } from "antd";
 
 import { descriptionItems } from "./StoryDescriptions";
 import services from "../../services/services";
@@ -9,7 +9,7 @@ import './Story.css';
 interface StoryProps {
     story: IStory,
     view: 'browsing' | 'read-list' | 'stories-read'
-    fandom: string
+    fandom?: string
 }
 
 const Story = ({ story, view, fandom }: StoryProps) => {
