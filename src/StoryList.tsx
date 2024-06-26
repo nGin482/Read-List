@@ -37,8 +37,13 @@ const StoryList = ({ collection }: { collection: Collection }) => {
                     <Button onClick={() => setArchiveFilter('All')}>All</Button>
                 </div>
                 <div className="filter-fandom">
-                    {collection?.stories.map(archive => archive.fandom).map(fandom => (
-                        <Button key={fandom} onClick={() => setFandomFilter(fandom)}>{fandom}</Button>
+                    {collection?.stories.map(archive => (
+                        <Button
+                            key={archive.fandom}
+                            onClick={() => setFandomFilter(archive.fandom)}
+                        >
+                            {archive.fandom}
+                        </Button>
                     ))}
                     <Button onClick={() => setFandomFilter('All Stories')}>All</Button>
                 </div>
