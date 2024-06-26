@@ -30,7 +30,7 @@ const Calendar = ({ dates }: { dates: string[][] }) => {
                 onChange={setDateChosen}
             />
         ) : (
-            <Spin tip="Waiting for dates to be retrieved from the server" fullscreen />
+            <Spin />
         )
     );
 };
