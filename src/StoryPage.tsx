@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import { notification, Spin } from 'antd';
 
 import Story from './components/Story/index.js';
-import UpdateStory from './UpdateStory.js';
 import services from './services/services.js';
 import { IStory } from './utils/types.js';
 
@@ -26,7 +25,6 @@ const StoryPage = () => {
         <>
             {story ? (
                 <div id='page-contents'>
-                    <UpdateStory story={story}/>
                     <Story story={story} view="browsing" />
                 </div>
             ) : (

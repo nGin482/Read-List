@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { Button, Card, Descriptions, Modal, notification } from "antd";
+import { Button, Card, Modal, notification } from "antd";
 
-import { descriptionItems } from "./StoryDescriptions";
+import { StoryDescriptions } from "./StoryDescriptions";
 import services from "../../services/services";
 import { IStory } from "../../utils/types";
 import './Story.css';
@@ -13,7 +13,8 @@ interface StoryProps {
 }
 
 const Story = ({ story, view, fandom }: StoryProps) => {
-    const [warningModal, setWarningModal] = useState(false)
+    const [editingStory, setEditingStory] = useState(false);
+    const [warningModal, setWarningModal] = useState(false);
     
     const addStoryToReadList = () => {
         services.addToReadList(story).then(res => {
@@ -84,6 +85,10 @@ const Story = ({ story, view, fandom }: StoryProps) => {
         }
     };
 
+    const toggleEditing = () => {
+        setEditingStory(current => !current);
+    };
+
     const storyActions = () => {
         if (view === 'browsing') {
             return [
@@ -140,21 +145,11 @@ const Story = ({ story, view, fandom }: StoryProps) => {
                         <a href={story.url}>
                             <Button type="primary">View Story</Button>
                         </a>,
-                        <a href={`/story/${story.storyID}`}>
-                            <Button className="edit-story" type="primary">Edit Details</Button>
-                        </a>,
+                        <Button type="primary" onClick={toggleEditing}>Edit Details</Button>,
                         ...storyActions()
                     ]}
                 >
-                    <Descriptions
-                        items={descriptionItems(story)}
-                        title={story.title}
-                        bordered 
-                        extra={
-                            <Button type="link" href={story.url}>View Story</Button>
-                        }
-                        labelStyle={{ background: '#7775' }}
-                    />
+                    <StoryDescriptions story={story} editing={editingStory} />
                 </Card>
                 {warningModal && (
                     <Modal
