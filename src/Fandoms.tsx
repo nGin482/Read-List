@@ -42,8 +42,8 @@ const Fandoms = () => {
         setMessage('')
     }
 
-    if (fandoms.length !== 0) {
-        return (
+    return (
+        fandoms.length > 0 ? (
             <div id="fandoms-page">
                 <h2 id="fandoms-page-header">Fandoms</h2>
                 <div id="search-box">
@@ -88,13 +88,10 @@ const Fandoms = () => {
                 <UpdateFandom openUpdate={openUpdate} setOpenUpdate={setOpenUpdate} message={message} setMessage={setMessage} fandomName={fandomName}/>
                 <DeleteFandom fandomName={fandomName} openDelete={openDelete} setOpenDelete={setOpenDelete} message={message} setMessage={setMessage}/>
             </div>
-        )
-    }
-    else {
-        return (
+        ) : (
             <Spin fullscreen tip="Waiting for fandoms to be retrieved" />
         )
-    }
+    );
 }
 
 export default Fandoms;
