@@ -1,5 +1,5 @@
 .fandom-card {
-    width: 50%;
+    width: 40%;
     border: solid black 5px;
     margin: 1%;
 }
@@ -11,6 +11,11 @@
 
 .search-criteria {
     text-align: center;
+}
+
+#search-box {
+    width: 40%;
+    margin: 0 auto;
 }
 
 
@@ -121,15 +126,6 @@ input:focus {
 #open-delete-modal:hover {
     background-color: black;
     color: white;
-}
-
-#search-box {
-    margin-left: 70%;
-}
-
-#search-box input {
-    border-bottom: none;
-    width: 40%;
 }
 
 @media screen and (max-width: 640px) {

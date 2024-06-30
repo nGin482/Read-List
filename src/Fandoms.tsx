@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Button, Card, Image, Modal, Spin, Typography } from 'antd';
+import { Button, Card, Image, Input, Spin, Typography } from 'antd';
 
 import services from './services/services.js';
 import AddFandom from './AddFandom.js';
@@ -17,7 +17,7 @@ const Fandoms = () => {
     const [openUpdate, setOpenUpdate] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);
     const [fandomName, setFandomName] = useState('');
-    const [search, setSearch] = useState('');
+    const [fandomSearch, setFandomSearch] = useState('');
     const [message, setMessage] = useState('')
 
     const { Link, Text } = Typography;
@@ -48,41 +48,43 @@ const Fandoms = () => {
                 <h2 id="fandoms-page-header">Fandoms</h2>
                 <span id="open-add-modal" onClick={() => openAddModal()}>Add a new fandom</span>
                 <div id="search-box">
-                    <input type="text" placeholder="Search for a fandom" value={search} onChange={event => setSearch(event.target.value)}/>
+                    <Input
+                        placeholder="Search for a fandom"
+                        value={fandomSearch}
+                        onChange={event => setFandomSearch(event.target.value.toLocaleLowerCase())}
+                    />
                 </div>
-                <ul id="fandoms-list">
-                    {fandoms.filter(fandom => fandom.name.includes(search)).map(fandom => (
-                        <Card
-                            hoverable
-                            title={fandom.name}
-                            key={fandom.name}
-                            actions={[
-                                <Button type="primary">Update {fandom.name}</Button>,
-                                <Button type="primary">Delete {fandom.name}</Button>
-                            ]}
-                            className="fandom-card"
-                        >
-                            <div className="fandom-images">
-                                {fandom.ffn_url && (
-                                    <Link href={fandom.ffn_url} target="_blank">
-                                        <Image src={ffn_logo} preview={false} />
-                                    </Link>
-                                )}
-                                {fandom.ao3_url && (
-                                    <Link href={fandom.ao3_url} target="_blank">
-                                        <Image src={ao3_logo} preview={false} />
-                                    </Link>
-                                )}
-                            </div>
-                            <div className="search-criteria">
-                                <Text>
-                                    The collection will search for stories
-                                    across {fandom.search.toLocaleLowerCase()} page{fandom.search === 'Many' && 's'}
-                                </Text>
-                            </div>
-                        </Card>
-                    ))}
-                </ul>
+                {fandoms.filter(fandom => fandom.name.toLocaleLowerCase().includes(fandomSearch)).map(fandom => (
+                    <Card
+                        hoverable
+                        title={fandom.name}
+                        key={fandom.name}
+                        actions={[
+                            <Button type="primary">Update {fandom.name}</Button>,
+                            <Button type="primary">Delete {fandom.name}</Button>
+                        ]}
+                        className="fandom-card"
+                    >
+                        <div className="fandom-images">
+                            {fandom.ffn_url && (
+                                <Link href={fandom.ffn_url} target="_blank">
+                                    <Image src={ffn_logo} preview={false} />
+                                </Link>
+                            )}
+                            {fandom.ao3_url && (
+                                <Link href={fandom.ao3_url} target="_blank">
+                                    <Image src={ao3_logo} preview={false} />
+                                </Link>
+                            )}
+                        </div>
+                        <div className="search-criteria">
+                            <Text>
+                                The collection will search for stories
+                                across {fandom.search.toLocaleLowerCase()} page{fandom.search === 'Many' && 's'}
+                            </Text>
+                        </div>
+                    </Card>
+                ))}
                 <AddFandom openAdd={openAdd} setOpenAdd={setOpenAdd} message={message} setMessage={setMessage}/>
                 <UpdateFandom openUpdate={openUpdate} setOpenUpdate={setOpenUpdate} message={message} setMessage={setMessage} fandomName={fandomName}/>
                 <DeleteFandom fandomName={fandomName} openDelete={openDelete} setOpenDelete={setOpenDelete} message={message} setMessage={setMessage}/>
