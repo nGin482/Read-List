@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Button, Card, Image, Input, Spin, Typography } from 'antd';
 
-import services from './services/services.js';
-import AddFandom from './AddFandom.js';
+import services from './services/services';
+import AddFandom from './components/Fandoms/AddFandom';
 import UpdateFandom from './UpdateFandom.js';
 import DeleteFandom from './DeleteFandom.js';
 import { FandomArchive } from '../types/index.js';
@@ -46,7 +46,6 @@ const Fandoms = () => {
         return (
             <div id="fandoms-page">
                 <h2 id="fandoms-page-header">Fandoms</h2>
-                <span id="open-add-modal" onClick={() => openAddModal()}>Add a new fandom</span>
                 <div id="search-box">
                     <Input
                         placeholder="Search for a fandom"
@@ -85,7 +84,7 @@ const Fandoms = () => {
                         </div>
                     </Card>
                 ))}
-                <AddFandom openAdd={openAdd} setOpenAdd={setOpenAdd} message={message} setMessage={setMessage}/>
+                <AddFandom />
                 <UpdateFandom openUpdate={openUpdate} setOpenUpdate={setOpenUpdate} message={message} setMessage={setMessage} fandomName={fandomName}/>
                 <DeleteFandom fandomName={fandomName} openDelete={openDelete} setOpenDelete={setOpenDelete} message={message} setMessage={setMessage}/>
             </div>
