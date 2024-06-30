@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Card, Modal, notification } from "antd";
+import { Button, Card, Modal, notification, Popconfirm } from "antd";
 
 import { StoryDescriptions } from "./StoryDescriptions";
 import services from "../../services/services";
@@ -85,6 +85,21 @@ const Story = ({ story, view, fandom }: StoryProps) => {
         }
     };
 
+    const updateStory = async () => {
+        try {
+            const response = await services.updateStoryDetails(story);
+            notification.success({
+                message: `${story.title} has been updated!`
+            });
+        }
+        catch(error) {
+            notification.error({
+                message: `There was a problem updating ${story.title}!`,
+                description: error.response.data
+            });
+        }
+    };
+
     const toggleEditing = () => {
         setEditingStory(current => !current);
     };
@@ -145,7 +160,19 @@ const Story = ({ story, view, fandom }: StoryProps) => {
                         <a href={story.url}>
                             <Button type="primary">View Story</Button>
                         </a>,
-                        <Button type="primary" onClick={toggleEditing}>Edit Details</Button>,
+                        editingStory ? (
+                            <Popconfirm
+                                title={`Update ${story.title}`}
+                                description={`Update ${story.title} with the new information provided?`}
+                                okText="Update"
+                                onConfirm={updateStory}
+                                onCancel={toggleEditing}
+                            >
+                                <Button type="primary">Update Story</Button>
+                            </Popconfirm>
+                        ) : (
+                            <Button type="primary" onClick={toggleEditing}>Edit Details</Button>
+                        ),
                         ...storyActions()
                     ]}
                 >

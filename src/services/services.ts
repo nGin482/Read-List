@@ -29,8 +29,8 @@ const getMostRecentStories = () => {
     return axios.get<Collection>(storiesURL + 'mostRecent').then(response => response.data)
 }
 
-const updateStoryDetails = (story) => {
-    return axios.put('/api/update/' + story.storyID, story).then(response => response.data)
+const updateStoryDetails = (story: IStory) => {
+    return axios.put(`/api/update/${story.storyID}`, story).then(response => response.data)
 }
 
 const removeStories = (date) => {

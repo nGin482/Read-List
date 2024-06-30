@@ -5,11 +5,10 @@ import { IStory } from "../../utils/types";
 
 
 const StoryDescriptions = ({ story, editing }: { story: IStory, editing: boolean }) => {
-    console.log(editing)
     const { Text } = Typography;
 
     const handleChange = (field: string, value: string | string[]) => {
-        console.log(field, value)
+        story[field] = value;
     };
 
     const descriptionItems: DescriptionsProps['items'] = [
