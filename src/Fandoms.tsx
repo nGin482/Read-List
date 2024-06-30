@@ -1,31 +1,33 @@
-import React, {useState, useEffect} from 'react';
-import Modal from 'react-modal';
+import { useState, useEffect } from 'react';
+import { Button, Card, Image, Modal, Spin, Typography } from 'antd';
+
 import services from './services/services.js';
 import AddFandom from './AddFandom.js';
 import UpdateFandom from './UpdateFandom.js';
 import DeleteFandom from './DeleteFandom.js';
+import { FandomArchive } from '../types/index.js';
 import './Fandoms.css';
 
 import ffn_logo from './images/FF.Net_Logo.png'
 import ao3_logo from './images/Archive_of_Our_Own_logo.png'
 
 const Fandoms = () => {
-    const [fandoms, setFandoms] = useState([])
-    const [openAdd, setOpenAdd] = useState(false)
-    const [openUpdate, setOpenUpdate] = useState(false)
-    const [openDelete, setOpenDelete] = useState(false)
-    const [fandomName, setFandomName] = useState('')
-    
+    const [fandoms, setFandoms] = useState<FandomArchive[]>([]);
+    const [openAdd, setOpenAdd] = useState(false);
+    const [openUpdate, setOpenUpdate] = useState(false);
+    const [openDelete, setOpenDelete] = useState(false);
+    const [fandomName, setFandomName] = useState('');
+    const [search, setSearch] = useState('');
     const [message, setMessage] = useState('')
 
+    const { Link, Text } = Typography;
+
     useEffect(() => {
-        services.getFandoms().then(data => {
+        services.getFandoms().then((data: FandomArchive[]) => {
             setFandoms(data)
         })
-    }, []
-    )
+    }, []);
 
-    const [search, setSearch] = useState('')
 
     const openAddModal = () => {
         setOpenAdd(true)
@@ -49,22 +51,37 @@ const Fandoms = () => {
                     <input type="text" placeholder="Search for a fandom" value={search} onChange={event => setSearch(event.target.value)}/>
                 </div>
                 <ul id="fandoms-list">
-                    {fandoms.filter(f => f.fandom.includes(search)).map(fandom => <div key={fandom.fandom} className="fandom-card">
-                        <h4 className="fandom-name">{fandom.fandom}</h4>
-                        {fandom.FFN_URL !== '' ? <img src={ffn_logo} className="ffn-logo" alt="Stories from Fanfiction.Net are being recorded"/> : ''}
-                        {fandom.AO3_URL !== '' ? <img src={ao3_logo} className="ao3-logo" alt="Stories from Archive of our Own are being recorded"/> : ''}
-                        <span id="search-value">{fandom.search === "One" ? 'One page is being searched' : 'Multiple pages are being searched'}</span>
-                        <br/>
-                        <span id="open-update-modal" onClick={() => {
-                            openUpdateModal()
-                            setFandomName(fandom.fandom)
-                        }}>Update this fandom</span>
-                        <span id="open-delete-modal" onClick={() => {
-                            openDeleteModal()
-                            setFandomName(fandom.fandom)
-                        }}>Delete this fandom</span>
-                        </div>
-                    )}
+                    {fandoms.filter(fandom => fandom.name.includes(search)).map(fandom => (
+                        <Card
+                            hoverable
+                            title={fandom.name}
+                            key={fandom.name}
+                            actions={[
+                                <Button type="primary">Update {fandom.name}</Button>,
+                                <Button type="primary">Delete {fandom.name}</Button>
+                            ]}
+                            className="fandom-card"
+                        >
+                            <div className="fandom-images">
+                                {fandom.ffn_url && (
+                                    <Link href={fandom.ffn_url} target="_blank">
+                                        <Image src={ffn_logo} preview={false} />
+                                    </Link>
+                                )}
+                                {fandom.ao3_url && (
+                                    <Link href={fandom.ao3_url} target="_blank">
+                                        <Image src={ao3_logo} preview={false} />
+                                    </Link>
+                                )}
+                            </div>
+                            <div className="search-criteria">
+                                <Text>
+                                    The collection will search for stories
+                                    across {fandom.search.toLocaleLowerCase()} page{fandom.search === 'Many' && 's'}
+                                </Text>
+                            </div>
+                        </Card>
+                    ))}
                 </ul>
                 <AddFandom openAdd={openAdd} setOpenAdd={setOpenAdd} message={message} setMessage={setMessage}/>
                 <UpdateFandom openUpdate={openUpdate} setOpenUpdate={setOpenUpdate} message={message} setMessage={setMessage} fandomName={fandomName}/>
@@ -74,7 +91,7 @@ const Fandoms = () => {
     }
     else {
         return (
-            <Modal isOpen={true}>Waiting for the fandoms to be retrieved</Modal>
+            <Spin fullscreen tip="Waiting for fandoms to be retrieved" />
         )
     }
 }
