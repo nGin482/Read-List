@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Dispatch, SetStateAction } from 'react';
 import { Button, Card, Image, Input, Spin, Typography } from 'antd';
 
 import services from './services/services';
@@ -8,10 +8,15 @@ import DeleteFandom from './DeleteFandom.js';
 import { FandomArchive } from '../types/index.js';
 import './Fandoms.css';
 
-import ffn_logo from './images/FF.Net_Logo.png'
-import ao3_logo from './images/Archive_of_Our_Own_logo.png'
+import ffn_logo from './images/FF.Net_Logo.png';
+import ao3_logo from './images/Archive_of_Our_Own_logo.png';
 
-const Fandoms = () => {
+interface FandomsProps {
+    createFandom: boolean
+    setCreateFandom: Dispatch<SetStateAction<boolean>>
+}
+
+const Fandoms = ({ createFandom, setCreateFandom }: FandomsProps) => {
     const [fandoms, setFandoms] = useState<FandomArchive[]>([]);
     const [openAdd, setOpenAdd] = useState(false);
     const [openUpdate, setOpenUpdate] = useState(false);
@@ -84,7 +89,7 @@ const Fandoms = () => {
                         </div>
                     </Card>
                 ))}
-                <AddFandom />
+                <AddFandom createFandom={createFandom} setCreateFandom={setCreateFandom}  />
                 <UpdateFandom openUpdate={openUpdate} setOpenUpdate={setOpenUpdate} message={message} setMessage={setMessage} fandomName={fandomName}/>
                 <DeleteFandom fandomName={fandomName} openDelete={openDelete} setOpenDelete={setOpenDelete} message={message} setMessage={setMessage}/>
             </div>

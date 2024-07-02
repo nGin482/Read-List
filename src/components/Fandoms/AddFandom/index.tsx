@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { Form, Input, Modal, Select } from 'antd';
 
 import services from '../../../services/services';
@@ -7,20 +7,24 @@ import { FandomArchive } from '../../../../types/index';
 import './AddFandom.css';
 
 
-const AddFandom = () => {
+interface AddFandomProps {
+    createFandom: boolean
+    setCreateFandom: Dispatch<SetStateAction<boolean>>
+}
 
-    const [modalOpen, setModalOpen] = useState(true);
+const AddFandom = ({ createFandom, setCreateFandom }: AddFandomProps) => {
+
     const [form] = Form.useForm<FandomArchive>();
 
     const addFandom = async () => {
         await form.validateFields().then(async () => {
             const values = form.getFieldsValue();
             console.log(values)
-            const { name, ffn_url, ao3_url, search } = values;
+            const { name, ffn_url, ao3_url } = values;
             try {
                 checkValidationAddFandom(name, ffn_url || '', ao3_url || '');
                 console.log('validation passed')
-                setModalOpen(current => !current);
+                setCreateFandom(current => !current);
                 console.log('adding new fandom')
             }
             catch(error) {
@@ -33,10 +37,10 @@ const AddFandom = () => {
     return (
         <Modal
             title="Add new Fandom"
-            open={modalOpen}
+            open={createFandom}
             onOk={addFandom}
             okText="Add new Fandom"
-            onCancel={() => setModalOpen(current => !current)}
+            onCancel={() => setCreateFandom(current => !current)}
         >
             <Form
                 form={form}

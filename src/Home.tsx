@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import { Menu, MenuProps, notification } from 'antd';
+import { Button, Menu, MenuProps, notification } from 'antd';
 
 import services from "./services/services";
 import StoryList from './StoryList';
@@ -21,6 +21,7 @@ import './nav.css';
 const App = () => {
     const [collection, setCollection] = useState<Collection>(null)
     const [dates, setDates] = useState<string[][]>([]);
+    const [createFandom, setCreateFandom] = useState(false);
 
     useEffect(() => {
         services.getMostRecentStories().then(
@@ -58,7 +59,20 @@ const App = () => {
         },
         {
             key: 'fandoms',
-            label: <Link style={padding} to='/fandoms'>Fandoms</Link>
+            label: 'Fandoms',
+            children: [
+                {
+                    type: "item",
+                    label: <Link style={padding} to='/fandoms'>View all Fandoms</Link>,
+                    key: "view-all-fandoms"
+                },
+                {
+                    type: "item",
+                    label: 'Add Fandom',
+                    key: "add-fandom",
+                    onClick: () => setCreateFandom(true)
+                }
+            ]
         },
         {
             key: 'collection-browse',
@@ -74,7 +88,7 @@ const App = () => {
                 <Switch>
                     <Route path='/story/:id'><StoryPage/></Route>
                     <Route path='/stories/:date'><StoriesForDate/></Route>
-                    <Route path='/fandoms'><Fandoms/></Route>
+                    <Route path='/fandoms'><Fandoms createFandom={createFandom} setCreateFandom={setCreateFandom} /></Route>
                     <Route path='/reading-list'><ReadingList/></Route>
                     <Route path='/completed-list'><CompletedList/></Route>
                     <Route path='/'><StoryList collection={collection}/></Route>
