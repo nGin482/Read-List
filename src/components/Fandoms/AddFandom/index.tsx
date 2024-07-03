@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useState } from 'react';
-import { Form, Input, Modal, Select } from 'antd';
+import { Form, Input, Modal, notification, Select } from 'antd';
 
 import services from '../../../services/services';
 import { checkValidationAddFandom } from '../../../utils/index';
@@ -19,17 +19,20 @@ const AddFandom = ({ createFandom, setCreateFandom }: AddFandomProps) => {
     const addFandom = async () => {
         await form.validateFields().then(async () => {
             const values = form.getFieldsValue();
-            console.log(values)
             const { name, ffn_url, ao3_url } = values;
             try {
                 checkValidationAddFandom(name, ffn_url || '', ao3_url || '');
-                console.log('validation passed')
+                const response = await services.addFandom(values);
+                form.resetFields();
                 setCreateFandom(current => !current);
-                console.log('adding new fandom')
+                notification.success({
+                    message: `The fandom ${name} has been added to the list`
+                });
             }
             catch(error) {
-                console.error(error.message)
-                return false;
+                notification.error({
+                    message: error?.response?.data.message || error.message
+                });
             }
         });
     };

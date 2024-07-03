@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 import { Collection, IStory } from '../utils/types';
+import { FandomArchive } from '../../types';
 
 const BASE_URL = 'http://localhost:3001/api';
 
@@ -41,12 +42,12 @@ const getFandoms = () => {
     return axios.get(fandomsURL).then(response => response.data)
 }
 
-const addFandom = (fandom_data) => {
-    return axios.post(fandomsURL + 'add', fandom_data).then(response => response.data)
-}
+const addFandom = async (fandom_data: FandomArchive) => {
+    return axios.post(`${fandomsURL}add`, fandom_data).then(response => response.data);
+};
 
-const updateFandom = (fandomName, fandomData) => {
-    return axios.put(fandomsURL + fandomName + '/update', fandomData).then(response => response.data)
+const updateFandom = (fandom: FandomArchive) => {
+    return axios.put(`${fandomsURL}${fandom.name}/update`, fandom).then(response => response.data)
 }
 
 const deleteFandom = (fandomName) => {
