@@ -18,7 +18,6 @@ interface FandomsProps {
 
 const Fandoms = ({ createFandom, setCreateFandom }: FandomsProps) => {
     const [fandoms, setFandoms] = useState<FandomArchive[]>([]);
-    const [openAdd, setOpenAdd] = useState(false);
     const [openUpdate, setOpenUpdate] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);
     const [fandomName, setFandomName] = useState('');
@@ -26,6 +25,7 @@ const Fandoms = ({ createFandom, setCreateFandom }: FandomsProps) => {
     const [message, setMessage] = useState('')
 
     const { Link, Text } = Typography;
+    const { Search } = Input;
 
     useEffect(() => {
         services.getFandoms().then((data: FandomArchive[]) => {
@@ -33,11 +33,6 @@ const Fandoms = ({ createFandom, setCreateFandom }: FandomsProps) => {
         })
     }, []);
 
-
-    const openAddModal = () => {
-        setOpenAdd(true)
-        setMessage('')
-    }
     const openUpdateModal = () => {
         setOpenUpdate(true)
         setMessage('')
@@ -52,10 +47,10 @@ const Fandoms = ({ createFandom, setCreateFandom }: FandomsProps) => {
             <div id="fandoms-page">
                 <h2 id="fandoms-page-header">Fandoms</h2>
                 <div id="search-box">
-                    <Input
+                    <Search
                         placeholder="Search for a fandom"
-                        value={fandomSearch}
-                        onChange={event => setFandomSearch(event.target.value.toLocaleLowerCase())}
+                        onChange={event => setFandomSearch(event.currentTarget.value)}
+                        onSearch={(value) => setFandomSearch(value)}
                     />
                 </div>
                 {fandoms.filter(fandom => fandom.name.toLocaleLowerCase().includes(fandomSearch)).map(fandom => (
@@ -97,6 +92,6 @@ const Fandoms = ({ createFandom, setCreateFandom }: FandomsProps) => {
             <Spin fullscreen tip="Waiting for fandoms to be retrieved" />
         )
     );
-}
+};
 
 export default Fandoms;
