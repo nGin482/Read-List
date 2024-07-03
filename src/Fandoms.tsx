@@ -1,10 +1,9 @@
 import { useState, useEffect, Dispatch, SetStateAction } from 'react';
-import { Button, Card, Image, Input, Spin, Typography } from 'antd';
+import { Button, Card, Image, Input, Popconfirm, Spin, Typography, notification } from 'antd';
 
 import services from './services/services';
 import AddFandom from './components/Fandoms/AddFandom';
 import UpdateFandom from './UpdateFandom.js';
-import DeleteFandom from './DeleteFandom.js';
 import { FandomArchive } from '../types/index.js';
 import './Fandoms.css';
 
@@ -19,7 +18,6 @@ interface FandomsProps {
 const Fandoms = ({ createFandom, setCreateFandom }: FandomsProps) => {
     const [fandoms, setFandoms] = useState<FandomArchive[]>([]);
     const [openUpdate, setOpenUpdate] = useState(false);
-    const [openDelete, setOpenDelete] = useState(false);
     const [fandomName, setFandomName] = useState('');
     const [fandomSearch, setFandomSearch] = useState('');
     const [message, setMessage] = useState('')
@@ -37,10 +35,21 @@ const Fandoms = ({ createFandom, setCreateFandom }: FandomsProps) => {
         setOpenUpdate(true)
         setMessage('')
     }
-    const openDeleteModal = () => {
-        setOpenDelete(true)
-        setMessage('')
-    }
+    const deleteFandom = async (fandom: string) => {
+        console.log(`Deleting ${fandom}`)
+        try {
+            await services.deleteFandom(fandom);
+            notification.success({
+                message: `${fandom} has been deleted`
+            });
+        }
+        catch(error) {
+            notification.error({
+                message: `There was a problem deleting ${fandomName}`,
+                description: error?.response?.data.message || error.message
+            });
+        }
+    };
 
     return (
         fandoms.length > 0 ? (
@@ -60,7 +69,20 @@ const Fandoms = ({ createFandom, setCreateFandom }: FandomsProps) => {
                         key={fandom.name}
                         actions={[
                             <Button type="primary">Update {fandom.name}</Button>,
-                            <Button type="primary">Delete {fandom.name}</Button>
+                            <Popconfirm
+                                title={`Delete ${fandom.name}?`}
+                                description={(
+                                    <>
+                                        <p>Are you sure you would like to delete this fandom?</p>
+                                        <p>The Archive will no longer search for stories from <strong>{fandom.name}</strong></p>
+                                    </>
+                                )}
+                                okText="Yes"
+                                onConfirm={() => deleteFandom(fandom.name)}
+                                cancelText="No"
+                            >
+                                <Button danger type="primary">Delete {fandom.name}</Button>
+                            </Popconfirm>
                         ]}
                         className="fandom-card"
                     >
@@ -86,7 +108,6 @@ const Fandoms = ({ createFandom, setCreateFandom }: FandomsProps) => {
                 ))}
                 <AddFandom createFandom={createFandom} setCreateFandom={setCreateFandom}  />
                 <UpdateFandom openUpdate={openUpdate} setOpenUpdate={setOpenUpdate} message={message} setMessage={setMessage} fandomName={fandomName}/>
-                <DeleteFandom fandomName={fandomName} openDelete={openDelete} setOpenDelete={setOpenDelete} message={message} setMessage={setMessage}/>
             </div>
         ) : (
             <Spin fullscreen tip="Waiting for fandoms to be retrieved" />

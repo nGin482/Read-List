@@ -50,9 +50,9 @@ const updateFandom = (fandom: FandomArchive) => {
     return axios.put(`${fandomsURL}${fandom.name}/update`, fandom).then(response => response.data)
 }
 
-const deleteFandom = (fandomName) => {
-    return axios.delete(fandomsURL + fandomName + '/delete').then(response => response.data)
-}
+const deleteFandom = async (fandomName: string) => {
+    return axios.delete(`${fandomsURL}${fandomName}/delete`).then(response => response.data)
+};
 
 const getReadingList = () => {
     return axios.get(readListURL).then(response => response.data)
