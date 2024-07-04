@@ -1,11 +1,9 @@
 import { Dispatch, SetStateAction } from 'react';
 import { Modal, Form, Input, Select } from "antd";
 
-import services from './services/services';
-import { validateFandom } from './utils';
-import { FandomArchive } from '../types';
-import './UpdateFandom.css';
-import './modal.css';
+import services from '../../../services/services';
+import { validateFandom } from '../../../utils';
+import { FandomArchive } from '../../../../types';
 
 interface UpdateFandomProps {
     fandom: FandomArchive

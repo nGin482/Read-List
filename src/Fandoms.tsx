@@ -2,8 +2,7 @@ import { useState, useEffect, Dispatch, SetStateAction } from 'react';
 import { Button, Card, Image, Input, Popconfirm, Spin, Typography, notification } from 'antd';
 
 import services from './services/services';
-import AddFandom from './components/Fandoms/AddFandom';
-import UpdateFandom from './UpdateFandom.js';
+import { AddFandom, UpdateFandom } from './components/Fandoms';
 import { FandomArchive } from '../types/index.js';
 import './Fandoms.css';
 
