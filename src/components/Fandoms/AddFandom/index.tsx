@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction, useState } from 'react';
 import { Form, Input, Modal, notification, Select } from 'antd';
 
 import services from '../../../services/services';
-import { checkValidationAddFandom } from '../../../utils/index';
+import { validateFandom } from '../../../utils/index';
 import { FandomArchive } from '../../../../types/index';
 import './AddFandom.css';
 
@@ -21,7 +21,7 @@ const AddFandom = ({ createFandom, setCreateFandom }: AddFandomProps) => {
             const values = form.getFieldsValue();
             const { name, ffn_url, ao3_url } = values;
             try {
-                checkValidationAddFandom(name, ffn_url || '', ao3_url || '');
+                validateFandom(name, ffn_url || '', ao3_url || '');
                 const response = await services.addFandom(values);
                 form.resetFields();
                 setCreateFandom(current => !current);
