@@ -18,6 +18,7 @@ interface FandomsProps {
 const Fandoms = ({ createFandom, setCreateFandom }: FandomsProps) => {
     const [fandoms, setFandoms] = useState<FandomArchive[]>([]);
     const [openUpdate, setOpenUpdate] = useState(false);
+    const [fandomUpdating, setFandomUpdating] = useState<FandomArchive>(null);
     const [fandomName, setFandomName] = useState('');
     const [fandomSearch, setFandomSearch] = useState('');
     const [message, setMessage] = useState('')
@@ -31,10 +32,11 @@ const Fandoms = ({ createFandom, setCreateFandom }: FandomsProps) => {
         })
     }, []);
 
-    const openUpdateModal = () => {
-        setOpenUpdate(true)
-        setMessage('')
-    }
+    const openUpdateModal = (fandom: FandomArchive) => {
+        setOpenUpdate(true);
+        setFandomUpdating(fandom);
+    };
+
     const deleteFandom = async (fandom: string) => {
         console.log(`Deleting ${fandom}`)
         try {
@@ -68,7 +70,7 @@ const Fandoms = ({ createFandom, setCreateFandom }: FandomsProps) => {
                         title={fandom.name}
                         key={fandom.name}
                         actions={[
-                            <Button type="primary">Update {fandom.name}</Button>,
+                            <Button onClick={() => openUpdateModal(fandom)} type="primary">Update {fandom.name}</Button>,
                             <Popconfirm
                                 title={`Delete ${fandom.name}?`}
                                 description={(
@@ -107,7 +109,13 @@ const Fandoms = ({ createFandom, setCreateFandom }: FandomsProps) => {
                     </Card>
                 ))}
                 <AddFandom createFandom={createFandom} setCreateFandom={setCreateFandom}  />
-                <UpdateFandom openUpdate={openUpdate} setOpenUpdate={setOpenUpdate} message={message} setMessage={setMessage} fandomName={fandomName}/>
+                {fandomUpdating && (
+                    <UpdateFandom
+                        openModal={openUpdate}
+                        setOpenModal={setOpenUpdate}
+                        fandom={fandomUpdating}
+                    />
+                )}
             </div>
         ) : (
             <Spin fullscreen tip="Waiting for fandoms to be retrieved" />
