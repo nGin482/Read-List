@@ -18,9 +18,7 @@ const Fandoms = ({ createFandom, setCreateFandom }: FandomsProps) => {
     const [fandoms, setFandoms] = useState<FandomArchive[]>([]);
     const [openUpdate, setOpenUpdate] = useState(false);
     const [fandomUpdating, setFandomUpdating] = useState<FandomArchive>(null);
-    const [fandomName, setFandomName] = useState('');
     const [fandomSearch, setFandomSearch] = useState('');
-    const [message, setMessage] = useState('')
 
     const { Link, Text } = Typography;
     const { Search } = Input;
