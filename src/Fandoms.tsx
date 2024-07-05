@@ -46,7 +46,7 @@ const Fandoms = ({ createFandom, setCreateFandom }: FandomsProps) => {
         }
         catch(error) {
             notification.error({
-                message: `There was a problem deleting ${fandomName}`,
+                message: `There was a problem deleting ${fandom}`,
                 description: error?.response?.data.message || error.message
             });
         }

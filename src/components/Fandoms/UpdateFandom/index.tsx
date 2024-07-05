@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Modal, Form, Input, Select } from "antd";
 
 import services from '../../../services/services';
@@ -14,6 +14,10 @@ interface UpdateFandomProps {
 const UpdateFandom = ({ fandom, openModal, setOpenModal }: UpdateFandomProps) => {
 
     const [form] = Form.useForm<FandomArchive>();
+
+    useEffect(() => {
+        form.setFieldsValue(fandom);
+    }, [fandom]);
 
     const updateFandom = async () => {
         const values = form.getFieldsValue();
@@ -44,7 +48,6 @@ const UpdateFandom = ({ fandom, openModal, setOpenModal }: UpdateFandomProps) =>
         >
             <Form
                 form={form}
-                initialValues={fandom}
             >
                 <Form.Item
                     label="Fandom Name"
