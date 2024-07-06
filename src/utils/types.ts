@@ -44,3 +44,5 @@ export interface Collection {
     date: string
     stories: IArchiveStories[]
 }
+
+export type SearchOptions = 'title' | 'fandoms';

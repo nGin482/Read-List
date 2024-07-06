@@ -39,7 +39,7 @@ const removeStories = (date) => {
 }
 
 const getFandoms = () => {
-    return axios.get(fandomsURL).then(response => response.data)
+    return axios.get<FandomArchive[]>(fandomsURL).then(response => response.data)
 }
 
 const addFandom = async (fandom_data: FandomArchive) => {
