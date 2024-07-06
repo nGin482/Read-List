@@ -61,50 +61,52 @@ const Fandoms = ({ createFandom, setCreateFandom }: FandomsProps) => {
                         onSearch={(value) => setFandomSearch(value)}
                     />
                 </div>
-                {fandoms.filter(fandom => fandom.name.toLocaleLowerCase().includes(fandomSearch)).map(fandom => (
-                    <Card
-                        hoverable
-                        title={fandom.name}
-                        key={fandom.name}
-                        actions={[
-                            <Button onClick={() => openUpdateModal(fandom)} type="primary">Update {fandom.name}</Button>,
-                            <Popconfirm
-                                title={`Delete ${fandom.name}?`}
-                                description={(
-                                    <>
-                                        <p>Are you sure you would like to delete this fandom?</p>
-                                        <p>The Archive will no longer search for stories from <strong>{fandom.name}</strong></p>
-                                    </>
+                <div id="fandoms-list">
+                    {fandoms.filter(fandom => fandom.name.toLocaleLowerCase().includes(fandomSearch)).map(fandom => (
+                        <Card
+                            hoverable
+                            title={fandom.name}
+                            key={fandom.name}
+                            actions={[
+                                <Button onClick={() => openUpdateModal(fandom)} type="primary">Update {fandom.name}</Button>,
+                                <Popconfirm
+                                    title={`Delete ${fandom.name}?`}
+                                    description={(
+                                        <>
+                                            <p>Are you sure you would like to delete this fandom?</p>
+                                            <p>The Archive will no longer search for stories from <strong>{fandom.name}</strong></p>
+                                        </>
+                                    )}
+                                    okText="Yes"
+                                    onConfirm={() => deleteFandom(fandom.name)}
+                                    cancelText="No"
+                                >
+                                    <Button danger type="primary">Delete {fandom.name}</Button>
+                                </Popconfirm>
+                            ]}
+                            className="fandom-card"
+                        >
+                            <div className="fandom-images">
+                                {fandom.ffn_url && (
+                                    <Link href={fandom.ffn_url} target="_blank">
+                                        <Image src={ffn_logo} preview={false} />
+                                    </Link>
                                 )}
-                                okText="Yes"
-                                onConfirm={() => deleteFandom(fandom.name)}
-                                cancelText="No"
-                            >
-                                <Button danger type="primary">Delete {fandom.name}</Button>
-                            </Popconfirm>
-                        ]}
-                        className="fandom-card"
-                    >
-                        <div className="fandom-images">
-                            {fandom.ffn_url && (
-                                <Link href={fandom.ffn_url} target="_blank">
-                                    <Image src={ffn_logo} preview={false} />
-                                </Link>
-                            )}
-                            {fandom.ao3_url && (
-                                <Link href={fandom.ao3_url} target="_blank">
-                                    <Image src={ao3_logo} preview={false} />
-                                </Link>
-                            )}
-                        </div>
-                        <div className="search-criteria">
-                            <Text>
-                                The collection will search for stories
-                                across {fandom.search.toLocaleLowerCase()} page{fandom.search === 'Many' && 's'}
-                            </Text>
-                        </div>
-                    </Card>
-                ))}
+                                {fandom.ao3_url && (
+                                    <Link href={fandom.ao3_url} target="_blank">
+                                        <Image src={ao3_logo} preview={false} />
+                                    </Link>
+                                )}
+                            </div>
+                            <div className="search-criteria">
+                                <Text>
+                                    The collection will search for stories
+                                    across {fandom.search.toLocaleLowerCase()} page{fandom.search === 'Many' && 's'}
+                                </Text>
+                            </div>
+                        </Card>
+                    ))}
+                </div>
                 <AddFandom createFandom={createFandom} setCreateFandom={setCreateFandom}  />
                 {fandomUpdating && (
                     <UpdateFandom

@@ -1,7 +1,26 @@
-.fandom-card {
+#fandoms-page {
+    width: 100%;
+}
+
+#fandoms-page-header {
+    text-align: center;
+}
+
+#search-box {
     width: 40%;
+    margin: 0 auto;
+}
+
+#fandoms-list {
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+.fandom-card {
+    width: 90%;
     border: solid black 5px;
     margin: 1%;
+    margin: 4% auto 0;
 }
 
 .fandom-images {
@@ -13,120 +32,6 @@
     text-align: center;
 }
 
-#search-box {
-    width: 40%;
-    margin: 0 auto;
-}
-
-
-
-#fandoms-page-header {
-    text-align: center;
-}
-
-#open-add-modal {
-    border: solid black 1px;
-    padding: 1%;
-    margin-left: 5%;
-    background-color: lightgray;
-
-}
-
-#open-add-modal:hover {
-    background-color: black;
-    color: white;
-}
-
-.fandom-name {
-    text-align: center;
-}
-
-.ffn-logo {
-    width: 40%;
-}
-
-#search-value {
-    display: block;
-    text-align: center;
-}
-
-.header {
-    text-align: center;
-}
-
-.fandom-form {
-    margin-left: 4%;
-}
-
-.label {
-	color: #8597a3;
-	position: absolute;
-	top: 1.5rem;
-	transition: .25s ease;
-}
-
-input {
-    border: none;
-    border-bottom: solid 1px;
-    padding-top: 2%;
-    padding-bottom: 2%;
-}
-
-input:focus {
-    background-color: #b1b1b1;
-}
-
-#submit-input {
-    padding: 1em;
-    font-weight: 500;
-	background-color: #6658d3;
-	color: #FFF;
-	border: 0;
-    width: 20%;
-    justify-content: center;
-    align-items: center;
-}
-
-#submit-input:hover {
-    background-color: rgba(102, 88, 211, .7);
-    cursor: pointer;
-}
-
-#open-update-modal {
-    display: flex;
-    border: solid black 1px;
-    padding: 1%;
-    margin-left: 5%;
-    background-color: lightgray;
-    width: 22%;
-    justify-content: center;
-    align-items: center;
-    margin-top: 2%;
-    margin-bottom: 2%;
-}
-
-#open-update-modal:hover {
-    background-color: black;
-    color: white;
-}
-
-#open-delete-modal {
-    display: flex;
-    border: solid black 1px;
-    padding: 1%;
-    margin-left: 5%;
-    background-color: lightgray;
-    width: 22%;
-    justify-content: center;
-    align-items: center;
-    margin-top: 2%;
-    margin-bottom: 2%;
-}
-
-#open-delete-modal:hover {
-    background-color: black;
-    color: white;
-}
 
 @media screen and (max-width: 640px) {
     .ao3-logo {
