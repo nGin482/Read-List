@@ -161,15 +161,10 @@ const Story = ({ story, view, fandom }: StoryProps) => {
                             <Button type="primary">View Story</Button>
                         </a>,
                         editingStory ? (
-                            <Popconfirm
-                                title={`Update ${story.title}`}
-                                description={`Update ${story.title} with the new information provided?`}
-                                okText="Update"
-                                onConfirm={updateStory}
-                                onCancel={toggleEditing}
-                            >
-                                <Button type="primary">Update Story</Button>
-                            </Popconfirm>
+                            <div className="edit-story-actions">
+                                <Button onClick={toggleEditing}>Cancel</Button>
+                                <Button type="primary" onClick={updateStory}>Update Story</Button>
+                            </div>
                         ) : (
                             <Button type="primary" onClick={toggleEditing}>Edit Details</Button>
                         ),

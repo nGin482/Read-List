@@ -37,6 +37,11 @@
     }
 }
 
+.edit-story-actions {
+    display: flex;
+    justify-content: space-evenly;
+}
+
 #add-to-read-list:hover {
     background-color: yellowgreen;
 }
