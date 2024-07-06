@@ -1,4 +1,4 @@
-export interface IStory {
+interface IBaseStory {
     storyID: number,
     title: string
     author: string
@@ -11,18 +11,28 @@ export interface IStory {
     publishedDate: string
     updatedDate: string
     collectedDate: Date
-    rating: string
-    warnings: string[]
-    genres: string[]
-    categories: string[]
-    tags: string[]
     readStatus: boolean
     dateRead: Date
-    date: string
-    status: string
-    archive: string
+    rating: string
+    status: 'In Progress' | 'Complete'
     url: string
 }
+
+
+export interface IFFNStory extends IBaseStory {
+    genres: string[] 
+    date: string
+    archive: 'Fanfiction.Net'
+}
+
+export interface IAO3Story extends IBaseStory {
+    categories: string[]
+    tags: string[]
+    warnings: string[]
+    archive: 'Archive of our Own'
+}
+
+export type IStory = IFFNStory | IAO3Story
 
 export interface IArchiveStories {
     fandom: string

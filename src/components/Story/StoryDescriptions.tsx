@@ -2,6 +2,8 @@ import { Button, DatePicker, Descriptions, DescriptionsProps, Input, Select, Typ
 import dayjs from "dayjs";
 
 import { IStory } from "../../utils/types";
+import { AO3Descriptions } from "./AO3Descriptions";
+import { FFNDescriptions } from "./FFNDescriptions";
 
 
 const StoryDescriptions = ({ story, editing }: { story: IStory, editing: boolean }) => {
@@ -196,108 +198,16 @@ const StoryDescriptions = ({ story, editing }: { story: IStory, editing: boolean
                 />
             ) : <Text>{story.rating}</Text>,
             span: 2
-        },
-        {
-            key: 'genres',
-            label: 'Genres',
-            children: (
-                story.genres?.length > 0 ? (
-                    <ul>
-                        {story.genres.map(genre => <li>{genre}</li>)}
-                    </ul>
-                ) : (
-                    <p>No genres were tagged</p>
-                )
-            )
-        },
-        {
-            key: 'categories',
-            label: 'Categories',
-            children: ( 
-                <>
-                    {editing && (
-                        <Select
-                            mode="tags"
-                            options={[
-                                { label: 'M/M', value: 'M/M' },
-                                { label: 'F/M', value: 'F/M' },
-                                { label: 'F/F', value: 'F/F' },
-                                { label: 'Gen', value: 'Gen' },
-                                { label: 'Multi', value: 'Multi' },
-                                { label: 'Other', value: 'Other' },
-                            ]}
-                            defaultValue={story.categories}
-                            onChange={categories => handleChange('categories', categories)}
-                        />
-                    )}
-                    {!editing && story.categories.length > 0 && (
-                        <ul>
-                            {story.categories.map(category => <li>{category}</li>)}
-                        </ul>
-                    )}
-                    {!editing && story.categories.length === 0 && (
-                        <Text>No categories were tagged</Text>
-                    )}
-                </>
-            ),
-            span: 1
-        },
-        {
-            key: 'warnings',
-            label: 'Warnings',
-            children: (
-                <>
-                    {editing && (
-                        <Select
-                            mode="tags"
-                            options={ story.warnings.map(warning => ({ label: warning, value: warning })) }
-                            defaultValue={story.warnings}
-                            onChange={warnings => handleChange('warnings', warnings)}
-                        />
-                    )}
-                    {!editing && story.warnings.length > 0 && (
-                        <ul>
-                            {story.warnings.map(warning => <li>{warning}</li>)}
-                        </ul>
-                    )}
-                    {!editing && story.warnings.length === 0 && (
-                        <Text>No warnings were tagged</Text>
-                    )}
-                </>
-            ),
-            span: 1
-        },
-        {
-            key: 'tags',
-            label: 'Tags',
-            children: (
-                <>
-                    {editing && (
-                        <Select
-                            mode="tags"
-                            options={ story.tags.map(tag => ({ label: tag, value: tag })) }
-                            defaultValue={story.tags}
-                            onChange={tags => handleChange('tags', tags)}
-                        />
-                    )}
-                    {!editing && story.tags.length > 0 && (
-                        <ul>
-                            {story.tags.map(tag => <li>{tag}</li>)}
-                        </ul>
-                    )}
-                    {!editing && story.tags.length === 0 && (
-                        <Text>No tags were tagged</Text>
-                    )}
-                </>
-            ),
-            span: 1
         }
     ];
 
 
     return (
         <Descriptions
-            items={descriptionItems}
+            items={
+                story.archive === 'Archive of our Own' ?
+                descriptionItems.concat(AO3Descriptions({ story, editing, handleChange })) :
+                descriptionItems.concat(FFNDescriptions(story, editing, handleChange))}
             title={story.title}
             bordered 
             extra={
