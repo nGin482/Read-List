@@ -1,4 +1,4 @@
-import { Button, DatePicker, Descriptions, DescriptionsProps, Input, Select, Typography } from "antd";
+import { Button, DatePicker, Descriptions, DescriptionsProps, Input, Select, Tag, Typography } from "antd";
 import dayjs from "dayjs";
 
 import { IStory } from "../../utils/types";
@@ -10,6 +10,7 @@ const StoryDescriptions = ({ story, editing }: { story: IStory, editing: boolean
     const { Text } = Typography;
 
     const handleChange = (field: string, value: string | string[]) => {
+        console.log(value)
         story[field] = value;
     };
 
@@ -74,9 +75,11 @@ const StoryDescriptions = ({ story, editing }: { story: IStory, editing: boolean
                         />
                     )}
                     {!editing && story.fandoms.length > 0 && (
-                        <ul>
-                            {story.fandoms.map(fandom => <li>{fandom}</li>)}
-                        </ul>
+                        <div className="fandoms">
+                            {story.fandoms.map(fandom => (
+                                <Tag key={fandom}>{fandom}</Tag>
+                            ))}
+                        </div>
                     )}
                     {!editing && story.fandoms.length === 0 && (
                         <Text>No fandoms were tagged</Text>
@@ -98,9 +101,9 @@ const StoryDescriptions = ({ story, editing }: { story: IStory, editing: boolean
                         />
                     )}
                     {!editing && story.characters.length > 0 && (
-                        <ul>
-                            {story.characters.map(character => <li>{character}</li>)}
-                        </ul>
+                        <div className="characters">
+                            {story.characters.map(character => <Tag key={character}>{character}</Tag>)}
+                        </div>
                     )}
                     {!editing && story.characters.length === 0 && (
                         <Text>No characters were tagged</Text>
@@ -122,16 +125,16 @@ const StoryDescriptions = ({ story, editing }: { story: IStory, editing: boolean
                         />
                     )}
                     {!editing && story.relationships.length > 0 && (
-                        <ul>
-                            {story.relationships.map(ship => <li>{ship}</li>)}
-                        </ul>
+                        <div className="relationships">
+                            {story.relationships.map(ship => <Tag key={ship}>{ship}</Tag>)}
+                        </div>
                     )}
                     {!editing && story.relationships.length === 0 && (
                         <Text>No relationships were tagged</Text>
                     )}
                 </>
             ),
-            span: 2
+            span: 1
         },
         {
             key: 'publishedDate',
@@ -170,7 +173,7 @@ const StoryDescriptions = ({ story, editing }: { story: IStory, editing: boolean
                     onChange={value => handleChange('status', value)}
                 />
             ) : <Text>{story.status}</Text>,
-            span: 1
+            span: 2
         },
         {
             key: 'rating',
@@ -205,15 +208,17 @@ const StoryDescriptions = ({ story, editing }: { story: IStory, editing: boolean
     return (
         <Descriptions
             items={
-                story.archive === 'Archive of our Own' ?
-                descriptionItems.concat(AO3Descriptions({ story, editing, handleChange })) :
-                descriptionItems.concat(FFNDescriptions(story, editing, handleChange))}
+                story.archive === 'Archive of our Own'
+                ? descriptionItems.concat(AO3Descriptions(story, editing, handleChange))
+                : descriptionItems.concat(FFNDescriptions(story, editing, handleChange))
+            }
             title={story.title}
             bordered 
             extra={
                 <Button type="link" href={story.url}>View Story</Button>
             }
             labelStyle={{ background: '#7775' }}
+            column={3}
         />
     )
 

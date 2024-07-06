@@ -1,15 +1,12 @@
-import { DescriptionsProps, Select, Typography } from "antd";
+import { DescriptionsProps, Select, Tag, Typography } from "antd";
 
 import { IAO3Story } from "../../utils/types";
 
-interface AO3DescriptionsProps {
+const AO3Descriptions = (
     story: IAO3Story,
-    editing: boolean
+    editing: boolean,
     handleChange: (field: string, value: string | string[]) => void
-}
-
-
-const AO3Descriptions = ({ story, editing, handleChange }: AO3DescriptionsProps) => {
+) => {
     const { Text } = Typography;
 
     const descriptionItems: DescriptionsProps['items'] = [
@@ -34,16 +31,16 @@ const AO3Descriptions = ({ story, editing, handleChange }: AO3DescriptionsProps)
                         />
                     )}
                     {!editing && story.categories.length > 0 && (
-                        <ul>
-                            {story.categories.map(category => <li>{category}</li>)}
-                        </ul>
+                        <div className="categories">
+                            {story.categories.map(category => <Tag key={category}>{category}</Tag>)}
+                        </div>
                     )}
                     {!editing && story.categories.length === 0 && (
                         <Text>No categories were tagged</Text>
                     )}
                 </>
             ),
-            span: 1
+            span: 2
         },
         {
             key: 'warnings',
@@ -59,16 +56,16 @@ const AO3Descriptions = ({ story, editing, handleChange }: AO3DescriptionsProps)
                         />
                     )}
                     {!editing && story.warnings.length > 0 && (
-                        <ul>
-                            {story.warnings.map(warning => <li>{warning}</li>)}
-                        </ul>
+                        <div className="warnings">
+                            {story.warnings.map(warning => <Tag key={warning}>{warning}</Tag>)}
+                        </div>
                     )}
                     {!editing && story.warnings.length === 0 && (
                         <Text>No warnings were tagged</Text>
                     )}
                 </>
             ),
-            span: 1
+            span: 2
         },
         {
             key: 'tags',
@@ -84,16 +81,16 @@ const AO3Descriptions = ({ story, editing, handleChange }: AO3DescriptionsProps)
                         />
                     )}
                     {!editing && story.tags.length > 0 && (
-                        <ul>
-                            {story.tags.map(tag => <li>{tag}</li>)}
-                        </ul>
+                        <div className="tags">
+                            {story.tags.map(tag => <Tag key={tag}>{tag}</Tag>)}
+                        </div>
                     )}
                     {!editing && story.tags.length === 0 && (
-                        <Text>No tags were tagged</Text>
+                        <Text>No tags were added</Text>
                     )}
                 </>
             ),
-            span: 1
+            span: 3
         }
     ];
 

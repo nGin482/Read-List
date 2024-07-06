@@ -16,6 +16,21 @@
     color: #000a !important;
 }
 
+.fandoms, .characters {
+    display: grid;
+    grid-template-columns: max-content max-content;
+}
+
+.categories, .warnings {
+    display: grid;
+    grid-template-columns: max-content; 
+}
+
+.tags {
+    display: grid;
+    grid-template-columns: max-content max-content max-content max-content;
+}
+
 @keyframes shimmer {
     to {
         background-position-x: 0%;
