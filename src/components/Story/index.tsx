@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Card, Modal, notification, Popconfirm } from "antd";
+import { Button, Card, CardProps, Modal, notification } from "antd";
 
 import { StoryDescriptions } from "./StoryDescriptions";
 import services from "../../services/services";
@@ -9,25 +9,13 @@ import './Story.css';
 interface StoryProps {
     story: IStory,
     view: 'browsing' | 'read-list' | 'stories-read'
-    fandom?: string
+    actions?: (story: IStory) => CardProps['actions']
 }
 
-const Story = ({ story, view, fandom }: StoryProps) => {
+const Story = ({ story, view, actions }: StoryProps) => {
     const [editingStory, setEditingStory] = useState(false);
     const [warningModal, setWarningModal] = useState(false);
     
-    const addStoryToReadList = () => {
-        services.addToReadList(story).then(res => {
-            notification.success({
-                message: `The story ${story.title} has been added to the Reading List`,
-            });
-        }).catch(err => {
-            notification.error({
-                message: `There was a problem adding ${story.title} to the Reading List`,
-                description: err?.response?.data.message
-            });
-        });
-    };
     const removeStoryFromReadList = () => {
         services.removeFromReadList(story.storyID).then(res => {
             notification.success({
@@ -64,26 +52,6 @@ const Story = ({ story, view, fandom }: StoryProps) => {
             });
         });
     };
-    const ignoreStory = () => {
-        if (fandom === 'All Stories') {
-            notification.error({
-                message: `${story.title} cannot be ignored at the moment`,
-                description: 'To ignore this story, use the fandom filter located at the top or bottom of the page.'
-            });
-        }
-        else {
-            services.ignoreStory(fandom, story.title).then(res => {
-                notification.success({
-                    message: `The story ${story.title} is now being ignored`,
-                });
-            }).catch(err => {
-                notification.error({
-                    message: `There was a problem ignoring ${story.title}`,
-                    description: err?.response?.data.message
-                });
-            });
-        }
-    };
 
     const updateStory = async () => {
         try {
@@ -105,26 +73,7 @@ const Story = ({ story, view, fandom }: StoryProps) => {
     };
 
     const storyActions = () => {
-        if (view === 'browsing') {
-            return [
-                <Button
-                    className="action-story"
-                    id="add-to-read-list"
-                    type="primary"
-                    onClick={addStoryToReadList}
-                >
-                    Add to Read List
-                </Button>,
-                <Button
-                    className="ignore-story"
-                    type="primary"
-                    onClick={ignoreStory}
-                >
-                    Ignore Story
-                </Button>
-            ];
-        }
-        else if (view === 'read-list') {
+        if (view === 'read-list') {
             if (story.status.includes('Work in Progress')) {
                 return [
                     <Button
@@ -168,7 +117,8 @@ const Story = ({ story, view, fandom }: StoryProps) => {
                         ) : (
                             <Button type="primary" onClick={toggleEditing}>Edit Details</Button>
                         ),
-                        ...storyActions()
+                        // ...storyActions()
+                        ...actions(story)
                     ]}
                 >
                     <StoryDescriptions story={story} editing={editingStory} />

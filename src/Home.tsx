@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import { Button, Menu, MenuProps, notification } from 'antd';
+import { Menu, MenuProps, notification } from 'antd';
 
 import services from "./services/services";
+import BrowseList from './BrowseList';
 import StoryList from './StoryList';
 import StoryPage from './StoryPage';
 import Calendar from './Calendar';
@@ -91,7 +92,7 @@ const App = () => {
                     <Route path='/fandoms'><Fandoms createFandom={createFandom} setCreateFandom={setCreateFandom} /></Route>
                     <Route path='/reading-list'><ReadingList/></Route>
                     <Route path='/completed-list'><CompletedList/></Route>
-                    <Route path='/'><StoryList collection={collection}/></Route>
+                    <Route path='/'><BrowseList collection={collection}/></Route>
                 </Switch>
             </Router>
         </>
