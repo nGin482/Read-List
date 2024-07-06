@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
-import { Button } from 'antd';
+import { Button, CardProps, notification, Popconfirm } from 'antd';
 
 import Story from './components/Story';
 import SearchBox from './components/SearchForm/index';
 import services from './services/services';
 import { IStory, SearchOptions } from './utils/types';
 import './ReadingList.css';
+import StoryList from './StoryList';
 
 const ReadingList = () => {
     const [readList, setReadList] = useState<IStory[]>([])
@@ -50,6 +51,70 @@ const ReadingList = () => {
     const toggleSearch = () => {
         setDisplaySearch(current => !current);
     };
+
+    const removeStoryFromReadList = (story: IStory) => {
+        services.removeFromReadList(story.storyID).then(res => {
+            notification.success({
+                message: `The story ${story.title} has been removed from the Reading List`,
+            });
+        }).catch(err => {
+            notification.error({
+                message: `There was a problem removing ${story.title} from the Reading List`,
+                description: err?.response?.data.message
+            });
+        });
+    };
+    const addStoryToCompleteList = (story: IStory) => {
+        services.addtoCompleteList(story.storyID).then(res => {
+            notification.success({
+                message: `The story ${story.title} has been added to the Completed List`,
+            });
+        }).catch(err => {
+            notification.error({
+                message: `There was a problem adding ${story.title} to the Completed List`,
+                description: err?.response?.data.message
+            });
+        });
+    };
+
+    const actions = (story: IStory): CardProps['actions'] => [
+        story.status.toLowerCase().includes('progress') ? (
+            <Popconfirm
+                title={`Add ${story.title} to Reading List?`}
+                description={(
+                    <>
+                        <p>This story suggests it is still a work in progress.</p>
+                        <p>Are you sure you want to add it to the Completed List?</p>
+                    </>
+                )}
+                onConfirm={() => addStoryToCompleteList(story)}
+            >
+                <Button
+                    type="primary"
+                    className="action-story"
+                    id="mark-as-read"
+                >
+                    Mark as Read
+                </Button>
+            </Popconfirm>
+        ) : (
+            <Button
+                type="primary"
+                className="action-story"
+                id="mark-as-read"
+                onClick={() => addStoryToCompleteList(story)}
+            >
+                Mark as Read
+            </Button>
+        ),
+        <Button
+            className="action-story"
+            id="remove-from-read-list"
+            onClick={() => removeStoryFromReadList(story)}
+        >
+            Remove Story from Reading List
+        </Button>
+    ];
     
     return (
         <>
@@ -64,9 +129,9 @@ const ReadingList = () => {
             )}
             <div id="reading-list">
                 {searching ? (
-                    readList.map(story => <Story key={story.title} story={story} view={"read-list"}/>)
+                    <StoryList stories={readList} actions={actions} />
                 ) : (
-                    readListDefault.map(story => <Story key={story.title} story={story} view={"read-list"}/>)
+                    <StoryList stories={readListDefault} actions={actions} />
                 )}
             </div>
         </>

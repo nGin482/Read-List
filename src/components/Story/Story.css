@@ -46,8 +46,8 @@
     background-color: yellowgreen;
 }
 
-#mark-as-read:hover {
-    background-color: green;
+#mark-as-read {
+    background-color: #008000;
 }
 
 #remove-from-read-list:hover {
