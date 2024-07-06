@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Button } from 'antd';
 
 import Story from './components/Story';
 import SearchBox from './components/SearchForm/index';
@@ -8,19 +9,29 @@ import './ReadingList.css';
 
 const ReadingList = () => {
     const [readList, setReadList] = useState<IStory[]>([])
-    const [readListDefeault, setReadListDefault] = useState([])
-    const [searchValue, setSearchValue] = useState('')
-    const [searchParameter, setSearchParameter] = useState('')
+    const [readListDefault, setReadListDefault] = useState<IStory[]>([])
     const [displaySearch, setDisplaySearch] = useState(false);
+    const [searching, setSearching] = useState(false);
 
     useEffect(() => {
         services.getReadingList().then(data => {
-            setReadList(data)
             setReadListDefault(data)
         }).catch(err => {
             
         })
     }, []);
+
+    useEffect(() => {
+        if (readListDefault.length > 0) {
+            setReadList(readListDefault);
+        }
+    }, [readListDefault]);
+
+    useEffect(() => {
+        if (displaySearch) {
+            setSearching(true);
+        }
+    }, [displaySearch]);
 
     const searchReadList = (field: SearchOptions, value: string) => {
         console.log('field: ', field)
@@ -41,17 +52,24 @@ const ReadingList = () => {
     };
     
     return (
-        <div>
+        <>
             <h2 id="reading-list-header">Reading List</h2>
             {displaySearch ? (
                 <SearchBox openSearch={displaySearch} setOpenSearch={toggleSearch} searchCallback={searchReadList} />
             ) : (
-                <button id="open-reading-list-search-box" onClick={toggleSearch}>Search for a story</button>
+                <>
+                    <Button onClick={() => setSearching(false)}>Reset Search</Button>
+                    <button id="open-reading-list-search-box" onClick={toggleSearch}>Search for a story</button>
+                </>
             )}
             <div id="reading-list">
-                {readList.map(story => <Story key={story.title} story={story} view={"read-list"}/>)}
+                {searching ? (
+                    readList.map(story => <Story key={story.title} story={story} view={"read-list"}/>)
+                ) : (
+                    readListDefault.map(story => <Story key={story.title} story={story} view={"read-list"}/>)
+                )}
             </div>
-        </div>
+        </>
     );
 };
 
