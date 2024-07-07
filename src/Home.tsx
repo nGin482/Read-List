@@ -3,10 +3,9 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import { Menu, MenuProps, notification } from 'antd';
 
 import services from "./services/services";
-import BrowseList from './BrowseList';
-import StoryPage from './StoryPage';
-import Calendar from './Calendar';
-import { StoriesForDate, ReadingList, CompletedList, Fandoms } from "./Pages";
+import BrowseList from './components/Lists/BrowseList';
+import Calendar from './components/Calendar';
+import {CompletedList, Fandoms, ReadingList, StoriesForDate, StoryPage } from "./Pages";
 import { Collection } from './utils/types';
 import './App.css';
 import './nav.css';

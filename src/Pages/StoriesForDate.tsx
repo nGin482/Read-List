@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
 
-import BrowseList from '../BrowseList.js';
+import BrowseList from '../components/Lists/BrowseList.js';
 import services from '../services/services.js';
 import { Collection } from '../utils/types.js';
 

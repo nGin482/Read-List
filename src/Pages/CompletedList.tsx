@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button, CardProps, notification } from "antd";
 
-import StoryList from "../StoryList";
+import StoryList from "../components/Lists/StoryList";
 import services from "../services/services";
 import { IStory } from "../utils/types";
 

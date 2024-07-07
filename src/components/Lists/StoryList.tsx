@@ -1,7 +1,7 @@
 import { CardProps, Spin } from 'antd';
 
-import Story from './components/Story';
-import { IStory } from './utils/types';
+import Story from '../Story';
+import { IStory } from '../../utils/types';
 import './StoryList.css';
 
 interface StoryListProps {

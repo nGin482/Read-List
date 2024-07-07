@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button, CardProps, notification, Popconfirm } from "antd";
 
-import StoryList from "../StoryList";
+import StoryList from "../components/Lists/StoryList";
 import SearchForm from "../components/SearchForm/index";
 import services from "../services/services";
 import { IStory, SearchOptions } from "../utils/types";
