@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
 
-import StoryList from './StoryList.js';
-import services from './services/services.js';
-import { Collection } from './utils/types.js';
+import BrowseList from '../BrowseList.js';
+import services from '../services/services.js';
+import { Collection } from '../utils/types.js';
 
 const StoriesForDate = () => {
     const { date } = useParams<{ date: string }>();
@@ -14,7 +14,7 @@ const StoriesForDate = () => {
     }, [date]);
 
     return (
-        <StoryList collection={collection}/>
+        <BrowseList collection={collection} />
     );
 };
 

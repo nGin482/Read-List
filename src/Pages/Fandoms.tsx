@@ -1,10 +1,10 @@
 import { useState, useEffect, Dispatch, SetStateAction } from 'react';
 import { Button, Card, Image, Input, Popconfirm, Spin, Typography, notification } from 'antd';
 
-import services from './services/services';
-import { AddFandom, UpdateFandom } from './components/Fandoms';
-import { FandomArchive } from '../types/index.js';
-import './Fandoms.css';
+import services from '../services/services';
+import { AddFandom, UpdateFandom } from '../components/Fandoms';
+import { FandomArchive } from '../../types/index.js';
+import "./styles/Fandoms.css";
 
 import ffn_logo from './images/FF.Net_Logo.png';
 import ao3_logo from './images/Archive_of_Our_Own_logo.png';

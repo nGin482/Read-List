@@ -4,13 +4,9 @@ import { Menu, MenuProps, notification } from 'antd';
 
 import services from "./services/services";
 import BrowseList from './BrowseList';
-import StoryList from './StoryList';
 import StoryPage from './StoryPage';
 import Calendar from './Calendar';
-import StoriesForDate from './StoriesForDate';
-import Fandoms from './Fandoms';
-import ReadingList from './ReadingList';
-import CompletedList from './CompletedList';
+import { StoriesForDate, ReadingList, CompletedList, Fandoms } from "./Pages";
 import { Collection } from './utils/types';
 import './App.css';
 import './nav.css';

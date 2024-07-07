@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { Button, CardProps, notification } from "antd";
 
-import StoryList from "./StoryList";
-import services from "./services/services";
-import { IStory } from "./utils/types";
+import StoryList from "../StoryList";
+import services from "../services/services";
+import { IStory } from "../utils/types";
 
 const CompletedList = () => {
     const [storiesRead, setStoriesRead] = useState<IStory[]>([]);

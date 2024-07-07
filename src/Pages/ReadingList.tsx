@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { Button, CardProps, notification, Popconfirm } from "antd";
 
-import StoryList from "./StoryList";
-import SearchForm from "./components/SearchForm/index";
-import services from "./services/services";
-import { IStory, SearchOptions } from "./utils/types";
-import "./ReadingList.css";
+import StoryList from "../StoryList";
+import SearchForm from "../components/SearchForm/index";
+import services from "../services/services";
+import { IStory, SearchOptions } from "../utils/types";
+import "./styles/ReadingList.css";
 
 const ReadingList = () => {
     const [readList, setReadList] = useState<IStory[]>([])

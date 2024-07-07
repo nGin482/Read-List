@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { notification, Spin } from 'antd';
 
-import Story from './components/Story/index.js';
-import services from './services/services.js';
-import { IStory } from './utils/types.js';
+import Story from '../components/Story/index.js';
+import services from '../services/services.js';
+import { IStory } from '../utils/types.js';
 
 const StoryPage = () => {
     const [story, setStory] = useState<IStory>(null);
