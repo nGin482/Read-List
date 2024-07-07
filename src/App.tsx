@@ -2,11 +2,9 @@ import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import { Menu, MenuProps, notification } from 'antd';
 
-import services from "./services/services";
-import BrowseList from './components/Lists/BrowseList';
 import Calendar from './components/Calendar';
-import {CompletedList, Fandoms, ReadingList, StoriesForDate, StoryPage } from "./Pages";
-import { Collection } from './utils/types';
+import { CompletedList, Fandoms, Home, ReadingList, StoriesForDate, StoryPage } from "./Pages";
+import services from "./services/services";
 import './App.css';
 import './nav.css';
 
@@ -15,18 +13,10 @@ import './nav.css';
 // https://www.npmjs.com/package/react-responsive
 
 const App = () => {
-    const [collection, setCollection] = useState<Collection>(null)
     const [dates, setDates] = useState<string[][]>([]);
     const [createFandom, setCreateFandom] = useState(false);
 
     useEffect(() => {
-        services.getMostRecentStories().then(
-            collection => setCollection(collection)
-        ).catch(err => {
-            notification.error({
-                message: 'There was a problem retrieving the most recent collection'
-            });
-        });
         services.getDates().then(
             data => setDates(data)
         ).catch(err => {
@@ -82,12 +72,12 @@ const App = () => {
             <Router>
                 <Menu items={navItems} mode="horizontal" theme="dark" />
                 <Switch>
-                    <Route path='/story/:id'><StoryPage/></Route>
-                    <Route path='/stories/:date'><StoriesForDate/></Route>
+                    <Route path='/story/:id'><StoryPage /></Route>
+                    <Route path='/stories/:date'><StoriesForDate /></Route>
                     <Route path='/fandoms'><Fandoms createFandom={createFandom} setCreateFandom={setCreateFandom} /></Route>
-                    <Route path='/reading-list'><ReadingList/></Route>
-                    <Route path='/completed-list'><CompletedList/></Route>
-                    <Route path='/'><BrowseList collection={collection}/></Route>
+                    <Route path='/reading-list'><ReadingList /></Route>
+                    <Route path='/completed-list'><CompletedList /></Route>
+                    <Route path='/'><Home /></Route>
                 </Switch>
             </Router>
         </>
