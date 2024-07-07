@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import { Menu, MenuProps, notification } from 'antd';
 
-import Calendar from './components/Calendar';
 import { CompletedList, Fandoms, Home, ReadingList, StoriesForDate, StoryPage } from "./Pages";
+import Calendar from './components/Calendar';
+import { AddFandom } from './components/Fandoms';
 import services from "./services/services";
 import './App.css';
 import './nav.css';
@@ -74,11 +75,12 @@ const App = () => {
                 <Switch>
                     <Route path='/story/:id'><StoryPage /></Route>
                     <Route path='/stories/:date'><StoriesForDate /></Route>
-                    <Route path='/fandoms'><Fandoms createFandom={createFandom} setCreateFandom={setCreateFandom} /></Route>
+                    <Route path='/fandoms'><Fandoms /></Route>
                     <Route path='/reading-list'><ReadingList /></Route>
                     <Route path='/completed-list'><CompletedList /></Route>
                     <Route path='/'><Home /></Route>
                 </Switch>
+                <AddFandom createFandom={createFandom} setCreateFandom={setCreateFandom}  />
             </Router>
         </>
     );

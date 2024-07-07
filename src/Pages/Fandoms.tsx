@@ -1,20 +1,15 @@
-import { useState, useEffect, Dispatch, SetStateAction } from 'react';
+import { useState, useEffect } from 'react';
 import { Button, Card, Image, Input, Popconfirm, Spin, Typography, notification } from 'antd';
 
 import services from '../services/services';
-import { AddFandom, UpdateFandom } from '../components/Fandoms';
+import { UpdateFandom } from '../components/Fandoms';
 import { FandomArchive } from '../../types/index.js';
 import "./styles/Fandoms.css";
 
 import ffn_logo from '../images/FF.Net_Logo.png';
 import ao3_logo from '../images/Archive_of_Our_Own_logo.png';
 
-interface FandomsProps {
-    createFandom: boolean
-    setCreateFandom: Dispatch<SetStateAction<boolean>>
-}
-
-const Fandoms = ({ createFandom, setCreateFandom }: FandomsProps) => {
+const Fandoms = () => {
     const [fandoms, setFandoms] = useState<FandomArchive[]>([]);
     const [openUpdate, setOpenUpdate] = useState(false);
     const [fandomUpdating, setFandomUpdating] = useState<FandomArchive>(null);
@@ -107,7 +102,6 @@ const Fandoms = ({ createFandom, setCreateFandom }: FandomsProps) => {
                         </Card>
                     ))}
                 </div>
-                <AddFandom createFandom={createFandom} setCreateFandom={setCreateFandom}  />
                 {fandomUpdating && (
                     <UpdateFandom
                         openModal={openUpdate}
