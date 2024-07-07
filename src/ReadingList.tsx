@@ -80,12 +80,12 @@ const ReadingList = () => {
         story.status.toLowerCase().includes('progress') ? (
             <Popconfirm
                 title={`Add ${story.title} to Reading List?`}
-                description={(
+                description={
                     <>
                         <p>This story suggests it is still a work in progress.</p>
                         <p>Are you sure you want to add it to the Completed List?</p>
                     </>
-                )}
+                }
                 onConfirm={() => addStoryToCompleteList(story)}
             >
                 <Button
@@ -107,6 +107,7 @@ const ReadingList = () => {
             </Button>
         ),
         <Button
+            type="primary"
             className="action-story"
             id="remove-from-read-list"
             onClick={() => removeStoryFromReadList(story)}

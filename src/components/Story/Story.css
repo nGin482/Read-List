@@ -50,6 +50,6 @@
     background-color: #008000;
 }
 
-#remove-from-read-list:hover {
-    background-color: red;
+#remove-from-read-list {
+    background-color: #ff9d00;
 }
