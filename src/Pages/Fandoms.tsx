@@ -6,8 +6,8 @@ import { AddFandom, UpdateFandom } from '../components/Fandoms';
 import { FandomArchive } from '../../types/index.js';
 import "./styles/Fandoms.css";
 
-import ffn_logo from './images/FF.Net_Logo.png';
-import ao3_logo from './images/Archive_of_Our_Own_logo.png';
+import ffn_logo from '../images/FF.Net_Logo.png';
+import ao3_logo from '../images/Archive_of_Our_Own_logo.png';
 
 interface FandomsProps {
     createFandom: boolean
