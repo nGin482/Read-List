@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Button, CardProps, notification, Popconfirm } from 'antd';
 
-import Story from './components/Story';
-import SearchBox from './components/SearchForm/index';
+import SearchForm from './components/SearchForm/index';
 import services from './services/services';
 import { IStory, SearchOptions } from './utils/types';
 import './ReadingList.css';
@@ -119,14 +118,13 @@ const ReadingList = () => {
     return (
         <>
             <h2 id="reading-list-header">Reading List</h2>
-            {displaySearch ? (
-                <SearchBox openSearch={displaySearch} setOpenSearch={toggleSearch} searchCallback={searchReadList} />
-            ) : (
-                <>
-                    <Button onClick={() => setSearching(false)}>Reset Search</Button>
-                    <button id="open-reading-list-search-box" onClick={toggleSearch}>Search for a story</button>
-                </>
+            {displaySearch && (
+                <SearchForm openSearch={displaySearch} setOpenSearch={toggleSearch} searchCallback={searchReadList} />
             )}
+            <div id="search-controls">
+                <Button onClick={() => setSearching(false)}>Reset Search</Button>
+                <Button onClick={toggleSearch}>Search for a story</Button>
+            </div>
             <div id="reading-list">
                 {searching ? (
                     <StoryList stories={readList} actions={actions} />
