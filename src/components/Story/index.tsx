@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { Button, Card, CardProps, Modal, notification } from "antd";
+import { Button, Card, CardProps, notification } from "antd";
 
 import { StoryDescriptions } from "./StoryDescriptions";
 import services from "../../services/services";
 import { IStory } from "../../utils/types";
-import './Story.css';
+import "./Story.css";
 
 interface StoryProps {
     story: IStory,
@@ -14,20 +14,7 @@ interface StoryProps {
 
 const Story = ({ story, view, actions }: StoryProps) => {
     const [editingStory, setEditingStory] = useState(false);
-    
-    
-    const moveStoryBacktoReadingList = () => {
-        services.moveBacktoReadList(story.storyID).then(res => {
-            notification.success({
-                message: `The story ${story.title} has been moved back to the Reading List`,
-            });
-        }).catch(err => {
-            notification.error({
-                message: `There was a problem moving ${story.title} back to the Reading List`,
-                description: err?.response?.data.message
-            });
-        });
-    };
+
 
     const updateStory = async () => {
         try {
@@ -46,14 +33,6 @@ const Story = ({ story, view, actions }: StoryProps) => {
 
     const toggleEditing = () => {
         setEditingStory(current => !current);
-    };
-
-    const storyActions = () => {
-        if (view === 'stories-read') {
-            return [
-                <Button className="action-story" id="add-to-read-list" onClick={moveStoryBacktoReadingList}>Move back to Reading List</Button>
-            ];
-        }
     };
 
     return (

@@ -1,23 +1,43 @@
-import React, {useState, useEffect} from 'react';
-import services from './services/services.js';
-import Story from './components/Story/index.js';
+import { useState, useEffect } from "react";
+import { Button, CardProps, notification } from "antd";
+
+import StoryList from "./StoryList";
+import services from "./services/services";
+import { IStory } from "./utils/types";
 
 const CompletedList = () => {
-    const [storiesRead, setStoriesRead] = useState([])
+    const [storiesRead, setStoriesRead] = useState<IStory[]>([]);
 
     useEffect(() => {
-        services.getCompletedList().then(data => {
-            console.log(data)
-            setStoriesRead(data)
-        })
-    }, []
-    )
+        services.getCompletedList().then(data => setStoriesRead(data));
+    }, []);
+
+    const moveStoryBacktoReadingList = (story: IStory) => {
+        services.moveBacktoReadList(story.storyID).then(res => {
+            notification.success({
+                message: `The story ${story.title} has been moved back to the Reading List`,
+            });
+        }).catch(err => {
+            notification.error({
+                message: `There was a problem moving ${story.title} back to the Reading List`,
+                description: err?.response?.data.message
+            });
+        });
+    };
+
+    const actions = (story: IStory): CardProps['actions'] => [
+        <Button
+            className="action-story"
+            id="add-to-read-list"
+            onClick={() => moveStoryBacktoReadingList(story)}
+        >
+            Move back to Reading List
+        </Button>
+    ];
 
     return (
-        <div id="stories-read">
-            {storiesRead.map(story => <Story key={story.title} story={story} view={'stories-read'}/>)}
-        </div>
-    )
-}
+        <StoryList stories={storiesRead} actions={actions} />
+    );
+};
 
-export default CompletedList
+export default CompletedList;
