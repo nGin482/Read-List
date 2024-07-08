@@ -1,0 +1,17 @@
+#reading-list-header {
+    text-align: center;
+}
+
+#search-controls {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+#reset-search {
+    display: block;
+    max-width: 20%;
+    margin: 0 auto;
+    margin-top: 5%;
+}

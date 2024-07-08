@@ -1,0 +1,40 @@
+#fandoms-page {
+    width: 100%;
+}
+
+#fandoms-page-header {
+    text-align: center;
+}
+
+#search-box {
+    width: 40%;
+    margin: 0 auto;
+}
+
+#fandoms-list {
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+.fandom-card {
+    width: 90%;
+    border: solid black 5px;
+    margin: 1%;
+    margin: 4% auto 0;
+}
+
+.fandom-images {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.search-criteria {
+    text-align: center;
+}
+
+
+@media screen and (max-width: 640px) {
+    .ao3-logo {
+        width: 50%;
+    }    
+}

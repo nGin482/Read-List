@@ -1,0 +1,55 @@
+.story-card {
+    border: solid black 4px;
+    border-radius: 10px;
+    margin: 5%;
+    background-color: white;
+}
+
+.story-card .ant-descriptions-title {
+    text-align: center;
+}
+
+.ant-btn-primary.ignore-story:hover {
+    background: linear-gradient(-45deg, #ffcc00, #fafafa 50%, #ffcc00 60%) !important;
+    background-position-x: 100%;
+    animation: shimmer 2s linear;
+    color: #000a !important;
+}
+
+.fandoms, .characters {
+    display: grid;
+    grid-template-columns: max-content max-content;
+}
+
+.categories, .warnings {
+    display: grid;
+    grid-template-columns: max-content; 
+}
+
+.tags {
+    display: grid;
+    grid-template-columns: max-content max-content max-content;
+}
+
+@keyframes shimmer {
+    to {
+        background-position-x: 0%;
+    }
+}
+
+.edit-story-actions {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+#add-to-read-list:hover {
+    background-color: yellowgreen;
+}
+
+#mark-as-read {
+    background-color: #008000;
+}
+
+#remove-from-read-list {
+    background-color: #ff9d00;
+}

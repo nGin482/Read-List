@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 require('dotenv').config();
 const url = process.env.MONGODB_URL
+const ErrorNotification = require('../Notifications/NotificationService.js')
 
 // require NotificationError service here
 // in the catch block, call notification function
@@ -11,6 +12,7 @@ const connectDB = async () => {
     mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true}).then(() => {
         console.log('connected')
     }).catch(error => {
+        ErrorNotification(error)
         console.log('error connecting to MongoDB - ', error.message)
     })
     mongoose.set('useFindAndModify', false)
