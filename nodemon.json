@@ -1,0 +1,12 @@
+{
+    "watch": [
+        "./server"
+    ],
+    "ignore": [
+        "node_modules"
+    ],
+    "execMap": {
+        "ts": "./node_modules/.bin/ts-node"
+    },
+    "ext": "ts"
+}

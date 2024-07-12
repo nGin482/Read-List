@@ -24,7 +24,7 @@
   },
   "scripts": {
     "start": "vite",
-    "server": "nodemon --exec ./node_modules/.bin/ts-node server/server.ts",
+    "server": "nodemon --config nodemon.json server/server.ts",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
