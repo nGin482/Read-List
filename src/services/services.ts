@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import { Collection, IStory } from '../utils/types';
-import { FandomArchive } from '../../types';
+import { FandomArchive } from '../../utils/types';
 
 const BASE_URL = 'http://localhost:3001/api';
 
