@@ -8,7 +8,7 @@ export interface FandomArchive {
 }
 
 interface IBaseStory {
-    storyID: number,
+    storyId: number,
     title: string
     author: string
     summary: string
@@ -20,8 +20,8 @@ interface IBaseStory {
     publishedDate: string
     updatedDate: string
     collectedDate: Date
-    readStatus: boolean
-    dateRead: Date
+    readStatus: string
+    readDate: Date
     rating: string
     status: 'In Progress' | 'Complete'
     url: string
@@ -49,12 +49,12 @@ export interface IArchiveStories {
     FFN_URL: IStory[]
 }
 
-export interface Collection {
+export interface ICollection {
     date: string
     stories: IArchiveStories[]
 }
 
-export interface Characters {
+export interface ICharacter {
     id: number
     name: string
     fandom_id: number
