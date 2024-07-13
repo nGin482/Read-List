@@ -34,4 +34,4 @@ Character.init(
     }
 );
 
-export { Fandom };
+export { Character };
