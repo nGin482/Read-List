@@ -1,5 +1,7 @@
 const fs = require('fs')
 
+import dayjs from "dayjs"
+import { ICollection } from "../../utils/types"
 const readingListPath = './stories/ReadingList/reading-list.json'
 const completedListPath = './stories/CompletedList/completed-list.json'
 
@@ -10,47 +12,34 @@ const validateAO3Record = record => {
 }
 
 const validateFFNRecord = record => {
-    updatedDate = record.updatedDate.split('/')
+    const updatedDate = record.updatedDate.split('/')
     record.updatedDate = new Date(new Date().getFullYear(), Number(updatedDate[1])-1, Number(updatedDate[0])+1)
-    publishedDate = record.publishedDate.split('/')
+    const publishedDate = record.publishedDate.split('/')
     record.publishedDate = new Date(new Date().getFullYear(), Number(publishedDate[1])-1, Number(publishedDate[0])+1)
 
     return record
 }
 
-const getAllFiles = () => {
-    const files = fs.readdirSync('./stories')
-    const stories = []
-    
-    files.map(file => {
-        if (!file.includes('Reading') && !file.includes('Completed')) {
-            stories.push({'date': file.substring(0, file.indexOf('.')), 'stories': JSON.parse(fs.readFileSync('./stories/' + file))})
-        }
-    })
-
-    return stories
-}
+export const getAllFiles = (): ICollection[] => {
+    const files = fs.readdirSync('./stories');
+    const collections = files.filter(file => !file.includes('Reading') && !file.includes('Completed'));
+    return collections.map(file => ({
+        date: file.substring(0, file.indexOf('.')),
+        stories: JSON.parse(fs.readFileSync(`./stories/${file}`))
+    }));
+};
 
 const getCurrentDate = () => {
-    const date = new Date()
-    const day = date.getDate()
-    const month = date.getMonth()+1
-    const year = date.getFullYear()
-    const today = String(day) + '-' + String(month) + '-' + String(year)
-
-    return today
+    return dayjs().format('DD-MM-YYYY');
 }
 
-const stringToDate = givenDate => {
-    const day = Number(givenDate.substring(0, givenDate.indexOf('-')))
-    const month = Number(givenDate.substring(givenDate.indexOf('-')+1, givenDate.lastIndexOf('-')))
-    const year = Number(givenDate.substring(givenDate.lastIndexOf('-')+1, givenDate.length))
-
-    return new Date(year, month-1, day+1)
+const stringToDate = (givenDate: string) => {
+    return dayjs(givenDate);
 }
 
 const searchAllStoriesByKey = (key, expected) => {
-    const stories = getAllFiles()
+    const files = getAllFiles()
+    // console.log(stories)
     let result = []
     
     var cutoff = new Date()
@@ -58,31 +47,32 @@ const searchAllStoriesByKey = (key, expected) => {
     cutoff.setMonth(5)
 
     if (key === 'storyID') {
-        stories.map(day => {
+        files.map(day => {
             // if file before 26/6
             if (stringToDate(day.date).toJSON() < cutoff.toJSON()) {
-                day.stories.map(archive => {
-                    archive.stories.map(story => {
-                        if (story[key] === expected) {
-                            result.push(story)
-                        }
-                    })
+                day.stories.forEach(archive => {
+                    let story = archive.AO3_URL?.find(story => story.storyID === expected);
+                    if (story) {
+                        result.push(story)
+                    }
                 })
+                // day.stories.forEach(archive => result.push(archive.AO3_URL?.find(story => story.storyID === expected)));
+                console.log('result', result)
             }
             else {
                 day.stories.forEach(fandom => {
-                    if (fandom.FFN) {
-                        if (fandom.FFN.length > 0) {
-                            fandom.FFN.forEach(story => {
+                    if (fandom.FFN_URL) {
+                        if (fandom.FFN_URL.length > 0) {
+                            fandom.FFN_URL.forEach(story => {
                                 if (story[key] === expected) {
                                     result.push(story)
                                 }
                             })
                         }
                     }
-                    if (fandom.AO3) {
-                        if (fandom.AO3.length > 0) {
-                            fandom.AO3.forEach(story => {
+                    if (fandom.AO3_URL) {
+                        if (fandom.AO3_URL.length > 0) {
+                            fandom.AO3_URL.forEach(story => {
                                 if (story[key] === expected) {
                                     result.push(story)
                                 }
@@ -94,32 +84,29 @@ const searchAllStoriesByKey = (key, expected) => {
         })
     }
     else {
-        stories.map(day => {
-            day.stories.map(archive => {
-                archive.stories.map(story => {
-                    if (story[key].includes(expected)) {
-                        result.push(story)
-                    }
-                })
-            })
-        })
+        files.forEach(collection => {
+            collection.stories.forEach(archive => {
+                result = result.concat(archive?.FFN_URL.filter(story => story[key].includes(expected)));
+                result = result.concat(archive?.AO3_URL.filter(story => story[key].includes(expected)));
+            });
+        });
     }
-    return result
-}
+    return result;
+};
 
 const findToUpdate = ID => {
     const allCollections = getAllFiles()
     let result = []
 
-    allCollections.map(day => {
-        day.stories.map(archive => {
-            archive.stories.map(story => {
-                if (story.storyID === ID) {
-                    result.push({date: day.date, dayCollection: day.stories})
-                }
-            })
-        })
-    })
+    // allCollections.map(day => {
+    //     day.stories.map(archive => {
+    //         archive.stories.map(story => {
+    //             if (story.storyID === ID) {
+    //                 result.push({date: day.date, dayCollection: day.stories})
+    //             }
+    //         })
+    //     })
+    // })
     return result
 }
 
@@ -132,7 +119,7 @@ const getAllDates = () => {
             }
         })
         for (var i = 0; i < month.length; i++) {
-            day = month[i]
+            let day = month[i]
             month[i] = day[0] + '-' + day[1] + '-' + day[2]
         }
         month.map(day => {
@@ -163,7 +150,7 @@ const breakIntoMonths = () => {
     for (var i = 0; i < months.length; i++) {
         months_orderd.push([])
     }
-    for (idxDates = 0; idxDates < dates_strings.length; idxDates++) {
+    for (let idxDates = 0; idxDates < dates_strings.length; idxDates++) {
         for (idxMonths = 0; idxMonths < months.length; idxMonths++) {
             if (dates_strings[idxDates][1] === months[idxMonths]) {
                 months_orderd[idxMonths].push(dates_strings[idxDates])
@@ -245,13 +232,10 @@ const writeToInterestedFile = story => {
 const checkStoryAdditionInterested = title => {
     const interested = JSON.parse(fs.readFileSync(readingListPath))
     
-    flag = false
-    interested.map(story => {
-        if (story.title === title) {
-            flag = true
-        }
-    })
-    return flag
+    if (interested.find(story => story.title === title)) {
+        return true;
+    }
+    return false;
 }
 
 const removeFromReadingListFile = storyID => {
@@ -292,6 +276,11 @@ const markStoryAsRead = storyID => {
 
 const checkStoryBeforeAddToComplete = storyID => {
     const completedListData = JSON.parse(fs.readFileSync(completedListPath))
+    
+    if (completedListData.find(story => story.storyID === storyID)) {
+        return true;
+    }
+    return false;
     
     completedListData.forEach(story => {
         if (story.storyID === storyID) {
