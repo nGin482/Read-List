@@ -5,25 +5,25 @@ import { Collection } from "./CollectionModel";
 import { Story } from "./Story";
 
 interface ICollectionStories {
-    collection_id: number
-    story_id: number
+    collectionId: number
+    storyId: number
 }
 
 class CollectionStories extends Model<ICollectionStories, ICollectionStories> {
-    declare collection_id: number
-    declare story_id: number
+    declare collectionId: number
+    declare storyId: number
 }
 
 CollectionStories.init(
     {
-        collection_id: {
+        collectionId: {
             type: DataTypes.INTEGER,
             references: {
                 model: Collection,
                 key: 'id'
             }
         },
-        story_id: {
+        storyId: {
             type: DataTypes.INTEGER,
             references: {
                 model: Story,
