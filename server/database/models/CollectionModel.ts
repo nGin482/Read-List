@@ -13,9 +13,6 @@ Collection.init(
         date: {
             type: DataTypes.DATE,
             defaultValue: DataTypes.NOW
-        },
-        stories: {
-            type: DataTypes.ARRAY(DataTypes.TEXT)
         }
     }, {
         sequelize: database,
