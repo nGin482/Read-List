@@ -49,7 +49,7 @@ const searchAllStoriesByKey = (key, expected) => {
     if (key === 'storyID') {
         files.map(day => {
             // if file before 26/6
-            if (stringToDate(day.date).toJSON() < cutoff.toJSON()) {
+            if (day.date.toJSON() < cutoff.toJSON()) {
                 day.stories.forEach(archive => {
                     let story = archive.AO3_URL?.find(story => story.storyID === expected);
                     if (story) {

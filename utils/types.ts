@@ -8,7 +8,8 @@ export interface FandomArchive {
 }
 
 interface IBaseStory {
-    storyId: number,
+    storyID?: number
+    storyId: number
     title: string
     author: string
     summary: string
@@ -17,8 +18,8 @@ interface IBaseStory {
     relationships: string[]
     chapters: number
     words: number
-    publishedDate: string
-    updatedDate: string
+    publishedDate: Date
+    updatedDate: Date
     collectedDate: Date
     readStatus: string
     readDate: Date
@@ -47,11 +48,15 @@ export interface IArchiveStories {
     fandom: string
     AO3_URL: IStory[]
     FFN_URL: IStory[]
+    stories: IStory[]
+    FFN: IStory[]
+    AO3: IStory[]
 }
 
 export interface ICollection {
-    date: string
-    stories: IArchiveStories[]
+    id?: number
+    date: Date
+    stories?: IArchiveStories[]
 }
 
 export interface ICharacter {
