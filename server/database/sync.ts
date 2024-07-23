@@ -1,3 +1,4 @@
+import { readFileSync } from "fs";
 import dayjs, { Dayjs } from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import isBetween from "dayjs/plugin/isBetween";
@@ -32,20 +33,16 @@ collections.sort(sortCollections);
 
 let collectionDate: Dayjs;
 const formatStory = (story: IStory) => {
-    Object.assign(story, { storyId: story.storyID });
-    delete story.storyID;
+    if (!Object.keys(story).includes('storyId') && Object.keys(story).includes('storyID')) {
+        Object.assign(story, { storyId: story.storyID });
+        delete story.storyID;
+    }
     story.chapters = Number(story.chapters.toString().split('/')[0]);
     story.words = Number(story.words.toString().replaceAll(',', ''));
     story.updatedDate = dayjs(`${story.updatedDate}/${collectionDate.year()}`, 'DD/MM/YYYY').toDate();
 
     return story;
 };
-// CollectionStories.drop({ cascade: true });
-// Collection.drop({ cascade: true });
-// Story.drop({ cascade: true });
-// Collection.sync();
-// Story.sync();
-// CollectionStories.sync();
 
 const insertStories = (archive: IArchiveStories) => {
     let stories: IStory[] = [];
@@ -66,7 +63,7 @@ const insertStories = (archive: IArchiveStories) => {
     return stories;
 };
 
-const syncData = async () => {
+const syncCollections = async () => {
     for (let i = 0; i < collections.length; i++) {
         const collection = collections[i];
         if (collection.date.toString() !== 'Invalid Date') {
@@ -92,5 +89,32 @@ const syncData = async () => {
     }
 };
 
-syncData();
+// CollectionStories.drop({ cascade: true });
+// Collection.drop({ cascade: true });
+// Story.drop({ cascade: true });
+// Collection.sync();
+// Story.sync();
+// CollectionStories.sync();
 
+// syncCollections();
+
+const completedStories: IStory[] = JSON.parse(readFileSync('./stories/CompletedList/fanfics.json', 'utf-8'));
+const syncCompleted = async () => {
+    for (let i = 0; i < completedStories.length; i++) {
+        let story = completedStories[i];
+        // console.log(story.title)
+        console.log('==================================================================')
+        story.readDate = story?.readDate ? dayjs(story.readDate, 'DD-MM-YYYY').toDate() : null;
+        story.publishedDate = story?.publishedDate ? dayjs(story.publishedDate, 'DD-M-YYYY').toDate() : null;
+        story.updatedDate = story?.updatedDate ? dayjs(story.updatedDate, 'DD-MM-YYYY').toDate() : null;
+        try {
+            await Story.create(story);
+            console.log(story.title, 'added')
+        }
+        catch(error) {
+            console.error('Error adding', story.title)
+            console.error(error)
+        }
+    }
+};
+syncCompleted();
