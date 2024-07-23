@@ -1,4 +1,4 @@
-import { Sequelize } from "sequelize"
+import { Sequelize } from "sequelize";
 
 
 class Database extends Sequelize {
@@ -8,10 +8,10 @@ class Database extends Sequelize {
             dialect: 'postgres',
             logging: false
         });
-        this.testConnection();
+        this.connect();
     }
 
-    async testConnection() {
+    async connect() {
         try {
             await this.authenticate()
             console.log('Database connection successfully established');
