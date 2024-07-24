@@ -4,6 +4,7 @@
         "module": "CommonJS",
         "moduleResolution": "Node",
         "allowSyntheticDefaultImports": true,
-        "jsx": "react-jsx"
+        "jsx": "react-jsx",
+        "esModuleInterop": true
     }
 }

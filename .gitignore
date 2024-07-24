@@ -28,6 +28,7 @@ yarn-error.log*
 
 /sampledata
 /stories
+/backups
 /archives
 /misc
 /Useful Stuff
