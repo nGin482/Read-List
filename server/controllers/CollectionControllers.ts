@@ -35,6 +35,17 @@ export const getAllCollections = async (request: Request<{}, {}, {}, { date: str
     }
 };
 
+export const getLatestCollection = async (request: Request, response: Response<CollectionResponse>) => {
+    const collection = await Collection.findOne({
+        order: [ ['createdAt', 'DESC' ] ]
+    });
+
+    if (collection) {
+        const stories = await collection.getStoriesForDate();
+        return response.status(200).json({ date: collection.date, stories });
+    }
+};
+
 export const createCollection = async (request: Request<{}, {}, CreateCollectionPayload>, response: Response<CollectionResponse>) => {
     const { date, stories } = request.body;
 
