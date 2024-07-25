@@ -56,7 +56,7 @@ export interface IArchiveStories {
 export interface ICollection {
     id?: number
     date: Date
-    stories?: IArchiveStories[]
+    stories?: IArchiveStories[] | IStory[]
 }
 
 export interface ICharacter {

@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 
 import { Collection, CollectionStories, Story } from "../database/models";
 import { convertStringToDate } from "../utils";
-import { IStory } from "../../utils/types";
+import { ICollection, IStory } from "../../utils/types";
 
 
 interface CreateCollectionPayload {
@@ -10,19 +10,19 @@ interface CreateCollectionPayload {
     stories: IStory[]
 }
 
-type CollectionResponse = Collection | Collection[] | { message: string, error?: string };
+type CollectionResponse = Collection | Collection[] | ICollection | { message: string, error?: string };
 
 export const getAllCollections = async (request: Request<{}, {}, {}, { date: string }>, response: Response<CollectionResponse>) => {
     const { date } = request.query;
     console.log(date)
     if (date) {
+        const parsedDate = convertStringToDate(date);
         const collection = await Collection.findOne({
-            where: { date: convertStringToDate(date) }
+            where: { date: parsedDate }
         });
-        console.log(collection)
         if (collection) {
-            
-            return response.status(200).json(collection);
+            const stories = await collection.getStoriesForDate();
+            return response.status(200).json({ date: parsedDate, stories });
         }
         else {
             return response.status(404).json({ message: `The collection for '${date}' could not be found` });
