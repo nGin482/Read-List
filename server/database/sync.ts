@@ -7,7 +7,7 @@ import utc from "dayjs/plugin/utc";
 import { config } from "dotenv";
 
 import { Story, Collection, CollectionStories } from "./models";
-import { getAllFiles } from "../utils/utils";
+import { getAllFiles } from "../utils";
 import { IArchiveStories, ICollection, IStory } from "../../utils/types";
 
 config();

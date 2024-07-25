@@ -1,9 +1,18 @@
 const fs = require('fs')
 
-import dayjs from "dayjs"
-import { ICollection } from "../../utils/types"
-const readingListPath = './stories/ReadingList/reading-list.json'
-const completedListPath = './stories/CompletedList/completed-list.json'
+import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+
+import { ICollection } from "../../utils/types";
+
+dayjs.extend(customParseFormat);
+
+const readingListPath = './stories/ReadingList/reading-list.json';
+const completedListPath = './stories/CompletedList/completed-list.json';
+
+export const convertStringToDate = (date: string) => {
+    return dayjs(date, 'DD-MM-YYYY').toDate();
+};
 
 const validateAO3Record = record => {
     record.storyID = record.url.substring((record.url.lastIndexOf('/')+1))
