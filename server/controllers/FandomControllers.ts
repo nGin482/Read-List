@@ -59,17 +59,8 @@ export const updateFandom = async (request: Request<FandomPath, {}, FandomArchiv
     }
 
     try {
-        const [update] = await Fandom.update(newDetails, { where: { name: fandom } });
-        if (update === 1) {
-            const updatedFandom = await Fandom.findOne({ where: { name: fandom } });
-            return response.status(200).json(updatedFandom);
-        }
-        else if (update === 0) {
-            return response.status(500).json({ message: `'${fandom}' was not updated` });
-        }
-        else {
-            // TODO: Work out how to handle if more than one record is updated
-        }
+        const updatedFandom = await fandomCheck.update(newDetails);
+        return response.status(200).json(updatedFandom);
     }
     catch(error) {
         console.error(error)
