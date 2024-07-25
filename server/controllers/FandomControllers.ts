@@ -91,4 +91,5 @@ export const deleteFandom = async (request: Request<FandomPath>, response: Respo
         return response.status(404).json({ message: `The fandom '${fandom}' could not be found` });
     }
     await fandomCheck.destroy();
+    return response.status(204).send();
 };
