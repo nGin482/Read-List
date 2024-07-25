@@ -5,6 +5,7 @@ const cors = require('cors')
 import { database } from "./database";
 import { apiRouter } from "./routes";
 import { fandomRouter } from "./routes/FandomRoutes";
+import { collectionsRouter } from "./routes/CollectionRoutes";
 
 database.sync();
 
@@ -13,6 +14,7 @@ app.use(cors())
 app.use(express.json({limit: '5mb'}))
 app.use(express.static('build'))
 app.use('/api/fandoms', fandomRouter);
+app.use('/api/collections', collectionsRouter);
 app.use(apiRouter)
 
 const PORT = process.env.PORT || 3001

@@ -5,6 +5,7 @@ import { ICollection } from "../../../utils/types";
 
 
 class Collection extends Model<ICollection, ICollection> {
+    id: string
     declare date: Date
 }
 
