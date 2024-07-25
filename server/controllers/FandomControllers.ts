@@ -3,7 +3,9 @@ import { Request, Response } from "express";
 import { Fandom } from "../database/models";
 import { FandomArchive } from "../../utils/types";
 
-
+interface FandomPath {
+    fandom: string
+}
 type FandomResponse = Fandom | Fandom[] | { message: string }
 
 export const getAllFandoms = async (request: Request, response: Response<FandomResponse>) => {
@@ -13,7 +15,7 @@ export const getAllFandoms = async (request: Request, response: Response<FandomR
     return response.status(200).json(fandoms);
 };
 
-export const getFandom = async (request: Request<{ fandom: string }>, response: Response<FandomResponse>) => {
+export const getFandom = async (request: Request<FandomPath>, response: Response<FandomResponse>) => {
     const { fandom } = request.params;
 
     const fandomRecord = await Fandom.findOne({ where: { name: fandom } });
@@ -46,7 +48,7 @@ export const createFandom = async (request: Request<{}, {}, FandomArchive>, resp
     }
 };
 
-export const updateFandom = async (request: Request<{ fandom: string }, {}, FandomArchive>, response: Response<FandomResponse>) => {
+export const updateFandom = async (request: Request<FandomPath, {}, FandomArchive>, response: Response<FandomResponse>) => {
     const { fandom } = request.params;
     const newDetails = request.body;
     
@@ -75,7 +77,7 @@ export const updateFandom = async (request: Request<{ fandom: string }, {}, Fand
     }
 };
 
-export const ignoreStory = async (request: Request<{ fandom: string }, {}, { storyId: string }>, response: Response<FandomResponse>) => {
+export const ignoreStory = async (request: Request<FandomPath, {}, { storyId: string }>, response: Response<FandomResponse>) => {
     const { fandom } = request.params;
 
     const fandomCheck = await Fandom.findOne({ where: { name: fandom } });
@@ -87,7 +89,7 @@ export const ignoreStory = async (request: Request<{ fandom: string }, {}, { sto
     return response.status(200).json(updatedFandom);
 };
 
-export const deleteFandom = async (request: Request<{ fandom: string }>, response: Response<FandomResponse>) => {
+export const deleteFandom = async (request: Request<FandomPath>, response: Response<FandomResponse>) => {
     const { fandom } = request.params;
 
     const fandomCheck = await Fandom.findOne({ where: { name: fandom } });
