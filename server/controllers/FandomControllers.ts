@@ -75,7 +75,9 @@ export const ignoreStory = async (request: Request<FandomPath, {}, { storyId: st
     if (!fandomCheck) {
         return response.status(404).json({message: `The fandom '${fandom}' could not be found` });
     }
-    const updatedFandom = await fandomCheck.update({ ignore_stories: [...fandomCheck.ignore_stories, request.body.storyId] });
+    const updatedFandom = await fandomCheck.update({
+        ignore_stories: [...fandomCheck?.ignore_stories || [], request.body.storyId]
+    });
 
     return response.status(200).json(updatedFandom);
 };
