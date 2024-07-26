@@ -8,7 +8,6 @@ export interface FandomArchive {
 }
 
 interface IBaseStory {
-    storyID?: number
     storyId: number
     title: string
     author: string
@@ -44,19 +43,20 @@ export interface IAO3Story extends IBaseStory {
 
 export type IStory = IFFNStory | IAO3Story
 
-export interface IArchiveStories {
-    fandom: string
-    AO3_URL: IStory[]
-    FFN_URL: IStory[]
-    stories: IStory[]
-    FFN: IStory[]
-    AO3: IStory[]
-}
-
 export interface ICollection {
     id?: number
     date: Date
-    stories?: IArchiveStories[] | IStory[]
+    stories?: IStory[]
+}
+
+export interface CollectionPayload {
+    date?: Date | string
+    fandom?: string
+    AO3_URL?: IStory[]
+    FFN_URL?: IStory[]
+    stories: IStory[]
+    FFN?: IStory[]
+    AO3?: IStory[]
 }
 
 export interface ICharacter {
@@ -66,3 +66,5 @@ export interface ICharacter {
 }
 
 export type SearchOptions = 'title' | 'fandoms';
+
+export type ReadingStatus = 'shelf' | 'reading-list' | 'complete';

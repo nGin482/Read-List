@@ -1,5 +1,5 @@
 interface IBaseStory {
-    storyID: number,
+    storyId: number,
     title: string
     author: string
     summary: string
@@ -8,11 +8,11 @@ interface IBaseStory {
     relationships: string[]
     chapters: number
     words: number
-    publishedDate: string
-    updatedDate: string
+    publishedDate: Date
+    updatedDate: Date
     collectedDate: Date
-    readStatus: boolean
-    dateRead: Date
+    readStatus: string
+    readDate: Date
     rating: string
     status: 'In Progress' | 'Complete'
     url: string
@@ -34,15 +34,9 @@ export interface IAO3Story extends IBaseStory {
 
 export type IStory = IFFNStory | IAO3Story
 
-export interface IArchiveStories {
-    fandom: string
-    AO3_URL: IStory[]
-    FFN_URL: IStory[]
-}
-
 export interface Collection {
-    date: string
-    stories: IArchiveStories[]
+    date: Date
+    stories?: IStory[]
 }
 
 export type SearchOptions = 'title' | 'fandoms';
