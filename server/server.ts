@@ -6,15 +6,17 @@ import { database } from "./database";
 import { apiRouter } from "./routes";
 import { fandomRouter } from "./routes/FandomRoutes";
 import { collectionsRouter } from "./routes/CollectionRoutes";
+import { storyRouter } from "./routes/StoryRoutes";
 
 database.sync();
 
-const app = express()
+const app = express();
 app.use(cors())
 app.use(express.json({limit: '5mb'}))
 app.use(express.static('build'))
 app.use('/api/fandoms', fandomRouter);
 app.use('/api/collections', collectionsRouter);
+app.use('/api/stories', storyRouter);
 app.use(apiRouter)
 
 const PORT = process.env.PORT || 3001
