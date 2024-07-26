@@ -3,10 +3,7 @@ import express from "express";
 const cors = require('cors')
 
 import { database } from "./database";
-import { apiRouter } from "./routes";
-import { fandomRouter } from "./routes/FandomRoutes";
-import { collectionsRouter } from "./routes/CollectionRoutes";
-import { storyRouter } from "./routes/StoryRoutes";
+import { collectionsRouter, fandomRouter, storyRouter } from "./routes";
 
 database.sync();
 
@@ -17,7 +14,6 @@ app.use(express.static('build'))
 app.use('/api/fandoms', fandomRouter);
 app.use('/api/collections', collectionsRouter);
 app.use('/api/stories', storyRouter);
-app.use(apiRouter)
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
