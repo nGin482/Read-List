@@ -68,7 +68,7 @@ export const updateFandom = async (request: Request<FandomPath, {}, FandomArchiv
     }
 };
 
-export const ignoreStory = async (request: Request<FandomPath, {}, { storyId: string }>, response: Response<FandomResponse>) => {
+export const ignoreStory = async (request: Request<FandomPath, {}, { title: string }>, response: Response<FandomResponse>) => {
     const { fandom } = request.params;
 
     const fandomCheck = await Fandom.findOne({ where: { name: fandom } });
@@ -76,7 +76,7 @@ export const ignoreStory = async (request: Request<FandomPath, {}, { storyId: st
         return response.status(404).json({message: `The fandom '${fandom}' could not be found` });
     }
     const updatedFandom = await fandomCheck.update({
-        ignore_stories: [...fandomCheck?.ignore_stories || [], request.body.storyId]
+        ignore_stories: [...fandomCheck?.ignore_stories || [], request.body.title]
     });
 
     return response.status(200).json(updatedFandom);

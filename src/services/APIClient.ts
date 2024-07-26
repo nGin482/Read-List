@@ -2,6 +2,7 @@ import axios from "axios";
 
 interface IAPIClient {
     get<PayloadType>(endpoint: string, queryParams: { key: string, value: string }): Promise<PayloadType>
+    post<RequestType, ResponseType>(endpoint: string, body: RequestType): Promise<ResponseType>
     put<RequestType, ResponseType>(endpoint: string, body: RequestType): Promise<ResponseType>
     delete(endpoint: string): Promise<void>
 }
@@ -16,6 +17,12 @@ class APIClient implements IAPIClient {
 
         return response.data;
     }
+
+    async post<RequestType, ResponseType>(endpoint: string, body: RequestType): Promise<ResponseType> {
+        const response = await axios.post<ResponseType>(APIClient.BASE_URL + endpoint, body);
+        
+        return response.data;
+    };
 
     async put<RequestType, ResponseType>(endpoint: string, body: RequestType): Promise<ResponseType> {
         const response = await axios.put<ResponseType>(APIClient.BASE_URL + endpoint, body);
