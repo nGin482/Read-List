@@ -11,9 +11,11 @@ class APIClient implements IAPIClient {
 
     private static BASE_URL = 'http://localhost:3001/api';
 
-    async get<PayloadType>(endpoint: string) {
+    async get<PayloadType>(endpoint: string, queryParams?: { key: string, value: string }) {
         console.log(`${APIClient.BASE_URL}${endpoint}`)
-        const response = await axios.get<PayloadType>(APIClient.BASE_URL + endpoint);
+        const response = await axios.get<PayloadType>(APIClient.BASE_URL + endpoint, {
+            params: queryParams ? { [queryParams.key]: queryParams.value } : null
+        });
 
         return response.data;
     }
