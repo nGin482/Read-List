@@ -1,19 +1,27 @@
-require('dotenv').config()
-const express = require('express')
-const cors = require('cors')
+import { config } from "dotenv";
+import express from "express";
+import cors from "cors";
+
+config();
 
 import { database } from "./database";
-import { apiRouter } from "./routes";
+import { collectionsRouter, fandomRouter, storyRouter } from "./routes";
 
 database.sync();
 
-const app = express()
-app.use(cors())
-app.use(express.json({limit: '5mb'}))
-app.use(express.static('build'))
-app.use(apiRouter)
+const app = express();
 
-const PORT = process.env.PORT || 3001
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`)
-})
+app.use(cors())
+app.use(express.json({ limit: '5mb' }));
+
+app.use(express.static('build'));
+app.use('/api/fandoms', fandomRouter);
+app.use('/api/collections', collectionsRouter);
+app.use('/api/stories', storyRouter);
+
+const PORT = process.env.PORT || 3001;
+const server = app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
+
+export { app, server };

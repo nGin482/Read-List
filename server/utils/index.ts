@@ -1,9 +1,18 @@
 const fs = require('fs')
 
-import dayjs from "dayjs"
-import { ICollection } from "../../utils/types"
-const readingListPath = './stories/ReadingList/reading-list.json'
-const completedListPath = './stories/CompletedList/completed-list.json'
+import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+
+import { ICollection } from "../../utils/types";
+
+dayjs.extend(customParseFormat);
+
+const readingListPath = './stories/ReadingList/reading-list.json';
+const completedListPath = './stories/CompletedList/completed-list.json';
+
+export const convertStringToDate = (date: string) => {
+    return dayjs(date, 'DD-MM-YYYY').toDate();
+};
 
 const validateAO3Record = record => {
     record.storyID = record.url.substring((record.url.lastIndexOf('/')+1))
@@ -36,63 +45,6 @@ const getCurrentDate = () => {
 const stringToDate = (givenDate: string) => {
     return dayjs(givenDate);
 }
-
-const searchAllStoriesByKey = (key, expected) => {
-    const files = getAllFiles()
-    // console.log(stories)
-    let result = []
-    
-    var cutoff = new Date()
-    cutoff.setDate(26)
-    cutoff.setMonth(5)
-
-    if (key === 'storyID') {
-        files.map(day => {
-            // if file before 26/6
-            if (day.date.toJSON() < cutoff.toJSON()) {
-                day.stories.forEach(archive => {
-                    let story = archive.AO3_URL?.find(story => story.storyID === expected);
-                    if (story) {
-                        result.push(story)
-                    }
-                })
-                // day.stories.forEach(archive => result.push(archive.AO3_URL?.find(story => story.storyID === expected)));
-                console.log('result', result)
-            }
-            else {
-                day.stories.forEach(fandom => {
-                    if (fandom.FFN_URL) {
-                        if (fandom.FFN_URL.length > 0) {
-                            fandom.FFN_URL.forEach(story => {
-                                if (story[key] === expected) {
-                                    result.push(story)
-                                }
-                            })
-                        }
-                    }
-                    if (fandom.AO3_URL) {
-                        if (fandom.AO3_URL.length > 0) {
-                            fandom.AO3_URL.forEach(story => {
-                                if (story[key] === expected) {
-                                    result.push(story)
-                                }
-                            })
-                        }
-                    }
-                })
-            }
-        })
-    }
-    else {
-        files.forEach(collection => {
-            collection.stories.forEach(archive => {
-                result = result.concat(archive?.FFN_URL.filter(story => story[key].includes(expected)));
-                result = result.concat(archive?.AO3_URL.filter(story => story[key].includes(expected)));
-            });
-        });
-    }
-    return result;
-};
 
 const findToUpdate = ID => {
     const allCollections = getAllFiles()
@@ -302,22 +254,21 @@ const moveStoryBacktoReadingList = storyID => {
     fs.writeFileSync(completedListPath, JSON.stringify(updatedCompleteList, null, "\t"))
 }
 
-module.exports = {
-    validateAO3Record,
-    validateFFNRecord,
-    getAllFiles,
-    getCurrentDate,
-    stringToDate,
-    searchAllStoriesByKey,
-    findToUpdate,
-    getAllDates,
-    getFandomData,
-    checkFandomAddition,
-    checkFandomUpdate,
-    checkFandomDeletion,
-    writeToInterestedFile,
-    removeFromReadingListFile,
-    markStoryAsRead,
-    checkStoryBeforeAddToComplete,
-    moveStoryBacktoReadingList
-}
+// module.exports = {
+//     validateAO3Record,
+//     validateFFNRecord,
+//     getAllFiles,
+//     getCurrentDate,
+//     stringToDate,
+//     findToUpdate,
+//     getAllDates,
+//     getFandomData,
+//     checkFandomAddition,
+//     checkFandomUpdate,
+//     checkFandomDeletion,
+//     writeToInterestedFile,
+//     removeFromReadingListFile,
+//     markStoryAsRead,
+//     checkStoryBeforeAddToComplete,
+//     moveStoryBacktoReadingList
+// }
