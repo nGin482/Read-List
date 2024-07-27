@@ -11,6 +11,11 @@ class CollectionsAPI extends APIClient {
         return collections;
     };
 
+    static async getCollectionForDate(date: string) {
+        const collection = this.apiClient.get<ICollection>(this.baseEndpoint, { key: 'date', value: date });
+        return collection;
+    };
+
     static async getLatestCollection() {
         const latestCollection = await this.apiClient.get<ICollection>(this.baseEndpoint + '/latest');
         return latestCollection;
