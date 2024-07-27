@@ -254,21 +254,21 @@ const moveStoryBacktoReadingList = storyID => {
     fs.writeFileSync(completedListPath, JSON.stringify(updatedCompleteList, null, "\t"))
 }
 
-module.exports = {
-    validateAO3Record,
-    validateFFNRecord,
-    getAllFiles,
-    getCurrentDate,
-    stringToDate,
-    findToUpdate,
-    getAllDates,
-    getFandomData,
-    checkFandomAddition,
-    checkFandomUpdate,
-    checkFandomDeletion,
-    writeToInterestedFile,
-    removeFromReadingListFile,
-    markStoryAsRead,
-    checkStoryBeforeAddToComplete,
-    moveStoryBacktoReadingList
-}
+// module.exports = {
+//     validateAO3Record,
+//     validateFFNRecord,
+//     getAllFiles,
+//     getCurrentDate,
+//     stringToDate,
+//     findToUpdate,
+//     getAllDates,
+//     getFandomData,
+//     checkFandomAddition,
+//     checkFandomUpdate,
+//     checkFandomDeletion,
+//     writeToInterestedFile,
+//     removeFromReadingListFile,
+//     markStoryAsRead,
+//     checkStoryBeforeAddToComplete,
+//     moveStoryBacktoReadingList
+// }
