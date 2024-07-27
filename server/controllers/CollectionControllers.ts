@@ -14,7 +14,6 @@ type CollectionResponse = Collection | Collection[] | ICollection | { message: s
 
 export const getAllCollections = async (request: Request<{}, {}, {}, { date: string }>, response: Response<CollectionResponse>) => {
     const { date } = request.query;
-    console.log(date)
     if (date) {
         const parsedDate = convertStringToDate(date);
         const collection = await Collection.findOne({
