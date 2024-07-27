@@ -14,18 +14,7 @@ import './nav.css';
 // https://www.npmjs.com/package/react-responsive
 
 const App = () => {
-    const [dates, setDates] = useState<string[][]>([]);
     const [createFandom, setCreateFandom] = useState(false);
-
-    useEffect(() => {
-        services.getDates().then(
-            data => setDates(data)
-        ).catch(err => {
-            notification.error({
-                message: 'There was a problem retrieving a list of available dates of collections'
-            });
-        });
-    }, []);
 
     const padding = {
         padding: 5
@@ -63,7 +52,7 @@ const App = () => {
         },
         {
             key: 'collection-browse',
-            label: <Calendar dates={dates}/>,
+            label: <Calendar />,
             className: 'collection-browse'
         }
     ];

@@ -1,30 +1,41 @@
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { DatePicker, Spin } from 'antd';
+import { DatePicker, GetProps, Spin } from 'antd';
 import dayjs, { Dayjs } from 'dayjs';
 
+import { CollectionsAPI } from '../../services/CollectionsAPI';
 import './Calendar.css';
 
-const Calendar = ({ dates }: { dates: string[][] }) => {
+type RangePickerProps = GetProps<typeof DatePicker.RangePicker>;
+
+const Calendar = () => {
     const [datesAvailable, setDatesAvailable] = useState<Dayjs[]>([]);
     const [dateChosen, setDateChosen] = useState<Dayjs>(null);
     const history = useHistory<string>();
     
     useEffect(() => {
-        if (dates.length > 0) {
-            setDatesAvailable(dates[0].map(date => dayjs(date, 'D-M-YYYY')));
-        }
-    }, [dates])
+        getCollections();
+    }, []);
 
     useEffect(() => {
         if (dateChosen) {
-            history.push(`/stories/${dateChosen.format('D-M-YYYY')}`);
+            history.push(`/stories/${dateChosen.format('DD-MM-YYYY')}`);
         }
     }, [dateChosen]);
+
+    const getCollections = async () => {
+        const collections = await CollectionsAPI.getAllCollections();
+        setDatesAvailable(collections.map(collection => dayjs(collection.date)));
+    };
+
+    const disableDate: RangePickerProps['disabledDate'] = (current) => {
+        return !datesAvailable.find(date => date.isSame(current));
+    };
     
     return (
         datesAvailable.length > 0 ? (
             <DatePicker
+                disabledDate={disableDate}
                 minDate={datesAvailable[0]}
                 maxDate={datesAvailable[datesAvailable.length - 1]}
                 onChange={setDateChosen}
