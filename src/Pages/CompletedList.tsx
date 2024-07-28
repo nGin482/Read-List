@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Button, CardProps, notification } from "antd";
+import { Button, CardProps, notification, Spin } from "antd";
 
 import StoryList from "../components/Lists/StoryList";
 import { StoriesAPI } from "../services/StoriesAPI";
@@ -7,13 +7,15 @@ import { IStory } from "../utils/types";
 
 const CompletedList = () => {
     const [storiesRead, setStoriesRead] = useState<IStory[]>([]);
+    const [loadingList, setLoadingList] = useState(true);
 
     useEffect(() => {
         StoriesAPI.getCompletedList()
-            .then(setStoriesRead)
-            .catch(err => {
+            .then(setStoriesRead).then(() => setLoadingList(false))
+            .catch(error => {
                 notification.error({
-                    message: 'There was a problem retrieving the Completed List'
+                    message: 'There was a problem retrieving the Completed List',
+                    description: error?.response?.data.message || error.message
                 })
             })
     }, []);
@@ -45,7 +47,11 @@ const CompletedList = () => {
     ];
 
     return (
-        <StoryList stories={storiesRead} actions={actions} />
+        loadingList ? (
+            <Spin fullscreen tip="Waiting for stories to load" />
+        ) : (
+            <StoryList stories={storiesRead} actions={actions} />
+        )
     );
 };
 
