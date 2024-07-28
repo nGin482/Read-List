@@ -39,8 +39,7 @@ const AO3Descriptions = (
                         <Text>No categories were tagged</Text>
                     )}
                 </>
-            ),
-            span: 2
+            )
         },
         {
             key: 'warnings',
@@ -64,8 +63,7 @@ const AO3Descriptions = (
                         <Text>No warnings were tagged</Text>
                     )}
                 </>
-            ),
-            span: 2
+            )
         },
         {
             key: 'tags',
@@ -90,7 +88,7 @@ const AO3Descriptions = (
                     )}
                 </>
             ),
-            span: 3
+            span: 2
         }
     ];
 
