@@ -13,3 +13,12 @@ body {
   border: solid black;
   border-radius: 5px;
 }
+
+#empty-story-list {
+  width: 70%;
+  margin: 10% auto 0;
+}
+
+#empty-story-list h1 {
+  text-align: center;
+}
