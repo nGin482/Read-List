@@ -3,7 +3,7 @@ import { Button, CardProps, notification, Popconfirm } from "antd";
 
 import StoryList from "../components/Lists/StoryList";
 import SearchForm from "../components/SearchForm/index";
-import services from "../services/services";
+import { StoriesAPI } from "../services/StoriesAPI";
 import { IStory, SearchOptions } from "../utils/types";
 import "./styles/ReadingList.css";
 
@@ -14,11 +14,7 @@ const ReadingList = () => {
     const [searching, setSearching] = useState(false);
 
     useEffect(() => {
-        services.getReadingList().then(data => {
-            setReadListDefault(data)
-        }).catch(err => {
-            
-        })
+        fetchReadingList();
     }, []);
 
     useEffect(() => {
@@ -32,6 +28,19 @@ const ReadingList = () => {
             setSearching(true);
         }
     }, [displaySearch]);
+
+    const fetchReadingList = async () => {
+        try {
+            const readingList = await StoriesAPI.getReadingList();
+            setReadListDefault(readingList);
+        }
+        catch(error) {
+            notification.error({
+                message: 'There was a problem getting the Reading list',
+                description: error
+            });
+        }
+    };
 
     const searchReadList = (field: SearchOptions, value: string) => {
         console.log('field: ', field)
@@ -51,29 +60,41 @@ const ReadingList = () => {
         setDisplaySearch(current => !current);
     };
 
-    const removeStoryFromReadList = (story: IStory) => {
-        services.removeFromReadList(story.storyID).then(res => {
+    const removeStoryFromReadList = async (story: IStory) => {
+        try {
+            const updatedStory = await StoriesAPI.updateReadingStatus(story.storyId, 'shelf');
+            setReadListDefault(current => {
+                const stories = [...current];
+                return stories.filter(story => story.storyId !== updatedStory.storyId);
+            });
             notification.success({
                 message: `The story ${story.title} has been removed from the Reading List`,
             });
-        }).catch(err => {
+        }
+        catch(error) {
             notification.error({
                 message: `There was a problem removing ${story.title} from the Reading List`,
-                description: err?.response?.data.message
+                description: error?.response?.data.message
             });
-        });
+        }
     };
-    const addStoryToCompleteList = (story: IStory) => {
-        services.addtoCompleteList(story.storyID).then(res => {
+    const addStoryToCompleteList = async (story: IStory) => {
+        try {
+            const updatedStory = await StoriesAPI.updateReadingStatus(story.storyId, 'complete');
+            setReadListDefault(current => {
+                const stories = [...current];
+                return stories.filter(story => story.storyId !== updatedStory.storyId);
+            });
             notification.success({
                 message: `The story ${story.title} has been added to the Completed List`,
             });
-        }).catch(err => {
+        }
+        catch(error) {
             notification.error({
                 message: `There was a problem adding ${story.title} to the Completed List`,
-                description: err?.response?.data.message
+                description: error?.response?.data.message || error.message
             });
-        });
+        }
     };
 
     const actions = (story: IStory): CardProps['actions'] => [
