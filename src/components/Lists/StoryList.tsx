@@ -20,7 +20,6 @@ const StoryList = ({ stories, actions }: StoryListProps) => (
                 <Story
                     key={`${story.title}-${idx}`}
                     story={story}
-                    view="browsing"
                     actions={actions}
                 />
             ))}
