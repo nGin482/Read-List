@@ -2,46 +2,61 @@ import { useState, useEffect } from 'react';
 import { Button, CardProps, notification, Spin } from 'antd';
 
 import StoryList from './StoryList';
-import services from "../../services/services";
-import { Collection, IStory } from '../../utils/types';
+import { StoriesAPI } from '../../services/StoriesAPI';
+import { FandomsAPI } from '../../services/FandomsAPI';
+import { IStory } from '../../utils/types';
+import { ICollection } from '../../../utils/types';
 import './StoryList.css';
+import dayjs from 'dayjs';
 
 
-const BrowseList = ({ collection }: { collection: Collection }) => {
+const BrowseList = ({ collection }: { collection: ICollection }) => {
     const [archiveFilter, setArchiveFilter] = useState('All')
     const [fandomFilter, setFandomFilter] = useState('All Stories');
     const [storiesDisplayed, setStoriesDisplayed] = useState<IStory[]>([]);
 
     useEffect(() => {
+        setStoriesDisplayed(collection?.stories || []);
+    }, [collection]);
+
+    useEffect(() => {
         if (collection) {
             if (fandomFilter === 'All Stories') {
-                const archives = collection.stories;
-                let stories: IStory[] = [];
-                archives.forEach(archive => {
-                    stories = stories.concat([...archive.AO3_URL, ...archive?.FFN_URL || []])
-                });
-                setStoriesDisplayed(stories);
-            }
-            else {
-                const archive = collection.stories.find(arch => arch.fandom === fandomFilter);
-                setStoriesDisplayed([...archive?.FFN_URL || [], ...archive.AO3_URL]);
+            //     const archives = collection.stories;
+            //     let stories: IStory[] = [];
+            //     archives.forEach(archive => {
+            //         stories = stories.concat([...archive.AO3_URL, ...archive?.FFN_URL || []])
+            //     });
+            //     setStoriesDisplayed(stories);
+            // }
+            // else {
+            //     const archive = collection.stories.find(arch => arch.fandom === fandomFilter);
+            //     setStoriesDisplayed([...archive?.FFN_URL || [], ...archive.AO3_URL]);
             }
         }
     }, [fandomFilter, collection]);
 
-    const addStoryToReadList = (story: IStory) => {
-        services.addToReadList(story).then(res => {
+    const addStoryToReadList = async (story: IStory) => {
+        try {
+            const updatedStory = await StoriesAPI.updateReadingStatus(story.storyId, 'reading-list');
+            setStoriesDisplayed(current => {
+                const stories = [...current];
+                let storyToUpdate = stories.find(story => story.storyId === updatedStory.storyId);
+                storyToUpdate = updatedStory;
+                return stories;
+            });
             notification.success({
                 message: `The story ${story.title} has been added to the Reading List`,
             });
-        }).catch(err => {
+        }
+        catch(error) {
             notification.error({
                 message: `There was a problem adding ${story.title} to the Reading List`,
-                description: err?.response?.data.message
+                description: error?.response?.data.message || error.message
             });
-        });
+        }
     };
-    const ignoreStory = (story: IStory) => {
+    const ignoreStory = async (story: IStory) => {
         if (fandomFilter === 'All Stories') {
             notification.error({
                 message: `${story.title} cannot be ignored at the moment`,
@@ -49,16 +64,18 @@ const BrowseList = ({ collection }: { collection: Collection }) => {
             });
         }
         else {
-            services.ignoreStory(fandomFilter, story.title).then(res => {
+            try {
+                await FandomsAPI.ignoreStory(fandomFilter, story.title);
                 notification.success({
                     message: `The story ${story.title} is now being ignored`,
                 });
-            }).catch(err => {
+            }
+            catch(error) {
                 notification.error({
                     message: `There was a problem ignoring ${story.title}`,
-                    description: err?.response?.data.message
+                    description: error?.response?.data.message || error.message
                 });
-            });
+            }
         }
     };
 
@@ -89,12 +106,13 @@ const BrowseList = ({ collection }: { collection: Collection }) => {
             </div>
             <div className="filter-fandom">
                 {collection?.stories.map(archive => (
-                    <Button
-                        key={archive.fandom}
-                        onClick={() => setFandomFilter(archive.fandom)}
-                    >
-                        {archive.fandom}
-                    </Button>
+                    // <Button
+                    //     key={archive.fandom}
+                    //     onClick={() => setFandomFilter(archive.fandom)}
+                    // >
+                    //     {archive.fandom}
+                    // </Button>
+                    <></>
                 ))}
                 <Button onClick={() => setFandomFilter('All Stories')}>All</Button>
             </div>
@@ -103,7 +121,7 @@ const BrowseList = ({ collection }: { collection: Collection }) => {
 
 
     return (
-        collection?.stories.length === 0 ? (
+        !collection || collection?.stories.length === 0 ? (
             <Spin fullscreen tip="Waiting for stories to load" />
         )
         : (
@@ -111,7 +129,12 @@ const BrowseList = ({ collection }: { collection: Collection }) => {
                 {displayFilters()}
                 <br/>
                 <div id='filter-results'>
-                    <p><span>Viewing:</span><br/>Stories from {collection?.date}<br/>{fandomFilter} on {archiveFilter}</p><br/>
+                    <p>
+                        <span>Viewing:</span>
+                        <br/>
+                        Stories from {dayjs(collection.date).format('DD-MMM-YYYY')}<br/>{fandomFilter} on {archiveFilter}
+                    </p>
+                    <br/>
                     <p id="number"><span>Number of stories:</span><br/>{storiesDisplayed.length}</p>
                 </div>
                 {storiesDisplayed.length > 0 ? (
