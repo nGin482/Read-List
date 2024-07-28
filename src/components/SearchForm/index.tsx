@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { Form, Input, Modal, Select } from "antd";
 
-import services from "../../services/services";
-import { SearchOptions } from "../../utils/types";
+import { FandomsAPI } from "../../services/FandomsAPI";
+import { SearchOptions } from "../../../utils/types";
 
 interface SearchBoxProps {
     openSearch: boolean
@@ -17,11 +17,14 @@ const SearchForm = ({ openSearch, setOpenSearch, searchCallback }: SearchBoxProp
 
     useEffect(() => {
         if (searchField === 'fandoms') {
-            services.getFandoms().then(fandoms => {
-                setFandoms(fandoms.map(fandom => fandom.name));
-            });
+            fetchFandoms()
         }
     }, [searchField]);
+
+    const fetchFandoms = async () => {
+        const fandoms = await FandomsAPI.getAllFandoms();
+        setFandoms(fandoms.map(fandom => fandom.name));
+    };
 
     const [form] = Form.useForm();
 
