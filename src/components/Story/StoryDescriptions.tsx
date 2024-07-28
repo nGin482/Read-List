@@ -10,7 +10,6 @@ const StoryDescriptions = ({ story, editing }: { story: IStory, editing: boolean
     const { Text } = Typography;
 
     const handleChange = (field: string, value: string | string[]) => {
-        console.log(value)
         story[field] = value;
     };
 
@@ -28,7 +27,7 @@ const StoryDescriptions = ({ story, editing }: { story: IStory, editing: boolean
                 )
                 : <Text>{story.author}</Text>
             ),
-            span: 4
+            span: 2
         },
         {
             key: 'summary',
@@ -39,7 +38,7 @@ const StoryDescriptions = ({ story, editing }: { story: IStory, editing: boolean
                     onChange={event => handleChange('summary', event.currentTarget.value)}
                 />
             ) : <Text>{story.summary}</Text>,
-            span: 4
+            span: 2
         },
         {
             key: 'chapters',
@@ -59,8 +58,7 @@ const StoryDescriptions = ({ story, editing }: { story: IStory, editing: boolean
                     defaultValue={story.words}
                     onChange={event => handleChange('words', event.currentTarget.value)}
                 />
-            ) : <Text>{story.words}</Text>,
-            span: 3
+            ) : <Text>{story.words}</Text>
         },
         {
             key: 'fandoms',
@@ -86,7 +84,7 @@ const StoryDescriptions = ({ story, editing }: { story: IStory, editing: boolean
                     )}
                 </>
             ),
-            span: 3
+            span: 2
         },
         {
             key: 'characters',
@@ -110,7 +108,7 @@ const StoryDescriptions = ({ story, editing }: { story: IStory, editing: boolean
                     )}
                 </>
             ),
-            span: 2
+            span: 1
         },
         {
             key: 'relationships',
@@ -145,8 +143,15 @@ const StoryDescriptions = ({ story, editing }: { story: IStory, editing: boolean
                     onChange={date => handleChange('publishedDate', date.format('DD-MMMM-YYYY'))}
                     format="DD-MMM-YYYY"
                 />
-            ) : <Text>{story.publishedDate}</Text>,
-            span: 2
+            ) : (
+                <Text>
+                    {story.publishedDate ? (
+                        dayjs(story.publishedDate).format('DD MMMM YYYY')
+                    ) : (
+                        <Tag color="volcano-inverse">No date provided</Tag>
+                    )}
+                </Text>
+            )
         },
         {
             key: 'updateDate',
@@ -157,8 +162,7 @@ const StoryDescriptions = ({ story, editing }: { story: IStory, editing: boolean
                     onChange={date => handleChange('updatedDate', date.format('DD-MMMM-YYYY'))}
                     format="DD-MMM-YYYY"
                 />
-            ) : <Text>{story.updatedDate}</Text>,
-            span: 2
+            ) : <Text>{dayjs(story.updatedDate).format('DD MMMM YYYY')}</Text>
         },
         {
             key: 'status',
@@ -172,8 +176,7 @@ const StoryDescriptions = ({ story, editing }: { story: IStory, editing: boolean
                     ]}
                     onChange={value => handleChange('status', value)}
                 />
-            ) : <Text>{story.status}</Text>,
-            span: 2
+            ) : <Text>{story.status}</Text>
         },
         {
             key: 'rating',
@@ -199,8 +202,7 @@ const StoryDescriptions = ({ story, editing }: { story: IStory, editing: boolean
                     ]}
                     defaultValue={ story.rating }
                 />
-            ) : <Text>{story.rating}</Text>,
-            span: 2
+            ) : <Text>{story.rating}</Text>
         }
     ];
 
@@ -218,7 +220,7 @@ const StoryDescriptions = ({ story, editing }: { story: IStory, editing: boolean
                 <Button type="link" href={story.url}>View Story</Button>
             }
             labelStyle={{ background: '#7775' }}
-            column={3}
+            column={2}
         />
     )
 
