@@ -2,27 +2,36 @@ import { useState, useEffect } from "react";
 import { Button, CardProps, notification } from "antd";
 
 import StoryList from "../components/Lists/StoryList";
-import services from "../services/services";
+import { StoriesAPI } from "../services/StoriesAPI";
 import { IStory } from "../utils/types";
 
 const CompletedList = () => {
     const [storiesRead, setStoriesRead] = useState<IStory[]>([]);
 
     useEffect(() => {
-        services.getCompletedList().then(data => setStoriesRead(data));
+        StoriesAPI.getCompletedList()
+            .then(setStoriesRead)
+            .catch(err => {
+                notification.error({
+                    message: 'There was a problem retrieving the Completed List'
+                })
+            })
     }, []);
 
-    const moveStoryBacktoReadingList = (story: IStory) => {
-        services.moveBacktoReadList(story.storyID).then(res => {
+    const moveStoryBacktoReadingList = async (story: IStory) => {
+        try {
+            await StoriesAPI.updateReadingStatus(story.storyId, 'reading-list');
+            setStoriesRead(current => [...current.filter(storyRead => storyRead.storyId !== story.storyId)]);
             notification.success({
                 message: `The story ${story.title} has been moved back to the Reading List`,
             });
-        }).catch(err => {
+        }
+        catch(error) {
             notification.error({
                 message: `There was a problem moving ${story.title} back to the Reading List`,
-                description: err?.response?.data.message
+                description: error?.response?.data.message || error.message
             });
-        });
+        }
     };
 
     const actions = (story: IStory): CardProps['actions'] => [
