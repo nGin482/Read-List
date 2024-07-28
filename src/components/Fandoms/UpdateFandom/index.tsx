@@ -1,9 +1,9 @@
 import { Dispatch, SetStateAction, useEffect } from 'react';
-import { Modal, Form, Input, Select } from "antd";
+import { Modal, Form, Input, notification, Select } from "antd";
 
-import services from '../../../services/services';
+import { FandomsAPI } from '../../../services/FandomsAPI';
 import { validateFandom } from '../../../utils';
-import { FandomArchive } from '../../../../types';
+import { FandomArchive } from '../../../../utils/types';
 
 interface UpdateFandomProps {
     fandom: FandomArchive
@@ -25,16 +25,17 @@ const UpdateFandom = ({ fandom, openModal, setOpenModal }: UpdateFandomProps) =>
         
         try {
             validateFandom(name, ffn_url || '', ao3_url || '');
-            // services.updateFandom(fandom).then(data => {
-            //     setField('')
-            //     setNewData('')
-            // }).catch(err => {
-            //     setField('')
-            //     setNewData('')
-            // })
+            const updatedFandom = await FandomsAPI.updateFandom(name, values);
+            fandom = updatedFandom;
+            notification.success({
+                message: `The fandom '${name} has been updated`
+            });
         }
         catch (error) {
-            // setMessage(checkValidation.message)
+            notification.error({
+                message: `There was a problem updating '${fandom}`,
+                description: error?.response?.data.message || error.message
+            })
         }
     };
 

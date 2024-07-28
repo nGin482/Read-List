@@ -2,31 +2,31 @@ import { useState } from "react";
 import { Button, Card, CardProps, notification } from "antd";
 
 import { StoryDescriptions } from "./StoryDescriptions";
-import services from "../../services/services";
+import { StoriesAPI } from "../../services/StoriesAPI";
 import { IStory } from "../../utils/types";
 import "./Story.css";
 
 interface StoryProps {
     story: IStory,
-    view: 'browsing' | 'read-list' | 'stories-read'
     actions: (story: IStory) => CardProps['actions']
 }
 
-const Story = ({ story, view, actions }: StoryProps) => {
+const Story = ({ story, actions }: StoryProps) => {
     const [editingStory, setEditingStory] = useState(false);
 
 
     const updateStory = async () => {
         try {
-            const response = await services.updateStoryDetails(story);
+            await StoriesAPI.updateStoryDetails(story);
             notification.success({
                 message: `${story.title} has been updated!`
             });
+            setEditingStory(false);
         }
         catch(error) {
             notification.error({
                 message: `There was a problem updating ${story.title}!`,
-                description: error.response.data
+                description: error?.response?.data.message || error.message
             });
         }
     };

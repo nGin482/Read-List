@@ -35,7 +35,7 @@ export class StoriesAPI extends APIClient {
 
     static async updateReadingStatus(storyId: number, status: ReadingStatus) {
         const updatedStory = await this.apiClient.patch<{ status: ReadingStatus }, IStory>(
-            this.baseEndpoint + storyId,
+            this.baseEndpoint + `/${storyId}/reading-status`,
             { status }
         );
         return updatedStory;

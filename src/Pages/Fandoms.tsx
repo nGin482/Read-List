@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Button, Card, Image, Input, Popconfirm, Spin, Typography, notification } from 'antd';
+import { Button, Card, Image, Input, notification, Popconfirm, Spin, Typography } from 'antd';
 
-import services from '../services/services';
 import { UpdateFandom } from '../components/Fandoms';
-import { FandomArchive } from '../../types/index.js';
+import { FandomsAPI } from '../services/FandomsAPI';
+import { FandomArchive } from '../../utils/types';
 import "./styles/Fandoms.css";
 
 import ffn_logo from '../images/FF.Net_Logo.png';
@@ -19,9 +19,14 @@ const Fandoms = () => {
     const { Search } = Input;
 
     useEffect(() => {
-        services.getFandoms().then((data: FandomArchive[]) => {
-            setFandoms(data)
-        })
+        FandomsAPI.getAllFandoms()
+            .then(setFandoms)
+            .catch(error => {
+                notification.error({
+                    message: 'There was a problem retrieving the fandoms',
+                    description: error?.response?.data?.message || error.message
+                });
+            });
     }, []);
 
     const openUpdateModal = (fandom: FandomArchive) => {
@@ -32,7 +37,7 @@ const Fandoms = () => {
     const deleteFandom = async (fandom: string) => {
         console.log(`Deleting ${fandom}`)
         try {
-            await services.deleteFandom(fandom);
+            await FandomsAPI.deleteFandom(fandom);
             notification.success({
                 message: `${fandom} has been deleted`
             });
