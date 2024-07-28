@@ -1,9 +1,9 @@
 import { Dispatch, SetStateAction } from 'react';
 import { Form, Input, Modal, notification, Select } from 'antd';
 
-import services from '../../../services/services';
+import { FandomsAPI } from '../../../services/FandomsAPI';
 import { validateFandom } from '../../../utils/index';
-import { FandomArchive } from '../../../../types/index';
+import { FandomArchive } from '../../../../utils/types';
 import './AddFandom.css';
 
 
@@ -22,11 +22,11 @@ const AddFandom = ({ createFandom, setCreateFandom }: AddFandomProps) => {
             const { name, ffn_url, ao3_url } = values;
             try {
                 validateFandom(name, ffn_url || '', ao3_url || '');
-                const response = await services.addFandom(values);
+                await FandomsAPI.createFandom(values);
                 form.resetFields();
                 setCreateFandom(current => !current);
                 notification.success({
-                    message: `The fandom ${name} has been added to the list`
+                    message: `The fandom '${name}' has been added to the list`
                 });
             }
             catch(error) {
