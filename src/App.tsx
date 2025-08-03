@@ -5,9 +5,9 @@ import { Menu, MenuProps, notification } from 'antd';
 import { CompletedList, Fandoms, Home, ReadingList, StoriesForDate, StoryPage } from "./Pages";
 import Calendar from './components/Calendar';
 import { AddFandom } from './components/Fandoms';
-import services from "./services/services";
 import './App.css';
 import './nav.css';
+import AddCollectionForm from './components/AddCollectionForm';
 
 // menu icon
 // react-responsive for media queries
@@ -15,6 +15,7 @@ import './nav.css';
 
 const App = () => {
     const [createFandom, setCreateFandom] = useState(false);
+    const [addCollection, setAddCollection] = useState(false);
 
     const padding = {
         padding: 5
@@ -54,7 +55,12 @@ const App = () => {
             key: 'collection-browse',
             label: <Calendar />,
             className: 'collection-browse'
-        }
+        },
+        {
+            key: "add-collection",
+            label: "Add collection",
+            onClick: () => setAddCollection(true),
+        },
     ];
 
     return (
@@ -70,6 +76,10 @@ const App = () => {
                     <Route path='/'><Home /></Route>
                 </Switch>
                 <AddFandom createFandom={createFandom} setCreateFandom={setCreateFandom}  />
+                <AddCollectionForm
+                    open={addCollection}
+                    setOpen={setAddCollection}
+                />
             </Router>
         </>
     );
