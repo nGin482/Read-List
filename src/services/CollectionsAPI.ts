@@ -21,6 +21,15 @@ class CollectionsAPI extends APIClient {
         return latestCollection;
     };
 
+    static async uploadCollection(collection: FormData) {
+        const uploadedCollection = await this.apiClient.post<FormData, ICollection>(
+            this.baseEndpoint + "/upload",
+            collection,
+        );
+        
+        return uploadedCollection;
+    };
+
     static async deleteCollection(date: string) {
         await this.apiClient.delete(this.baseEndpoint + `/${date}`)
     };
