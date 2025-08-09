@@ -89,6 +89,18 @@ export const createCollection = async (request: Request<{}, {}, CreateCollection
     }
 };
 
+export const uploadCollection = async (
+    request: Request<{}, {}, File>,
+    response: Response<CollectionResponse>
+) => {
+    console.log("request", request.file)
+    const file = request.file;
+    const fileBuffer = file.buffer.toString("utf-8");
+    console.log("fileBuffer", fileBuffer)
+
+    response.status(200).json();
+};
+
 export const deleteCollection = async (request: Request<{ date: string }>, response: Response<CollectionResponse>) => {
     const { date } = request.params;
 

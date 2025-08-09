@@ -28,6 +28,7 @@ const AddCollectionForm = ({ open, setOpen }: AddCollectionFormProps) => {
                         console.log("file", data.file)
                     }
                 }}
+                action="http://localhost:3001/api/collections/upload"
             >
                 <Button icon={<UploadOutlined />}>Upload collection</Button>
             </Upload>

@@ -20,8 +20,14 @@ class APIClient implements IAPIClient {
         return response.data;
     }
 
-    async post<RequestType, ResponseType>(endpoint: string, body: RequestType): Promise<ResponseType> {
-        const response = await axios.post<ResponseType>(APIClient.BASE_URL + endpoint, body);
+    async post<RequestType, ResponseType>(endpoint: string, body: RequestType, headers?: any): Promise<ResponseType> {
+        const response = await axios.post<ResponseType>(
+            APIClient.BASE_URL + endpoint,
+            body,
+            {
+                headers: { ...headers },
+            }
+        );
         
         return response.data;
     };
